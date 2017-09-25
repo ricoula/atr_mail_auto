@@ -14,7 +14,7 @@
     <body>
         <div class="container">
             <form>
-                <div class="form-group jumbotron" id="divUi">
+                <div class="form-group jumbotron row" id="divUi">
                 </div>
                 <div class="form-group jumbotron" id="divDomaines">
                 </div>
