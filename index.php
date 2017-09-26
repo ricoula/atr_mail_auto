@@ -31,7 +31,7 @@
                         {
                         ?>
                             <div class="col-lg-1">
-                                <label for="<?php echo $ui ?>"><input type="checkbox" class="form-control" name="<?php echo $ui ?>" id="<?php echo $ui ?>" /> <?php echo $ui ?></label>
+                                <label for="<?php echo $ui ?>"><input type="checkbox" class="form-control" name="<?php echo $ui ?>" id="<?php echo $ui ?>" /> <?php echo json_decode(getUiNameByUiTag($ui)); ?></label>
                             </div>
                         <?php
                         }

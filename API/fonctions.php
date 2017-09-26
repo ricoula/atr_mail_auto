@@ -84,5 +84,41 @@
 			$i++;
 		}
 		return json_encode($sousDomaines);
-	}
+    }
+    function getUiNameByUiTag($ui){
+        $uiName = $ui;
+        if($ui == 'JR4')
+        {
+            $uiName = 'Alpes';
+        }
+        if($ui == 'QFY')
+        {
+            $uiName = 'Lyon';
+        }
+        if($ui == 'GYL')
+        {
+            $uiName = 'RD';
+        }
+        if($ui == 'LT7')
+        {
+            $uiName = 'PCA';
+        }
+        if($ui == 'FC4')
+        {
+            $uiName = 'BFC';
+        }
+        if($ui == 'HD4')
+        {
+            $uiName = 'Alsace Lorraine';
+        }
+        if($ui == 'TF7')
+        {
+            $uiName = 'Midi Pyrennees';
+        }
+        if($ui == 'NGF')
+        {
+            $uiName = 'Auvergne';
+        }
+        return json_encode($uiName);
+    }
 ?>
