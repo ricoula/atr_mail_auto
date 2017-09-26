@@ -46,6 +46,7 @@
                     {
                         foreach($listeDomaines as $domaine)
                         {
+                        
                             ?>
                             <div class="col-lg-1 well">
                                 <label for="domaine-<?php echo $domaine ?>"><input type="checkbox" class="form-control" name="domaine-<?php echo $domaine ?>" id="domaine-<?php echo $domaine ?>" /> <?php echo $domaine ?></label>
