@@ -77,12 +77,13 @@
 		include("global.php");
 		$sousDomaines = null;
 		$i = 0;
-		$req = $bdd->query();
-		while($data = $req->fetch("SELECT DISTINCT sous_domaine FROM (".$global.") tout WHERE atr_ui IN (".$listeUI.") AND domaine IS NOT NULL"))
+		$req = $bdd->query("SELECT DISTINCT sous_domaine FROM (".$global.") tout WHERE sous_domaine IS NOT NULL");
+		while($data = $req->fetch())
 		{
-			$sousDomaines[$i] = ;
+			$sousDomaines[$i] = $data["sous_domaine"];
 			$i++;
 		}
+		return json_encode($sousDomaines);
 	}
 ?>
 
