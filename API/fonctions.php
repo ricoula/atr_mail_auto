@@ -32,13 +32,57 @@
 		include("global.php");
 		$uis = null;
 		$i = 0;
-		$req = $bdd->query("SELECT DISTINCT atr_ui FROM (".$requetePrincipale.") ui");
+		$req = $bdd->query("SELECT DISTINCT atr_ui FROM (".$global.") ui");
 		while($data = $req->fetch())
 		{
 			$uis[$i] = $data["atr_ui"];
 			$i++;
 		}
 		return json_encode($uis);
+	}
+	
+	function getDomainesByUi($listeUI) //$listeUi au format implode avec des virgules entre (chaque ui doit être entouré de '')
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$domaines = null;
+		$i = 0;
+		$req = $bdd->query("SELECT DISTINCT domaine FROM (".$global.") tout WHERE atr_ui IN (".$listeUI.") AND domaine IS NOT NULL");
+		while($data = $req->fetch())
+		{
+			$domaines[$i] = $data["domaine"];
+			$i++;
+		}
+		return json_encode($domaines);
+	}
+	
+	function getDomaines()
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$domaines = null;
+		$i = 0;
+		$req = $bdd->query("SELECT DISTINCT domaine FROM (".$global.") tout WHERE domaine IS NOT NULL");
+		while($data = $req->fetch())
+		{
+			$domaines[$i] = $data["domaine"];
+			$i++;
+		}
+		return json_encode($domaines);
+	}
+	
+	function getSousDomaines()
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$sousDomaines = null;
+		$i = 0;
+		$req = $bdd->query();
+		while($data = $req->fetch("SELECT DISTINCT sous_domaine FROM (".$global.") tout WHERE atr_ui IN (".$listeUI.") AND domaine IS NOT NULL"))
+		{
+			$sousDomaines[$i] = ;
+			$i++;
+		}
 	}
 ?>
 
