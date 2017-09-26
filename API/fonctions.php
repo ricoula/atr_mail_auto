@@ -30,4 +30,3 @@ function getAll(){
         return json_encode($poi_list);
 }
 ?>
-
