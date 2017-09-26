@@ -9,23 +9,65 @@
             #divSousJustifs{
                 display: none;
             }
+            .divRadios{
+                text-align: center;
+                display: flex;
+                justify-content: space-around;
+            }
         </style>
     </head>
     <body>
+        <?php
+        include("API/fonctions.php");
+        ?>
         <div class="container">
-            <form>
-                <div class="form-group jumbotron row" id="divUi">
+            <form class="jumbotron">
+                <div class="form-group row divRadios" id="divUi">
+                    <?php
+                    $listeUis = json_decode(getUi());
+                    if($listeUis != null)
+                    {
+                        foreach($listeUis as $ui)
+                        {
+                        ?>
+                            <div class="col-lg-1">
+                                <label for="<?php echo $ui ?>"><input type="checkbox" class="form-control" name="<?php echo $ui ?>" id="<?php echo $ui ?>" /> <?php echo $ui ?></label>
+                            </div>
+                        <?php
+                        }
+                    }
+                    ?>
                 </div>
-                <div class="form-group jumbotron" id="divDomaines">
+                <hr/>
+                <div class="form-group row divRadios" id="divDomaines">
+                    <?php
+                    $listeDomaines = json_decode(getDomaines());
+                    if($listeDomaines != null)
+                    {
+                        foreach($listeDomaines as $domaine)
+                        {
+                            ?>
+                            <span class="col-lg-1">
+                                <label for="<?php echo $domaine ?>"><input type="checkbox" class="form-control" name="<?php echo $domaine ?>" id="<?php echo $domaine ?>" /> <?php echo $domaine ?></label>
+                            </span>
+                            <?php
+                        }
+                    }
+                    ?>
                 </div>
-                <div class="form-group jumbotron" id="divSousDomaines">
+                <hr/>
+                <div class="form-group row divRadios" id="divSousDomaines">
+                    <?php
+                    
+                    ?>
                 </div>
-                <div class="form-group jumbotron" id="divPg">
+                <hr/>
+                <div class="form-group row divRadios" id="divPg">
                 </div>
-                <div class="form-group jumbotron" id="divSousJustifs">
+                <hr/>
+                <div class="form-group row divRadios" id="divSousJustifs">
                 </div>
             </form>
-            
         </div>
         
         
