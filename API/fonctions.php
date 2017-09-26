@@ -121,7 +121,10 @@
         }
         return json_encode($uiName);
     }
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 1d579b59329a39afb714e7930f7d02da94d3d275
 	function getPg()
 	{
 		include("connexionBdd.php");
