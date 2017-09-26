@@ -85,4 +85,133 @@
 		}
 		return json_encode($sousDomaines);
 	}
+	
+	function getPg()
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$pg = null;
+		$i = 0;
+		$req = $bdd->query("SELECT DISTINCT ft_pg FROM (".$global.") tout WHERE ft_pg IS NOT NULL");
+		while($data = $req->fetch())
+		{
+			$pg[$i] = $data["ft_pg"];
+			$i++;
+		}
+		return json_encode($pg);
+	}
+	
+	function getSousJustifs()
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$sousJustifs = null;
+		$i = 0;
+		$req = $bdd->query("SELECT DISTINCT ft_sous_justification_oeie FROM (".$global.") tout WHERE ft_sous_justification_oeie IS NOT NULL");
+		while($data = $req->fetch())
+		{
+			if(strlen($data["ft_sous_justification_oeie"]) < 3)
+			{
+				$sousJustifs[$i] = $data["ft_sous_justification_oeie"];
+				$i++;
+			}
+		}
+		return json_encode($sousJustifs);
+	}
+	
+	function getSousJustifsByPgBySousDomaineByDomaineByUi($ui, $domaines, $sousDomaines, $pg)
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$sousJustifs = null;
+		$i = 0;
+		$req = $bdd->prepare("SELECT DISTINCT ft_sous_justification_oeie FROM (".$global.") tout WHERE ft_sous_justification_oeie IS NOT NULL AND atr_ui = ? AND domaine IN(?) AND sous_domaine IN(?) AND ft_pg IN(?)");
+		$req->execute(array($ui, $domaines, $sousDomaines, $pg));
+		while($data = $req->fetch())
+		{
+			if(strlen($data["ft_sous_justification_oeie"]) < 3)
+			{
+				$sousJustifs[$i] = $data["ft_sous_justification_oeie"];
+				$i++;
+			}
+		}
+		return json_encode($sousJustifs);
+	}
+	
+	function getUiByDomaine($domaine)
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$ui = null;
+		$i = 0;
+		$req = $bdd->prepare("SELECT DISTINCT atr_ui FROM (".$global.") test WHERE domaine = ?");
+		$req->execute(array($domaine));
+		while($data = $req->fetch())
+		{
+			$ui[$i] = $data["atr_ui"];
+			$i++;
+		}
+		return json_encode($ui);
+	}
+	
+	function getDomainesAndUiBySousDomaine($sousDomaine)
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$tab = array();
+		$i = 0;
+		$req = $bdd->prepare("SELECT DISTINCT atr_ui FROM (".$global.") test WHERE sous_domaine = ?");
+		$req->execute(array($sousDomaine));
+		while($data = $req->fetch())
+		{
+			$tab["ui"][$i] = $data["atr_ui"];
+			$i++;
+		}
+		
+		$i = 0;
+		$req = $bdd->prepare("SELECT DISTINCT domaine FROM (".$global.") test WHERE sous_domaine = ?");
+		$req->execute(array($sousDomaine));
+		while($data = $req->fetch())
+		{
+			$tab["domaine"][$i] = $data["domaine"];
+			$i++;
+		}
+		
+		return json_encode($tab);
+	}
+	
+	function getSousDomainesAndDomainesAndUiBySousJustif($sousJustif)
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$tab = array();
+		$i = 0;
+		$req = $bdd->prepare("SELECT DISTINCT atr_ui FROM (".$global.") test WHERE ft_sous_justification_oeie = ?");
+		$req->execute(array($sousJustif));
+		while($data = $req->fetch())
+		{
+			$tab["ui"][$i] = $data["atr_ui"];
+			$i++;
+		}
+		
+		$i = 0;
+		$req = $bdd->prepare("SELECT DISTINCT domaine FROM (".$global.") test WHERE ft_sous_justification_oeie = ?");
+		$req->execute(array($sousJustif));
+		while($data = $req->fetch())
+		{
+			$tab["domaine"][$i] = $data["domaine"];
+			$i++;
+		}
+		
+		$i = 0;
+		$req = $bdd->prepare("SELECT DISTINCT sous_domaine FROM (".$global.") test WHERE ft_sous_justification_oeie = ?");
+		$req->execute(array($sousJustif));
+		while($data = $req->fetch())
+		{
+			$tab["sous_domaine"][$i] = $data["sous_domaine"];
+			$i++;
+		}
+		
+		return json_encode($tab);
+	}
 ?>
