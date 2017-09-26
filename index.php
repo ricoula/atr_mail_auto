@@ -11,8 +11,8 @@
             }
             .divRadios{
                 text-align: center;
-                display: flex;
-                justify-content: space-around;
+                /*display: flex;
+                justify-content: space-around;*/
             }
         </style>
     </head>
@@ -50,6 +50,7 @@
                     {
                         foreach($listeDomaines as $domaine)
                         {
+                        
                             ?>
                             
                             <div class="col-lg-1">
@@ -84,11 +85,23 @@
                     }
                     ?>
                 </div>
-                <hr/>
-                <div class="form-group row divRadios" id="divPg">
-                </div>
+
                 <hr/>
                 <div class="form-group row divRadios" id="divSousJustifs">
+                    <?php
+                    $listeSousJustifs = json_decode(getSousJustifs());
+                    if($listeSousJustifs != null)
+                    {
+                        foreach($listeSousJustifs as $sousJustif)
+                        {
+                            ?>
+                            <div class="col-lg-1 well">
+                                <label for="sousJustif-<?php echo $sousJustif ?>"><input type="checkbox" class="form-control" name="sousJustif-<?php echo $sousJustif ?>" id="sousJustif-<?php echo $sousJustif ?>" /> <?php echo $sousJustif ?></label>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
                 </div>
             </form>
         </div>
