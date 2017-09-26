@@ -1,4 +1,31 @@
 $(function(){
+
+    $("input:checkbox").prop("checked", true);
+
+    $("input:checkbox").change(function(){
+        var nbUiCoche = 0;
+        $(".checkboxUi").each(function(){
+            if($(this).prop("checked") == true)
+            {
+                nbUiCoche++;
+            }
+        });
+
+        if(nbUiCoche == 1)
+        {
+            $("#divSousJustifs").show();
+        }
+     
+    $(".divFiltre").hide();
+
+    $("input:checkbox").each(function(){
+        if($(this).prop("checked") == true)
+        {
+            $("." + $(this).attr("id")).show();
+        }
+    });
+});
+
     $.post("API/getArbo.php", {}, function(data){
         var arbo = JSON.parse(data);
         if(arbo != null)
