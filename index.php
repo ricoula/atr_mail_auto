@@ -30,7 +30,7 @@
                         foreach($listeUis as $ui)
                         {
                         ?>
-                            <div class="col-lg-1">
+                            <div id="divUi-<?php echo $ui ?>" class="col-lg-1">
                             <span class="button-checkbox">
                             <button id="<?php echo $ui ?>" name="<?php echo $ui ?>" type="button" class="btn btn-xs" data-color="primary"><?php echo json_decode(getUiNameByUiTag($ui)); ?></button>
                             <input type="checkbox" class="hidden" checked />
@@ -52,17 +52,7 @@
                             $listeUi = json_decode(getUiByDomaine($domaine));
                             ?>
                             
-                            <div class="col-lg-1 
-                            <?php 
-                            if($listeUi != null)
-                            {
-                                foreach($listeUi as $ui)
-                                {
-                                    echo " ul-".$ui;
-                                }
-                            }
-                            ?>
-                             ">
+                            <div id="divDomaine-<?php echo $domaine ?>" class="col-lg-1">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $domaine ?>" id="<?php echo $domaine ?>"><?php echo $domaine ?></button>
                             <input type="checkbox" class="hidden" checked />
@@ -81,30 +71,9 @@
                     {
                         foreach($listeSousDomaines as $sousDomaine)
                         {
-                            $tab = json_decode(getDomainesAndUiBySousDomaine($sousDomaine));
                             ?>
                             
-                            <div class="col-lg-1 
-                            <?php
-                            if($tab != null)
-                            {
-                                if($tab->ui != null)
-                                {
-                                    foreach($tab->ui as $ui)
-                                    {
-                                        echo " ul-".$ui;
-                                    }
-                                }
-                                if($tab->domaine != null)
-                                {
-                                    foreach($tab->domaine as $domaine)
-                                    {
-                                        echo " domaine-".$domaine;
-                                    }
-                                }
-                            }
-                             ?>
-                             ">
+                            <div id="divSousDomaine-<?php echo $sousDomaine ?>" class="col-lg-1">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousDomaine ?>" id="<?php echo $sousDomaine ?>"><?php echo $sousDomaine ?></button>
                             <input type="checkbox" class="hidden" checked />
@@ -124,36 +93,8 @@
                     {
                         foreach($listeSousJustifs as $sousJustif)
                         {
-                            $tab = json_decode(getSousDomainesAndDomainesAndUiBySousJustif($sousJustif));
                             ?>
-                            <div class="col-lg-1 well
-                            <?php
-                            if($tab != null)
-                            {
-                                if($tab->ui != null)
-                                {
-                                    foreach($tab->ui as $ui)
-                                    {
-                                        echo " ul-".$ui;
-                                    }
-                                }
-                                if($tab->domaine != null)
-                                {
-                                    foreach($tab->domaine as $domaine)
-                                    {
-                                        echo " domaine-".$domaine;
-                                    }
-                                }
-                                if($tab->sous_domaine != null)
-                                {
-                                    foreach($tab->sous_domaine as $sous_domaine)
-                                    {
-                                        echo " sous_domaine-".$domaine;
-                                    }
-                                }
-                            }
-                            ?>
-                            ">
+                            <div id="divSousJustif-<?php echo $sousJustif ?>" class="col-lg-1 well">
                                 <label for="sousJustif-<?php echo $sousJustif ?>"><input type="checkbox" class="form-control" name="sousJustif-<?php echo $sousJustif ?>" id="sousJustif-<?php echo $sousJustif ?>" /> <?php echo $sousJustif ?></label>
                             </div>
                             <?php
