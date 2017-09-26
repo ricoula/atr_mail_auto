@@ -121,7 +121,6 @@
         }
         return json_encode($uiName);
     }
-	}
 	
 	function getPg()
 	{
