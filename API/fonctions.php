@@ -249,4 +249,24 @@
 		
 		return json_encode($tab);
 	}
+	
+	function getArbo()
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$arbo = null;
+		$i = 0;
+		$req = $bdd->query("select atr_ui,domaine,sous_domaine,ft_sous_justification_oeie from(".$global.")atre
+		group by atr_ui,domaine,sous_domaine,ft_sous_justification_oeie
+		order by atr_ui,domaine,sous_domaine,ft_sous_justification_oeie");
+		while($data = $req->fetch())
+		{
+			$arbo[$i]["sous_justification"] = $data["ft_sous_justification_oeie"];
+			$arbo[$i]["sous_domaine"] = $data["sous_domaine"];
+			$arbo[$i]["domaine"] = $data["domaine"];
+			$arbo[$i]["ui"] = $data["atr_ui"];
+			$i++;
+		}
+		return json_encode($arbo);
+	}
 ?>

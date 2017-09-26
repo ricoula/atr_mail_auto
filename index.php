@@ -31,7 +31,7 @@
                         foreach($listeUis as $ui)
                         {
                         ?>
-                            <div class="col-lg-1">
+                            <div id="divUi-<?php echo $ui ?>" class="col-lg-1">
                             <span class="button-checkbox">
                             <button id="<?php echo $ui ?>" name="<?php echo $ui ?>" type="button" class="btn btn-xs" data-color="primary"><?php echo json_decode(getUiNameByUiTag($ui)); ?></button>
                             <input type="checkbox" class="hidden" checked />
@@ -53,7 +53,7 @@
                             $listeUi = json_decode(getUiByDomaine($domaine));
                             ?>
                             
-                            <div class="col-lg-1 
+                            <div id="divDomaine-<?php echo $domaine ?>" class="col-lg-1 
                             <?php 
                             if($listeUi != null)
                             {
@@ -85,7 +85,7 @@
                             $tab = json_decode(getDomainesAndUiBySousDomaine($sousDomaine));
                             ?>
                             
-                            <div class="col-lg-1 
+                            <div id="divSousDomaine-<?php echo $sousDomaine ?>" class="col-lg-1 
                             <?php
                             if($tab != null)
                             {
@@ -127,7 +127,7 @@
                         {
                             $tab = json_decode(getSousDomainesAndDomainesAndUiBySousJustif($sousJustif));
                             ?>
-                            <div class="col-lg-1 well
+                            <div id="divSousJustif-<?php echo $sousJustif ?>" class="col-lg-1 well
                             <?php
                             if($tab != null)
                             {
