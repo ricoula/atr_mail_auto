@@ -58,7 +58,18 @@
                 <hr/>
                 <div class="form-group row divRadios" id="divSousDomaines">
                     <?php
-                    
+                    $listeSousDomaines = json_decode(getSousDomaines());
+                    if($listeSousDomaines != null)
+                    {
+                        foreach($listeSousDomaines as $sousDomaine)
+                        {
+                            ?>
+                            <span class="col-lg-1">
+                                <label for="<?php echo $sousDomaine ?>"><input type="checkbox" class="form-control" name="<?php echo $sousDomaine ?>" id="<?php echo $sousDomaine ?>" /> <?php echo $sousDomaine ?></label>
+                            </span>
+                            <?php
+                        }
+                    }
                     ?>
                 </div>
                 <hr/>
