@@ -5,9 +5,6 @@
         <title>Mail</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/style.css">
-        <style>
-
-        </style>
     </head>
     <body>
 
@@ -29,7 +26,7 @@
                             <div id="divUi-<?php echo $uiRplc ?>">
                             <span class="button-checkbox">
                             <button id="<?php echo $uiRplc ?>" name="<?php echo $uiRplc ?>" type="button" class="btn btn-xs" data-color="primary"><?php echo json_decode(getUiNameByUiTag($ui)); ?></button>
-                            <input id="ui-<?php echo $uiRplc ?>" type="checkbox" class="hidden checkboxUi" checked />
+                            <input id="ui-<?php echo $uiRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxUi" checked />
                             </span>
                             </div>
                         <?php
@@ -53,7 +50,7 @@
                             <div id="divDomaine-<?php echo $domaineRplc ?>" class="divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $domaineRplc ?>" id="<?php echo $domaineRplc ?>"><?php echo $domaine ?></button>
-                            <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden checkboxDomaine" checked />
+                            <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxDomaine" checked />
                              </span>
                             </div>
                             <?php
@@ -76,7 +73,7 @@
                             <div id="divSousDomaine-<?php echo $sousDomaineRplc ?>" class="divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousDomaineRplc ?>" id="<?php echo $sousDomaineRplc ?>"><?php echo $sousDomaine ?></button>
-                            <input id="sousDomaine-<?php echo $sousDomaineRplc ?>" type="checkbox" class="hidden checkboxSousDomaine" checked />
+                            <input id="sousDomaine-<?php echo $sousDomaineRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxSousDomaine" checked />
                              </span>
                             </div>
                             <?php
@@ -98,7 +95,7 @@
                             <div id="divSousJustif-<?php echo $sousJustifRplc ?>" class="divFiltre col-lg-1">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousJustifRplc ?>" id="<?php echo $sousJustifRplc ?>"><?php echo $sousJustif ?></button>
-                            <input id="sousJustification-<?php echo $sousJustifRplc ?>" type="checkbox" class="hidden filtre checkboxSJ" checked />
+                            <input id="sousJustification-<?php echo $sousJustifRplc ?>" type="checkbox" class="checkboxFiltre hidden filtre checkboxSJ" checked />
                              </span>
                             </div>
                             <?php
@@ -106,65 +103,68 @@
                     }
                     ?>
                 </div>
+                <button id="btnValiderFiltres" class="btn btn-info">Valider filtres</button>
             </form>
        
             <br/>
             <br/>
-            <table id="tablePoi" class="tablesorter table table-striped table-bordered table-hover table-condensed table-responsive">
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" name="toutSelectionner" id="toutSelectionner" /></th>
-                            <th>UI</th>
-                            <th>POI</th>
-                            <th>DRE</th>
-                            <th>Domaine</th>
-                            <th>Sous-Domaine</th>
-                            <th>PG</th>
-                            <th>Sous-Justif</th>
-                            <th>Commune</th>
-                            <th>Voie</th>
-                            <th>CAFF</th>
-                            <!-- <th>Email</th> -->
-                            <th>Mobile</th>
-                            <th>Commentaire</th>
-                            <th>Nb relances</th>
-                            <th>Dernière relance</th>
-                            <th>Expiration</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $listePoi = json_decode(getAll());
-                        if($listePoi != null)
-                        {
-                            foreach($listePoi as $poi)
+            <div id='tableau'>
+                <table id="tablePoi" class="tablesorter table table-striped table-bordered table-hover table-condensed table-responsive">
+                        <thead>
+                            <tr>
+                                <td id="checkboxToutSelectionner"><input type="checkbox" name="toutSelectionner" id="toutSelectionner" /></td>
+                                <th>UI</th>
+                                <th>POI</th>
+                                <th>DRE</th>
+                                <th>Domaine</th>
+                                <th>Sous-Domaine</th>
+                                <th>PG</th>
+                                <th>Sous-Justif</th>
+                                <th>Commune</th>
+                                <th>Voie</th>
+                                <th>CAFF</th>
+                                <!-- <th>Email</th> -->
+                                <th>Mobile</th>
+                                <th>Commentaire</th>
+                                <th>Nb relances</th>
+                                <th>Dernière relance</th>
+                                <th>Expiration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $listePoi = json_decode(getAll());
+                            if($listePoi != null)
                             {
-                                ?>
-                                <tr class="ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?>">
-                                    <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" /></td>
-                                    <td><?php echo $poi->atr_ui ?></td>
-                                    <td><?php echo $poi->ft_numero_oeie ?></td>
-                                    <td><?php echo $poi->ft_oeie_dre ?></td>
-                                    <td><?php echo $poi->domaine ?></td>
-                                    <td><?php echo $poi->sous_domaine ?></td>
-                                    <td><?php echo $poi->ft_pg ?></td>
-                                    <td><?php echo $poi->ft_sous_justification_oeie ?></td>
-                                    <td><?php echo $poi->ft_libelle_commune ?></td>
-                                    <td><?php echo $poi->ft_libelle_de_voie ?></td>
-                                    <td><?php echo $poi->name_related ?></td>
-                                    <!-- <td><?php /*echo $poi->work_email*/ ?></td> -->
-                                    <td><?php echo $poi->mobile_phone ?></td>
-                                    <td><?php echo $poi->ft_commentaire_creation_oeie ?></td>
-                                    <td>Test</td>
-                                    <td>Test</td>
-                                    <td>Test</td>
-                                </tr>
-                                <?php
+                                foreach($listePoi as $poi)
+                                {
+                                    ?>
+                                    <tr class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?>">
+                                        <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
+                                        <td><?php echo $poi->atr_ui ?></td>
+                                        <td><?php echo $poi->ft_numero_oeie ?></td>
+                                        <td><?php echo $poi->ft_oeie_dre ?></td>
+                                        <td><?php echo $poi->domaine ?></td>
+                                        <td><?php echo $poi->sous_domaine ?></td>
+                                        <td><?php echo $poi->ft_pg ?></td>
+                                        <td><?php echo $poi->ft_sous_justification_oeie ?></td>
+                                        <td><?php echo $poi->ft_libelle_commune ?></td>
+                                        <td><?php echo $poi->ft_libelle_de_voie ?></td>
+                                        <td><?php echo $poi->name_related ?></td>
+                                        <!-- <td><?php /*echo $poi->work_email*/ ?></td> -->
+                                        <td><?php echo $poi->mobile_phone ?></td>
+                                        <td><?php echo $poi->ft_commentaire_creation_oeie ?></td>
+                                        <td>Test</td>
+                                        <td>Test</td>
+                                        <td>Test</td>
+                                    </tr>
+                                    <?php
+                                }
                             }
-                        }
-                        ?>
-                    </tbody>
-            </table>
+                            ?>
+                        </tbody>
+                </table>
+            </div>
         
         
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
