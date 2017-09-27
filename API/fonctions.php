@@ -5,7 +5,7 @@
 		include("global.php");
 		$poi_list = null;
 		$i = 0;
-		$req = $bdd->query($global);
+		$req = $bdd->query($global. " LIMIT 100 OFFSET 0");
 			while($data = $req->fetch()){
 				$poi_list[$i]['id'] = $data['id'];
 				$poi_list[$i]['atr_ui'] = $data['atr_ui'];
