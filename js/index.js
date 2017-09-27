@@ -10,20 +10,189 @@ $(function(){
                 nbUiCoche++;
             }
         });
-
         if(nbUiCoche == 1)
         {
             $("#divSousJustifs").show();
         }
-     
-    $(".divFiltre").hide();
-
-    $("input:checkbox").each(function(){
-        if($(this).prop("checked") == true)
+        else
         {
-            $("." + $(this).attr("id")).show();
+            $("#divSousJustifs").hide();
+        }
+        
+     var getCheckedUi = [];
+     var getCheckedDomaine = [];
+     var getCheckedSousDomaine = [];
+     var getCheckedSJ = [];
+     $(".checkboxUi").each(function(){
+        if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+        {
+            getCheckedUi.push("." + $(this).attr("id"));
         }
     });
+    $(".checkboxDomaine").each(function(){
+        if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+        {
+            getCheckedDomaine.push("." + $(this).attr("id"));
+        }
+    });
+    $(".checkboxSousDomaine").each(function(){
+        if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+        {
+            getCheckedSousDomaine.push("." + $(this).attr("id"));
+        }
+    });
+    $(".checkboxSJ").each(function(){
+        if($(this).prop("checked") == true)
+        {
+            getCheckedSJ.push("." + $(this).attr("id"));
+        }
+    });
+    var getCheckedDomaineJoined = getCheckedDomaine.join(",");
+    var getCheckedUiJoined = getCheckedUi.join(",");
+    var getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+    var getCheckedSJJoined = getCheckedSJ.join(",");
+
+    $("#divDomaines div").each(function(){
+        if($(this).is(getCheckedUiJoined))
+        {
+            $(this).show();
+        }
+        else
+        {
+            $(this).hide();
+        }
+    });
+    getCheckedUi = [];
+    getCheckedDomaine = [];
+    getCheckedSousDomaine = [];
+    getCheckedSJ = [];
+   $(".checkboxUi").each(function(){
+      if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+      {
+          getCheckedUi.push("." + $(this).attr("id"));
+      }
+  });
+  $(".checkboxDomaine").each(function(){
+      if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+      {
+          getCheckedDomaine.push("." + $(this).attr("id"));
+      }
+  });
+  $(".checkboxSousDomaine").each(function(){
+      if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+      {
+          getCheckedSousDomaine.push("." + $(this).attr("id"));
+      }
+  });
+  $(".checkboxSJ").each(function(){
+      if($(this).prop("checked") == true)
+      {
+          getCheckedSJ.push("." + $(this).attr("id"));
+      }
+  });
+   getCheckedDomaineJoined = getCheckedDomaine.join(",");
+   getCheckedUiJoined = getCheckedUi.join(",");
+   getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+   getCheckedSJJoined = getCheckedSJ.join(",");  
+    $("#divSousDomaines div").each(function(){
+        if($(this).is(getCheckedUiJoined) && $(this).is(getCheckedDomaineJoined))
+        {
+            $(this).show()
+        }
+        else
+        {
+            $(this).hide();
+        }
+    });
+    getCheckedUi = [];
+    getCheckedDomaine = [];
+    getCheckedSousDomaine = [];
+    getCheckedSJ = [];
+   $(".checkboxUi").each(function(){
+      if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+      {
+          getCheckedUi.push("." + $(this).attr("id"));
+      }
+  });
+  $(".checkboxDomaine").each(function(){
+      if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+      {
+          getCheckedDomaine.push("." + $(this).attr("id"));
+      }
+  });
+  $(".checkboxSousDomaine").each(function(){
+      if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+      {
+          getCheckedSousDomaine.push("." + $(this).attr("id"));
+      }
+  });
+  $(".checkboxSJ").each(function(){
+      if($(this).prop("checked") == true)
+      {
+          getCheckedSJ.push("." + $(this).attr("id"));
+      }
+  });
+   getCheckedDomaineJoined = getCheckedDomaine.join(",");
+   getCheckedUiJoined = getCheckedUi.join(",");
+   getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+   getCheckedSJJoined = getCheckedSJ.join(",");  
+    $("#divSousJustifs div").each(function(){
+        if($(this).is(getCheckedUiJoined) && $(this).is(getCheckedDomaineJoined) && $(this).is(getCheckedSousDomaineJoined))
+        {
+                $(this).show(); 
+        }
+        else
+        {
+            $(this).hide();
+        }
+    });   
+ 
+     getCheckedUi = [];
+     getCheckedDomaine = [];
+     getCheckedSousDomaine = [];
+     getCheckedSJ = [];
+    $(".checkboxUi").each(function(){
+       if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+       {
+           getCheckedUi.push("." + $(this).attr("id"));
+       }
+   });
+   $(".checkboxDomaine").each(function(){
+       if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+       {
+           getCheckedDomaine.push("." + $(this).attr("id"));
+       }
+   });
+   $(".checkboxSousDomaine").each(function(){
+       if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+       {
+           getCheckedSousDomaine.push("." + $(this).attr("id"));
+       }
+   });
+   $(".checkboxSJ").each(function(){
+       if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+       {
+           getCheckedSJ.push("." + $(this).attr("id"));
+       }
+   });
+    getCheckedDomaineJoined = getCheckedDomaine.join(",");
+    getCheckedUiJoined = getCheckedUi.join(",");
+    getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+    getCheckedSJJoined = getCheckedSJ.join(",");  
+    console.log(getCheckedUiJoined);
+   console.log(getCheckedDomaineJoined);
+   console.log(getCheckedSousDomaineJoined);
+   console.log(getCheckedSJJoined);
+ 
+    // $(".divFiltre").hide();
+
+    // $("input:checkbox").each(function(){
+    //     if($(this).prop("checked") == true)
+    //     {
+    //         $("." + $(this).attr("id")).show();
+    //         console.log($(this).attr("id"));
+    //     }
+    // });
 });
 
     $.post("API/getArbo.php", {}, function(data){
