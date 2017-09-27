@@ -16,7 +16,9 @@
         ?>
         
             <form class="intro-header">
+            <h1 class="titre">Unité d'intervention</h1>
                 <div class="form-group row divRadios" id="divUi">
+                
                     <?php
                     $listeUis = json_decode(getUi());
                     if($listeUis != null)
@@ -37,7 +39,7 @@
                     }
                     ?>
                 </div>
-               
+                <h1 class="titre">Domaine</h1>
                 <div class="form-group row divRadios" id="divDomaines">
                     <?php
                     $listeDomaines = json_decode(getDomaines());
@@ -61,7 +63,7 @@
                     }
                     ?>
                 </div>
-         
+                <h1 class="titre">Sous domaine</h1>
                 <div class="form-group row divRadios" id="divSousDomaines">
                     <?php
                     $listeSousDomaines = json_decode(getSousDomaines());
@@ -84,7 +86,7 @@
                     }
                     ?>
                 </div>
-
+                <h1 class="titre">Sous justification</h1>
                 <div class="form-group row divRadios" id="divSousJustifs">
                     <?php
                     $listeSousJustifs = json_decode(getSousJustifs());
