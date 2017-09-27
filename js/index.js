@@ -1,5 +1,7 @@
 $(function(){
 
+    $("#tablePoi").tablesorter();
+
     $("input:checkbox").prop("checked", true);
 
     $("input:checkbox").change(function(){
