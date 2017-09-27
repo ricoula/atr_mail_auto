@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <title>Mail</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        
+        <link rel="stylesheet" href="css/style.css">
         <style>
             #divSousJustifs{
                 display: none;
@@ -17,7 +17,6 @@
         </style>
     </head>
     <body>
-    
         <?php
         include("API/fonctions.php");
         ?>
@@ -60,7 +59,7 @@
                             <div id="divDomaine-<?php echo $domaineRplc ?>" class="col-lg-1 divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $domaineRplc ?>" id="<?php echo $domaineRplc ?>"><?php echo $domaine ?></button>
-                            <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden" checked />
+                            <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden checkboxDomaine" checked />
                              </span>
                             </div>
                             <?php
@@ -83,7 +82,7 @@
                             <div id="divSousDomaine-<?php echo $sousDomaineRplc ?>" class="col-lg-1 divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousDomaineRplc ?>" id="<?php echo $sousDomaineRplc ?>"><?php echo $sousDomaine ?></button>
-                            <input id="sousDomaine-<?php echo $sousDomaineRplc ?>" type="checkbox" class="hidden" checked />
+                            <input id="sousDomaine-<?php echo $sousDomaineRplc ?>" type="checkbox" class="hidden checkboxSousDomaine" checked />
                              </span>
                             </div>
                             <?php
@@ -106,7 +105,7 @@
                             <div id="divSousJustif-<?php echo $sousJustifRplc ?>" class="col-lg-1 divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousJustifRplc ?>" id="<?php echo $sousJustifRplc ?>"><?php echo $sousJustif ?></button>
-                            <input id="sousJustification-<?php echo $sousJustifRplc ?>" type="checkbox" class="hidden filtre" checked />
+                            <input id="sousJustification-<?php echo $sousJustifRplc ?>" type="checkbox" class="hidden filtre checkboxSJ" checked />
                              </span>
                             </div>
                             <?php
@@ -180,72 +179,6 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="tablesort/jquery.tablesorter.min.js"></script>
         <script src="js/index.js"></script>
-        <script>
-        $(function () {
-    $('.button-checkbox').each(function () {
-
-        // Settings
-        var $widget = $(this),
-            $button = $widget.find('button'),
-            $checkbox = $widget.find('input:checkbox'),
-            color = $button.data('color'),
-            settings = {
-                on: {
-                    icon: 'glyphicon glyphicon-check'
-                },
-                off: {
-                    icon: 'glyphicon glyphicon-unchecked'
-                }
-            };
-
-        // Event Handlers
-        $button.on('click', function () {
-            $checkbox.prop('checked', !$checkbox.is(':checked'));
-            $checkbox.triggerHandler('change');
-            updateDisplay();
-        });
-        $checkbox.on('change', function () {
-            updateDisplay();
-        });
-
-        // Actions
-        function updateDisplay() {
-            var isChecked = $checkbox.is(':checked');
-
-            // Set the button's state
-            $button.data('state', (isChecked) ? "on" : "off");
-
-            // Set the button's icon
-            $button.find('.state-icon')
-                .removeClass()
-                .addClass('state-icon ' + settings[$button.data('state')].icon);
-
-            // Update the button's color
-            if (isChecked) {
-                $button
-                    .removeClass('btn-default')
-                    .addClass('btn-' + color + ' active');
-            }
-            else {
-                $button
-                    .removeClass('btn-' + color + ' active')
-                    .addClass('btn-default');
-            }
-        }
-
-        // Initialization
-        function init() {
-
-            updateDisplay();
-
-            // Inject the icon if applicable
-            if ($button.find('.state-icon').length == 0) {
-                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-            }
-        }
-        init();
-    });
-});
-        </script>
+        <script src="js/checkbox.js"></script>
     </body>
 </html>
