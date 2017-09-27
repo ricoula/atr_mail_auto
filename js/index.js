@@ -200,10 +200,6 @@ $(function(){
     getCheckedUiJoined = getCheckedUi.join(",");
     getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
     getCheckedSJJoined = getCheckedSJ.join(",");  
-    console.log(getCheckedUiJoined);
-   console.log(getCheckedDomaineJoined);
-   console.log(getCheckedSousDomaineJoined);
-   console.log(getCheckedSJJoined);
  
     // $(".divFiltre").hide();
 
@@ -211,9 +207,76 @@ $(function(){
     //     if($(this).prop("checked") == true)
     //     {
     //         $("." + $(this).attr("id")).show();
-    //         console.log($(this).attr("id"));
     //     }
     // });
+        
+    /*getCheckedUi = [];
+    getCheckedDomaine = [];
+    getCheckedSousDomaine = [];
+    getCheckedSJ = [];*/
+    
+    /*for(var i = 0; i < getCheckedUi.length; i++)
+    {
+        getCheckedUi[i] = "'" + getCheckedUi[i].split("-")[1] + "'";
+    }
+    for(var i = 0; i < getCheckedDomaine.length; i++)
+    {
+        getCheckedDomaine[i] = "'" + getCheckedDomaine[i].split("-")[1] + "'";
+    }
+    for(var i = 0; i < getCheckedSousDomaine.length; i++)
+    {
+        getCheckedSousDomaine[i] = "'" + getCheckedSousDomaine[i].split("-")[1] + "'";
+    }
+    for(var i = 0; i < getCheckedSJ.length; i++)
+    {
+        getCheckedSJ[i] = "'" + getCheckedSJ[i].split("-")[1] + "'";
+    }
+    
+    getCheckedUiJoined = getCheckedUi.join(",");
+    getCheckedDomaineJoined = getCheckedDomaine.join(",");
+    getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+    getCheckedSJJoined = getCheckedSJ.join(",");
+        
+    console.log(getCheckedUiJoined);
+    console.log(getCheckedDomaineJoined);
+    console.log(getCheckedSousDomaineJoined);
+    console.log(getCheckedSJJoined);*/
+    
+    getCheckedUi = [];
+    getCheckedDomaine = [];
+    getCheckedSousDomaine = [];
+    getCheckedSJ = [];
+        
+    $("#divUi .checkboxFiltre:checked").each(function(){
+        getCheckedUi.push("'" + $(this).parent().children("button").attr("id") + "'");
+    });
+    $("#divDomaines .checkboxFiltre:checked").each(function(){
+        getCheckedDomaine.push("'" + $(this).parent().children("button").text().slice(1) + "'");
+    });
+    $("#divSousDomaines .checkboxFiltre:checked").each(function(){
+        getCheckedSousDomaine.push("'" + $(this).parent().children("button").text().slice(1) + "'");
+    });
+    if($("#divSousJustifs").is(":visible"))
+        {
+            $("#divSousJustifs .checkboxFiltre:checked").each(function(){
+                getCheckedSJ.push("'" + $(this).parent().children("button").text().slice(1) + "'");
+            });
+        }
+        
+    getCheckedUiJoined = getCheckedUi.join(",");
+    getCheckedDomaineJoined = getCheckedDomaine.join(",");
+    getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+    getCheckedSJJoined = getCheckedSJ.join(",");
+        
+    /*console.log(getCheckedUiJoined);
+    console.log(getCheckedDomaineJoined);
+    console.log(getCheckedSousDomaineJoined);
+    console.log(getCheckedSJJoined);*/
+    $.post("API/getAllParams.php", {liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined}, function(data){
+        $("#tableau").load("tableau.php", {liste_poi: data}, function(){
+            
+        });
+    });
 });
 
     $.post("API/getArbo.php", {}, function(data){
