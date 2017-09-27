@@ -57,6 +57,15 @@
                     ?>
                 </tbody>
         </table>
+        <script src="js/index.js"></script>
+        <script>
+            $(function(){
+                if(!$("#toutSelectionner").prop("checked"))
+                    {
+                        $("#toutSelectionner").click();
+                    }
+            });
+        </script>
         <?php
     }
 ?>
