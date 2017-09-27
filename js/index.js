@@ -25,6 +25,7 @@ $(function(){
      var getCheckedDomaine = [];
      var getCheckedSousDomaine = [];
      var getCheckedSJ = [];
+
      $(".checkboxUi").each(function(){
         if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
         {
@@ -185,6 +186,7 @@ $(function(){
    console.log(getCheckedDomaineJoined);
    console.log(getCheckedSousDomaineJoined);
    console.log(getCheckedSJJoined);
+   
  
     // $(".divFiltre").hide();
 
