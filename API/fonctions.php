@@ -261,11 +261,22 @@
 		order by atr_ui,domaine,sous_domaine,ft_sous_justification_oeie");
 		while($data = $req->fetch())
 		{
-			$arbo[$i]["sous_justification"] = $data["ft_sous_justification_oeie"];
-			$arbo[$i]["sous_domaine"] = $data["sous_domaine"];
-			$arbo[$i]["domaine"] = $data["domaine"];
-			$arbo[$i]["ui"] = $data["atr_ui"];
-			$i++;
+			if(strlen($data["ft_sous_justification_oeie"]) < 3)
+			{
+				$data["atr_ui"] = str_replace(" ", "_", $data["atr_ui"]);
+				$data["domaine"] = str_replace(" ", "_", $data["domaine"]);
+				$data["sous_domaine"] = str_replace(" ", "_", $data["sous_domaine"]);
+				$data["ft_sous_justification_oeie"] = str_replace(" ", "_", $data["ft_sous_justification_oeie"]);
+				$data["atr_ui"] = str_replace("&", "_", $data["atr_ui"]);
+				$data["domaine"] = str_replace("&", "_", $data["domaine"]);
+				$data["sous_domaine"] = str_replace("&", "_", $data["sous_domaine"]);
+				$data["ft_sous_justification_oeie"] = str_replace("&", "_", $data["ft_sous_justification_oeie"]);
+				$arbo[$i]["sous_justification"] = $data["ft_sous_justification_oeie"];
+				$arbo[$i]["sous_domaine"] = $data["sous_domaine"];
+				$arbo[$i]["domaine"] = $data["domaine"];
+				$arbo[$i]["ui"] = $data["atr_ui"];
+				$i++;
+			}
 		}
 		return json_encode($arbo);
 	}

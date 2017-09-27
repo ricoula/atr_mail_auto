@@ -29,11 +29,13 @@
                     {
                         foreach($listeUis as $ui)
                         {
+                            $uiRplc = str_replace(" ", "_", $ui);
+                            $uiRplc = str_replace("&", "_", $ui);
                         ?>
-                            <div id="divUi-<?php echo $ui ?>" class="col-lg-1">
+                            <div id="divUi-<?php echo $uiRplc ?>" class="col-lg-1">
                             <span class="button-checkbox">
-                            <button id="<?php echo $ui ?>" name="<?php echo $ui ?>" type="button" class="btn btn-xs" data-color="primary"><?php echo json_decode(getUiNameByUiTag($ui)); ?></button>
-                            <input type="checkbox" class="hidden" checked />
+                            <button id="<?php echo $uiRplc ?>" name="<?php echo $uiRplc ?>" type="button" class="btn btn-xs" data-color="primary"><?php echo json_decode(getUiNameByUiTag($ui)); ?></button>
+                            <input id="ui-<?php echo $uiRplc ?>" type="checkbox" class="hidden checkboxUi" checked />
                             </span>
                             </div>
                         <?php
@@ -49,13 +51,15 @@
                     {
                         foreach($listeDomaines as $domaine)
                         {
-                            $listeUi = json_decode(getUiByDomaine($domaine));
+                            $domaineRplc = str_replace(" ", "_", $domaine);
+                            $domaineRplc = str_replace("&", "_", $domaine);
+                            $listeUi = json_decode(getUiByDomaine($domaineRplc));
                             ?>
                             
-                            <div id="divDomaine-<?php echo $domaine ?>" class="col-lg-1">
+                            <div id="divDomaine-<?php echo $domaineRplc ?>" class="col-lg-1 divFiltre">
                             <span class="button-checkbox">
-                            <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $domaine ?>" id="<?php echo $domaine ?>"><?php echo $domaine ?></button>
-                            <input type="checkbox" class="hidden" checked />
+                            <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $domaineRplc ?>" id="<?php echo $domaineRplc ?>"><?php echo $domaine ?></button>
+                            <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden" checked />
                              </span>
                             </div>
                             <?php
@@ -71,12 +75,14 @@
                     {
                         foreach($listeSousDomaines as $sousDomaine)
                         {
+                            $sousDomaineRplc = str_replace(" ", "_", $sousDomaine);
+                            $sousDomaineRplc = str_replace("&", "_", $sousDomaine);
                             ?>
                             
-                            <div id="divSousDomaine-<?php echo $sousDomaine ?>" class="col-lg-1">
+                            <div id="divSousDomaine-<?php echo $sousDomaineRplc ?>" class="col-lg-1 divFiltre">
                             <span class="button-checkbox">
-                            <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousDomaine ?>" id="<?php echo $sousDomaine ?>"><?php echo $sousDomaine ?></button>
-                            <input type="checkbox" class="hidden" checked />
+                            <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousDomaineRplc ?>" id="<?php echo $sousDomaineRplc ?>"><?php echo $sousDomaine ?></button>
+                            <input id="sousDomaine-<?php echo $sousDomaineRplc ?>" type="checkbox" class="hidden" checked />
                              </span>
                             </div>
                             <?php
@@ -93,9 +99,14 @@
                     {
                         foreach($listeSousJustifs as $sousJustif)
                         {
+                            $sousJustifRplc = str_replace(" ", "_", $sousJustif);
+                            $sousJustifRplc = str_replace("&", "_", $sousJustif);
                             ?>
-                            <div id="divSousJustif-<?php echo $sousJustif ?>" class="col-lg-1 well">
-                                <label for="sousJustif-<?php echo $sousJustif ?>"><input type="checkbox" class="form-control" name="sousJustif-<?php echo $sousJustif ?>" id="sousJustif-<?php echo $sousJustif ?>" /> <?php echo $sousJustif ?></label>
+                            <div id="divSousJustif-<?php echo $sousJustifRplc ?>" class="col-lg-1 divFiltre">
+                            <span class="button-checkbox">
+                            <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousJustifRplc ?>" id="<?php echo $sousJustifRplc ?>"><?php echo $sousJustif ?></button>
+                            <input id="sousJustification-<?php echo $sousJustifRplc ?>" type="checkbox" class="hidden filtre" checked />
+                             </span>
                             </div>
                             <?php
                         }
@@ -106,7 +117,7 @@
         </div>
         
         
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="js/index.js"></script>
