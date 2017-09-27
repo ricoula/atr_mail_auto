@@ -35,7 +35,7 @@
                             <div id="divUi-<?php echo $uiRplc ?>" class="col-lg-1">
                             <span class="button-checkbox">
                             <button id="<?php echo $uiRplc ?>" name="<?php echo $uiRplc ?>" type="button" class="btn btn-xs" data-color="primary"><?php echo json_decode(getUiNameByUiTag($ui)); ?></button>
-                            <input id="ui-<?php echo $uiRplc ?>" type="checkbox" class="hidden checkboxUi" checked />
+                            <input id="ui-<?php echo $uiRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxUi" checked />
                             </span>
                             </div>
                         <?php
@@ -59,7 +59,7 @@
                             <div id="divDomaine-<?php echo $domaineRplc ?>" class="col-lg-1 divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $domaineRplc ?>" id="<?php echo $domaineRplc ?>"><?php echo $domaine ?></button>
-                            <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden checkboxDomaine" checked />
+                            <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxDomaine" checked />
                              </span>
                             </div>
                             <?php
@@ -82,7 +82,7 @@
                             <div id="divSousDomaine-<?php echo $sousDomaineRplc ?>" class="col-lg-1 divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousDomaineRplc ?>" id="<?php echo $sousDomaineRplc ?>"><?php echo $sousDomaine ?></button>
-                            <input id="sousDomaine-<?php echo $sousDomaineRplc ?>" type="checkbox" class="hidden checkboxSousDomaine" checked />
+                            <input id="sousDomaine-<?php echo $sousDomaineRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxSousDomaine" checked />
                              </span>
                             </div>
                             <?php
@@ -105,7 +105,7 @@
                             <div id="divSousJustif-<?php echo $sousJustifRplc ?>" class="col-lg-1 divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousJustifRplc ?>" id="<?php echo $sousJustifRplc ?>"><?php echo $sousJustif ?></button>
-                            <input id="sousJustification-<?php echo $sousJustifRplc ?>" type="checkbox" class="hidden filtre checkboxSJ" checked />
+                            <input id="sousJustification-<?php echo $sousJustifRplc ?>" type="checkbox" class="checkboxFiltre hidden filtre checkboxSJ" checked />
                              </span>
                             </div>
                             <?php
@@ -120,7 +120,7 @@
             <table id="tablePoi" class="tablesorter table table-striped table-bordered table-hover table-condensed table-responsive">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" name="toutSelectionner" id="toutSelectionner" /></th>
+                            <td id="checkboxToutSelectionner"><input type="checkbox" name="toutSelectionner" id="toutSelectionner" /></td>
                             <th>UI</th>
                             <th>POI</th>
                             <th>DRE</th>
@@ -148,7 +148,7 @@
                             {
                                 ?>
                                 <tr class="ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?>">
-                                    <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" /></td>
+                                    <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
                                     <td><?php echo $poi->atr_ui ?></td>
                                     <td><?php echo $poi->ft_numero_oeie ?></td>
                                     <td><?php echo $poi->ft_oeie_dre ?></td>

@@ -1,10 +1,29 @@
 $(function(){
+    $(".checkPoi").change(function(){
+        if($(".checkPoi").length == $(".checkPoi:checked").length)
+            {
+                $("#toutSelectionner").prop("checked", true);
+            }
+        else{
+            $("#toutSelectionner").prop("checked", false);
+        }
+    });
+    
+    $("#toutSelectionner").change(function(){
+        if($(this).prop("checked"))
+            {
+                $(".checkPoi").prop("checked", true);
+            }
+        else{
+            $(".checkPoi").prop("checked", false);
+        }
+    });
 
     $("#tablePoi").tablesorter();
 
-    $("input:checkbox").prop("checked", true);
+    $(".checkboxFiltre").prop("checked", true);
 
-    $("input:checkbox").change(function(){
+    $(".checkboxFiltre").change(function(){
         var nbUiCoche = 0;
         $(".checkboxUi").each(function(){
             if($(this).prop("checked") == true)
@@ -188,7 +207,7 @@ $(function(){
  
     // $(".divFiltre").hide();
 
-    // $("input:checkbox").each(function(){
+    // $(".checkboxFiltre").each(function(){
     //     if($(this).prop("checked") == true)
     //     {
     //         $("." + $(this).attr("id")).show();
