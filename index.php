@@ -6,22 +6,16 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/style.css">
         <style>
-            #divSousJustifs{
-                display: none;
-            }
-            .divRadios{
-                text-align: center;
-                /*display: flex;
-                justify-content: space-around;*/
-            }
+
         </style>
     </head>
     <body>
+
         <?php
         include("API/fonctions.php");
         ?>
-        <div class="container">
-            <form class="jumbotron">
+        
+            <form class="intro-header">
                 <div class="form-group row divRadios" id="divUi">
                     <?php
                     $listeUis = json_decode(getUi());
@@ -32,7 +26,7 @@
                             $uiRplc = str_replace(" ", "_", $ui);
                             $uiRplc = str_replace("&", "_", $uiRplc);
                         ?>
-                            <div id="divUi-<?php echo $uiRplc ?>" class="col-lg-1">
+                            <div id="divUi-<?php echo $uiRplc ?>">
                             <span class="button-checkbox">
                             <button id="<?php echo $uiRplc ?>" name="<?php echo $uiRplc ?>" type="button" class="btn btn-xs" data-color="primary"><?php echo json_decode(getUiNameByUiTag($ui)); ?></button>
                             <input id="ui-<?php echo $uiRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxUi" checked />
@@ -43,7 +37,7 @@
                     }
                     ?>
                 </div>
-                <hr/>
+               
                 <div class="form-group row divRadios" id="divDomaines">
                     <?php
                     $listeDomaines = json_decode(getDomaines());
@@ -56,7 +50,7 @@
                             $listeUi = json_decode(getUiByDomaine($domaineRplc));
                             ?>
                             
-                            <div id="divDomaine-<?php echo $domaineRplc ?>" class="col-lg-1 divFiltre">
+                            <div id="divDomaine-<?php echo $domaineRplc ?>" class="divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $domaineRplc ?>" id="<?php echo $domaineRplc ?>"><?php echo $domaine ?></button>
                             <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxDomaine" checked />
@@ -67,7 +61,7 @@
                     }
                     ?>
                 </div>
-                <hr/>
+         
                 <div class="form-group row divRadios" id="divSousDomaines">
                     <?php
                     $listeSousDomaines = json_decode(getSousDomaines());
@@ -79,7 +73,7 @@
                             $sousDomaineRplc = str_replace("&", "_", $sousDomaineRplc);
                             ?>
                             
-                            <div id="divSousDomaine-<?php echo $sousDomaineRplc ?>" class="col-lg-1 divFiltre">
+                            <div id="divSousDomaine-<?php echo $sousDomaineRplc ?>" class="divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousDomaineRplc ?>" id="<?php echo $sousDomaineRplc ?>"><?php echo $sousDomaine ?></button>
                             <input id="sousDomaine-<?php echo $sousDomaineRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxSousDomaine" checked />
@@ -91,7 +85,6 @@
                     ?>
                 </div>
 
-                <hr/>
                 <div class="form-group row divRadios" id="divSousJustifs">
                     <?php
                     $listeSousJustifs = json_decode(getSousJustifs());
@@ -102,7 +95,7 @@
                             $sousJustifRplc = str_replace(" ", "_", $sousJustif);
                             $sousJustifRplc = str_replace("&", "_", $sousJustifRplc);
                             ?>
-                            <div id="divSousJustif-<?php echo $sousJustifRplc ?>" class="col-lg-1 divFiltre">
+                            <div id="divSousJustif-<?php echo $sousJustifRplc ?>" class="divFiltre col-lg-1">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousJustifRplc ?>" id="<?php echo $sousJustifRplc ?>"><?php echo $sousJustif ?></button>
                             <input id="sousJustification-<?php echo $sousJustifRplc ?>" type="checkbox" class="checkboxFiltre hidden filtre checkboxSJ" checked />
@@ -114,7 +107,7 @@
                     ?>
                 </div>
             </form>
-            </div>
+       
             <br/>
             <br/>
             <div id='tableau'>

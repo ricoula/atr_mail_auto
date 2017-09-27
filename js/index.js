@@ -44,6 +44,7 @@ $(function(){
      var getCheckedDomaine = [];
      var getCheckedSousDomaine = [];
      var getCheckedSJ = [];
+
      $(".checkboxUi").each(function(){
         if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
         {
@@ -200,6 +201,14 @@ $(function(){
     getCheckedUiJoined = getCheckedUi.join(",");
     getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
     getCheckedSJJoined = getCheckedSJ.join(",");  
+<<<<<<< HEAD
+=======
+    console.log(getCheckedUiJoined);
+   console.log(getCheckedDomaineJoined);
+   console.log(getCheckedSousDomaineJoined);
+   console.log(getCheckedSJJoined);
+   
+>>>>>>> 139b8bfe9d07187859e7a88810a9a874357b3d81
  
     // $(".divFiltre").hide();
 
