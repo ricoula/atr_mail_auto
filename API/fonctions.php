@@ -1,11 +1,12 @@
 <?php
 
-	function getAll(){
+	function getAll($limit){
 		include("connexionBdd.php");
 		include("global.php");
 		$poi_list = null;
 		$i = 0;
-		$req = $bdd->query($global. " LIMIT 100 OFFSET 0");
+		$req = $bdd->prepare($global. " LIMIT ? OFFSET 0");
+		$req->execute(array($limit));
 			while($data = $req->fetch()){
 				$poi_list[$i]['id'] = $data['id'];
 				$poi_list[$i]['atr_ui'] = $data['atr_ui'];
@@ -281,7 +282,7 @@
 		return json_encode($arbo);
 	}
 	
-	function getAllParams($listeUi, $listeDomaines, $listeSousDomaines, $listeSousJustifs)
+	function getAllParams($listeUi, $listeDomaines, $listeSousDomaines, $listeSousJustifs, $limit)
 	{
 		include("connexionBdd.php");
 		include("global.php");
@@ -301,8 +302,14 @@
 		{
 			$where = $where.' AND ft_sous_justification_oeie IN('.$listeSousJustifs.')';
 		}
-		
-		$req = $bdd->query("SELECT * FROM (".$global.") test ".$where." LIMIT 100 OFFSET 0");
+		if($limit != null)
+		{
+			$req = $bdd->prepare("SELECT * FROM (".$global.") test ".$where." LIMIT ? OFFSET 0");
+			$req->execute(array($limit));
+		}
+		else{
+			$req = $bdd->query("SELECT * FROM (".$global.") test ".$where);
+		}
 		while($data = $req->fetch())
 		{
 			$poi_list[$i]['id'] = $data['id'];

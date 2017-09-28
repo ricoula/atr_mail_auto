@@ -5,12 +5,18 @@
         <title>Mail</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/style.css">
+        <style>
+            #imageLoad{
+                text-align: center;
+                display: none;
+            }
+        </style>
     </head>
     <body>
 
         <?php
         include("API/fonctions.php");
-        $listePoi = json_decode(getAll());
+        /*$listePoi = json_decode(getAll(100));
         $toutesPoi = array();
         if($listePoi != null)
         {
@@ -20,7 +26,7 @@
             }
         }
         $toutesPoi = implode(",", $toutesPoi);
-        $listePoiRelance = json_decode(getListePoiRelances($toutesPoi));
+        $listePoiRelance = json_decode(getListePoiRelances($toutesPoi));*/
         ?>
         
             <form class="intro-header">
@@ -139,119 +145,21 @@
                 </div>
 
                 <div class="mailsearch">
-                    <select name="nb_lignre" id="nb_ligne" class="form-control" data-toggle="tooltip" title="Nombre de ligne à afficher">
+                    <!--<select name="nb_lignre" id="nb_ligne" class="form-control" data-toggle="tooltip" title="Nombre de ligne à afficher">
                         <option value="100">100</option>
                         <option value="200">200</option>
                         <option value="500">500</option>
-                        <option value="illimité">illimité</option>
-                    </select>
+                        <option value="illimite">illimité</option>
+                    </select>-->
                     <input type="search" placeholder="Recherche POI" class="form-control searchbar" data-toggle="tooltip" title="En cours de développement">
                     <button class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Push mail</button>
                 </div>
             </div>
-
+        
+            <div id="imageLoad">
+                <img src="img/loading.gif" />
+            </div>
             <div id='tableau'>
-                <table id="tablePoi" class="tablesorter table table-striped table-bordered table-hover table-condensed table-responsive">
-                        <thead>
-                            <tr>
-                                <td id="checkboxToutSelectionner"><input type="checkbox" name="toutSelectionner" id="toutSelectionner" /></td>
-                                <th>UI</th>
-                                <th>POI</th>
-                                <th>DRE</th>
-                                <th>Domaine</th>
-                                <th>Sous-Domaine</th>
-                                <th>PG</th>
-                                <th>Sous-Justif</th>
-                                <th>Commune</th>
-                                <th>Voie</th>
-                                <th>CAFF</th>
-                                <!-- <th>Email</th> -->
-                                <th>Mobile</th>
-                                <th>Commentaire</th>
-                                <th>Nb relances</th>
-                                <th>Dernière relance</th>
-                                <th>Expiration</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            if($listePoi != null)
-                            {
-                                foreach($listePoi as $poi)
-                                {
-                                    ?>
-                                    <tr id="poi-<?php echo $poi->id ?>" class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?>">
-                                        <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
-                                        <td><?php echo $poi->atr_ui ?></td>
-                                        <td><?php echo $poi->ft_numero_oeie ?></td>
-                                        <td><?php echo $poi->ft_oeie_dre ?></td>
-                                        <td><?php echo $poi->domaine ?></td>
-                                        <td><?php echo $poi->sous_domaine ?></td>
-                                        <td><?php echo $poi->ft_pg ?></td>
-                                        <td><?php echo $poi->ft_sous_justification_oeie ?></td>
-                                        <td><?php echo $poi->ft_libelle_commune ?></td>
-                                        <td><?php echo $poi->ft_libelle_de_voie ?></td>
-                                        <td><?php echo $poi->name_related ?></td>
-                                        <!-- <td><?php /*echo $poi->work_email*/ ?></td> -->
-                                        <td><?php echo $poi->mobile_phone ?></td>
-                                        <td><?php echo $poi->ft_commentaire_creation_oeie ?></td>
-                                            <?php 
-                                            if($listePoiRelance != null)
-                                            {
-                                                $contient = false;
-                                                foreach($listePoiRelance as $poiRelance)
-                                                {
-                                                    if(!$contient)
-                                                    {
-                                                        if($poi->id == $poiRelance->poi)
-                                                        {
-                                                            $contient = true;
-                                                            ?>
-                                                            <td><?php echo $poiRelance->nb_relances ?></td>
-                                                            <td><?php echo $poiRelance->date_derniere_relance ?></td>
-                                                            <td>
-                                                                <?php
-                                                                $dateAjd = new DateTime("now");
-                                                                $dateExpiration = date($poiRelance->date_expiration);
-                                                                if($dateExpiration < $dateAjd)
-                                                                {
-                                                                    ?>
-                                                                    <button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button>
-                                                                    <?php
-                                                                }
-                                                                else{
-                                                                    echo $poiRelance->date_expiration;
-                                                                }
-                                                                ?>
-                                                            </td>
-                                                            <?php
-                                                        }
-                                                    }
-                                                }
-                                                if(!$contient)
-                                                {
-                                                    ?>
-                                                    <td>0</td>
-                                                    <td></td>
-                                                    <td><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button></td>
-                                                    <?php
-                                                }
-                                            }
-                                            else{
-                                                ?>
-                                                <td>0</td>
-                                                <td></td>
-                                                <td><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button></td>
-                                                <?php
-                                            }
-                                            ?>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </tbody>
-                </table>
             </div>
         
         
