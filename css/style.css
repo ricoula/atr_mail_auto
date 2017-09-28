@@ -31,7 +31,10 @@ margin-top:3px;
     padding-top:10px;
     padding-bottom:10px;
 }
+.titre
+{
+    text-align:right;
+    font-size:22px;
+    color:white;
 
-#btnValiderFiltres{
-    text-align: center;
-}
+    margin-right:20px;
