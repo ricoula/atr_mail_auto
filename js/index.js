@@ -20,9 +20,9 @@ $(function(){
     });
     
     if(!$("#toutSelectionner").prop("checked"))
-                    {
-                        $("#toutSelectionner").click();
-                    }
+    {
+        $("#toutSelectionner").click();
+    }
 
     $("#tablePoi").tablesorter();
 
@@ -284,6 +284,16 @@ $(function(){
         });
     });
 });
+    
+    $(".checkboxDomaine, .checkboxUi").each(function(){
+        if($(this).is(":checked"))
+            {
+                $(this).click();
+            }
+        else{
+            console.log("pas cocher");
+        }
+    });
 
     $.post("API/getArbo.php", {}, function(data){
         var arbo = JSON.parse(data);

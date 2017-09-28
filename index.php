@@ -10,6 +10,17 @@
 
         <?php
         include("API/fonctions.php");
+        $listePoi = json_decode(getAll());
+        $toutesPoi = array();
+        if($listePoi != null)
+        {
+            foreach($listePoi as $poi)
+            {
+                array_push($toutesPoi, "'".$poi->id."'");
+            }
+        }
+        $toutesPoi = implode(",", $toutesPoi);
+        $listePoiRelance = json_decode(getListePoiRelances($toutesPoi));
         ?>
         
             <form class="intro-header">
@@ -26,7 +37,7 @@
                             <div id="divUi-<?php echo $uiRplc ?>">
                             <span class="button-checkbox">
                             <button id="<?php echo $uiRplc ?>" name="<?php echo $uiRplc ?>" type="button" class="btn btn-xs" data-color="primary"><?php echo json_decode(getUiNameByUiTag($ui)); ?></button>
-                            <input id="ui-<?php echo $uiRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxUi" checked />
+                            <input id="ui-<?php echo $uiRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxUi" />
                             </span>
                             </div>
                         <?php
@@ -50,7 +61,7 @@
                             <div id="divDomaine-<?php echo $domaineRplc ?>" class="divFiltre">
                             <span class="button-checkbox">
                             <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $domaineRplc ?>" id="<?php echo $domaineRplc ?>"><?php echo $domaine ?></button>
-                            <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxDomaine" checked />
+                            <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxDomaine" />
                              </span>
                             </div>
                             <?php
@@ -133,13 +144,12 @@
                         </thead>
                         <tbody>
                             <?php
-                            $listePoi = json_decode(getAll());
                             if($listePoi != null)
                             {
                                 foreach($listePoi as $poi)
                                 {
                                     ?>
-                                    <tr class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?>">
+                                    <tr id="poi-<?php echo $poi->id ?>" class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?>">
                                         <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
                                         <td><?php echo $poi->atr_ui ?></td>
                                         <td><?php echo $poi->ft_numero_oeie ?></td>
@@ -154,9 +164,56 @@
                                         <!-- <td><?php /*echo $poi->work_email*/ ?></td> -->
                                         <td><?php echo $poi->mobile_phone ?></td>
                                         <td><?php echo $poi->ft_commentaire_creation_oeie ?></td>
-                                        <td>Test</td>
-                                        <td>Test</td>
-                                        <td>Test</td>
+                                            <?php 
+                                            if($listePoiRelance != null)
+                                            {
+                                                $contient = false;
+                                                foreach($listePoiRelance as $poiRelance)
+                                                {
+                                                    if(!$contient)
+                                                    {
+                                                        if($poi->id == $poiRelance->poi)
+                                                        {
+                                                            $contient = true;
+                                                            ?>
+                                                            <td><?php echo $poiRelance->nb_relances ?></td>
+                                                            <td><?php echo $poiRelance->date_derniere_relance ?></td>
+                                                            <td>
+                                                                <?php
+                                                                $dateAjd = new DateTime("now");
+                                                                $dateExpiration = date($poiRelance->date_expiration);
+                                                                if($dateExpiration < $dateAjd)
+                                                                {
+                                                                    ?>
+                                                                    <button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button>
+                                                                    <?php
+                                                                }
+                                                                else{
+                                                                    echo $poiRelance->date_expiration;
+                                                                }
+                                                                ?>
+                                                            </td>
+                                                            <?php
+                                                        }
+                                                    }
+                                                }
+                                                if(!$contient)
+                                                {
+                                                    ?>
+                                                    <td>0</td>
+                                                    <td></td>
+                                                    <td><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button></td>
+                                                    <?php
+                                                }
+                                            }
+                                            else{
+                                                ?>
+                                                <td>0</td>
+                                                <td></td>
+                                                <td><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button></td>
+                                                <?php
+                                            }
+                                            ?>
                                     </tr>
                                     <?php
                                 }
