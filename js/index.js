@@ -18,6 +18,11 @@ $(function(){
             $(".checkPoi").prop("checked", false);
         }
     });
+    
+    if(!$("#toutSelectionner").prop("checked"))
+                    {
+                        $("#toutSelectionner").click();
+                    }
 
     $("#tablePoi").tablesorter();
 

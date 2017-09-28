@@ -57,9 +57,31 @@
                     ?>
                 </tbody>
         </table>
-        <script src="js/index.js"></script>
+        <!--<script src="js/index.js"></script>-->
         <script>
             $(function(){
+                $(".checkPoi").change(function(){
+        if($(".checkPoi").length == $(".checkPoi:checked").length)
+            {
+                $("#toutSelectionner").prop("checked", true);
+            }
+        else{
+            $("#toutSelectionner").prop("checked", false);
+        }
+    });
+    
+    $("#toutSelectionner").change(function(){
+        if($(this).prop("checked"))
+            {
+                $(".checkPoi").prop("checked", true);
+            }
+        else{
+            $(".checkPoi").prop("checked", false);
+        }
+    });
+
+    $("#tablePoi").tablesorter();
+                
                 if(!$("#toutSelectionner").prop("checked"))
                     {
                         $("#toutSelectionner").click();
