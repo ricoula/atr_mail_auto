@@ -280,4 +280,47 @@
 		}
 		return json_encode($arbo);
 	}
+	
+	function getAllParams($listeUi, $listeDomaines, $listeSousDomaines, $listeSousJustifs)
+	{
+		include("connexionBdd.php");
+		include("global.php");
+		$poi_list = null;
+		$i = 0;
+		
+		$where = 'WHERE atr_ui IN('.$listeUi.')';
+		if($listeDomaines != null)
+		{
+			$where = $where.' AND domaine IN('.$listeDomaines.')';
+		}
+		if($listeSousDomaines != null)
+		{
+			$where = $where.' AND sous_domaine IN('.$listeSousDomaines.')';
+		}
+		if($listeSousJustifs != null)
+		{
+			$where = $where.' AND ft_sous_justification_oeie IN('.$listeSousJustifs.')';
+		}
+		
+		$req = $bdd->query("SELECT * FROM (".$global.") test ".$where." LIMIT 100 OFFSET 0");
+		while($data = $req->fetch())
+		{
+			$poi_list[$i]['id'] = $data['id'];
+			$poi_list[$i]['atr_ui'] = $data['atr_ui'];
+			$poi_list[$i]['ft_numero_oeie'] = $data['ft_numero_oeie'];
+			$poi_list[$i]['ft_oeie_dre'] = $data['ft_oeie_dre'];
+			$poi_list[$i]['domaine'] = $data['domaine'];
+			$poi_list[$i]['sous_domaine'] = $data['sous_domaine'];
+			$poi_list[$i]['ft_pg'] = $data['ft_pg'];
+			$poi_list[$i]['ft_sous_justification_oeie'] = $data['ft_sous_justification_oeie'];
+			$poi_list[$i]['ft_libelle_commune'] = $data['ft_libelle_commune'];
+			$poi_list[$i]['ft_libelle_de_voie'] = $data['ft_libelle_de_voie'];
+			$poi_list[$i]['name_related'] = $data['name_related'];
+			$poi_list[$i]['work_email'] = $data['work_email'];
+			$poi_list[$i]['mobile_phone'] = $data['mobile_phone'];
+			$poi_list[$i]['ft_commentaire_creation_oeie'] = $data['ft_commentaire_creation_oeie'];
+			$i++;
+		}
+		return json_encode($poi_list);
+	}
 ?>
