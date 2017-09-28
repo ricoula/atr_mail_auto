@@ -323,4 +323,124 @@
 		}
 		return json_encode($poi_list);
 	}
+	
+	function envoyerMails($listePoi, $listeMails) //$listePoi = JSON, $listeMails = implode avec ', ' entre chaque valeur
+	{
+		include("connexionBddRelance.php");
+		
+		try{
+			$reponse = false;
+			if($listePoi != null)
+			{
+				$listePoi = json_decode($listePoi);
+				foreach($listePoi as $poi)
+				{
+					$idPoi = null;
+					
+					$req = $bdd->prepare("SELECT id FROM relance WHERE poi = ?");
+					$req->execute(array($poi));
+					if(!$data = $req->fetch())
+					{
+						$req2 = $bdd->prepare("INSERT INTO relance(poi) VALUES(?) RETURNING id");
+						$req2->execute(array($poi));
+						if($data2 = $req2->fetch())
+						{
+							$idPoi = $data2["id"];
+						}
+					}
+					else{
+						$idPoi = $data["id"];
+					}
+					if($idPoi != null)
+					{
+						$req = $bdd->prepare("UPDATE relance SET nb_relances = nb_relances + 1, date_derniere_relance = NOW(), date_expiration = 	date 'NOW()' + integer '15' WHERE id = ?");
+						$reponse = $req->execute(array($idPoi));
+					}
+				}
+				
+				if($reponse)
+				{
+					$headers = "";
+					//$headers .= "From: " . strip_tags($_POST['req-email']) . "\r\n";
+					//$headers .= "Reply-To: ". strip_tags($_POST['req-email']) . "\r\n";
+					//$headers .= "CC: susan@example.com\r\n";
+					$headers .= "MIME-Version: 1.0\r\n";
+					$headers .= "Content-Type: text/html; charset=utf-8\r\n";
+					$envoiMail = mail($listeMails, "sujet", "message", $headers);
+				}
+				
+			}
+		}
+		catch(Exception $e){
+			$reponse = false;
+		}
+		return json_encode($reponse);
+	}
+	
+	function getListePoiRelances($toutesPoi)
+	{
+		include("connexionBddRelance.php");
+		
+		$listePoi = null;
+		$i = 0;
+		$req = $bdd->query("SELECT * FROM relance WHERE poi IN(".$toutesPoi.")");
+		while($data = $req->fetch())
+		{
+			$listePoi[$i]["id"] = $data["id"];
+			$listePoi[$i]["poi"] = $data["poi"];
+			$listePoi[$i]["nb_relances"] = $data["nb_relances"];
+			$listePoi[$i]["date_derniere_relance"] = $data["date_derniere_relance"];
+			$listePoi[$i]["date_expiration"] = $data["date_expiration"];
+			$i++;
+		}
+		return json_encode($listePoi);
+	}
+	
+	function modifierDate($date) //retourne JJ-MM-AAAA
+	{
+		$jour = substr($date, 8, 2);
+		$mois = substr($date, 5, 2);
+		$annee = substr($date, 0, 4);
+		$date = $jour."/".$mois."/".$annee;
+		return json_encode($date);
+	}
+	
+	function validerPoi($idPoi)
+	{
+		include("connexionBddRelance.php");
+		
+		$poi = null;
+		
+		$req = $bdd->prepare("SELECT date_expiration FROM relance WHERE poi = ?");
+		$req->execute(array($idPoi));
+		if(!$data = $req->fetch())
+		{
+			$req2 = $bdd->prepare("INSERT INTO relance(poi, date_expiration) VALUES(?, NOW())");
+			$req2->execute(array($idPoi));
+		}
+		else{
+			if($data["date_expiration"] == null)
+			{
+				$req2 = $bdd->prepare("UPDATE relance SET date_expiration = NOW() WHERE poi = ?");
+				$req2->execute(array($idPoi));
+			}
+		}
+		
+		$req = $bdd->prepare("UPDATE relance SET date_expiration = date_expiration + integer '15' WHERE poi = ?");
+		$reponse = $req->execute(array($idPoi));
+		if($reponse)
+		{
+			$req2 = $bdd->prepare("SELECT * FROM relance WHERE poi = ?");
+			$req2->execute(array($idPoi));
+			if($data2 = $req2->fetch())
+			{
+				$poi["id"] = $data2["id"];
+				$poi["poi"] = $data2["poi"];
+				$poi["nb_relances"] = $data2["nb_relances"];
+				$poi["date_derniere_relance"] = $data2["date_derniere_relance"];
+				$poi["date_expiration"] = $data2["date_expiration"];
+			}
+		}
+		return json_encode($poi);
+	}
 ?>

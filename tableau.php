@@ -1,6 +1,25 @@
 <?php
     if(isset($_POST["liste_poi"]) && $_POST["liste_poi"] != 'null')
     {
+        include("API/fonctions.php");
+        $listePoi = json_decode($_POST["liste_poi"]);
+        $toutesPoi = array();
+        if($listePoi != null)
+        {
+            foreach($listePoi as $poi)
+            {
+                array_push($toutesPoi, "'".$poi->id."'");
+            }
+        }
+        $toutesPoi = implode(",", $toutesPoi);
+        if($toutesPoi != null && $toutesPoi != "")
+        {
+            $listePoiRelance = json_decode(getListePoiRelances($toutesPoi));
+        }
+        else{
+            $listePoiRelance = null;
+        }
+        
         ?>
         <table id="tablePoi" class="tablesorter table table-striped table-bordered table-hover table-condensed table-responsive">
                 <thead>
@@ -26,13 +45,12 @@
                 </thead>
                 <tbody>
                     <?php
-                    $listePoi = json_decode($_POST["liste_poi"]);
                     if($listePoi != null)
                     {
                         foreach($listePoi as $poi)
                         {
                             ?>
-                            <tr class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?>">
+                            <tr id="poi-<?php echo $poi->id ?>" class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?>">
                                 <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
                                 <td><?php echo $poi->atr_ui ?></td>
                                 <td><?php echo $poi->ft_numero_oeie ?></td>
@@ -47,9 +65,59 @@
                                 <!-- <td><?php /*echo $poi->work_email*/ ?></td> -->
                                 <td><?php echo $poi->mobile_phone ?></td>
                                 <td><?php echo $poi->ft_commentaire_creation_oeie ?></td>
-                                <td>Test</td>
-                                <td>Test</td>
-                                <td>Test</td>
+                                <?php 
+                                            if($listePoiRelance != null)
+                                            {
+                                                $contient = false;
+                                                foreach($listePoiRelance as $poiRelance)
+                                                {
+                                                    if(!$contient)
+                                                    {
+                                                        if($poi->id == $poiRelance->poi)
+                                                        {
+                                                            $contient = true;
+                                                            ?>
+                                                            <td class="colonneNbRelances"><?php echo $poiRelance->nb_relances ?></td>
+                                                            <td class="colonneDateDernierEnvoi"><?php echo json_decode(modifierDate($poiRelance->date_derniere_relance)) ?></td>
+                                                            <td class="colonneDateExpiration">
+                                                                <?php
+                                                                $dateAjd = new DateTime("now");
+                                                                $dateAjd = $dateAjd->format('Y-m-d H:i:s');
+                                                                $dateAjd = strtotime($dateAjd);
+                                                            
+                                                                $dateExpiration = strtotime($poiRelance->date_expiration);
+                                                                if($dateExpiration < $dateAjd)
+                                                                {
+                                                                    ?>
+                                                                    <button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button>
+                                                                    <?php
+                                                                }
+                                                                else{
+                                                                    echo json_decode(modifierDate($poiRelance->date_expiration));
+                                                                }
+                                                                ?>
+                                                            </td>
+                                                            <?php
+                                                        }
+                                                    }
+                                                }
+                                                if(!$contient)
+                                                {
+                                                    ?>
+                                                    <td class="colonneNbRelances">0</td>
+                                                    <td class="colonneDateDernierEnvoi"></td>
+                                                    <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button></td>
+                                                    <?php
+                                                }
+                                            }
+                                            else{
+                                                ?>
+                                                <td class="colonneNbRelances">0</td>
+                                                <td class="colonneDateDernierEnvoi"></td>
+                                                <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button></td>
+                                                <?php
+                                            }
+                                            ?>
                             </tr>
                             <?php
                         }
@@ -87,6 +155,18 @@
                         $("#toutSelectionner").click();
                     }
             });
+            
+        $(".validerPoi").click(function(){
+            $(this).prop("disabled", true);
+            var idPoi = $(this).attr("id").split("-")[1];
+            $.post("API/validerPoi.php", {poi_id: idPoi}, function(data){
+                $(this).prop("disabled", true);
+                var poi = JSON.parse(data);
+                $("#poi-" + idPoi).children(".colonneNbRelances").text(poi.nb_relances);
+                $("#poi-" + idPoi).children(".colonneDateDernierEnvoi").text(poi.date_derniere_relance);
+                $("#poi-" + idPoi).children(".colonneDateExpiration").text(poi.date_expiration);
+            });
+        });
         </script>
         <?php
     }
