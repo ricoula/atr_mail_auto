@@ -78,7 +78,7 @@
                                                             $contient = true;
                                                             ?>
                                                             <td class="colonneNbRelances"><?php echo $poiRelance->nb_relances ?></td>
-                                                            <td class="colonneDateDernierEnvoi"><?php echo json_decode(modifierDate($poiRelance->date_derniere_relance)) ?></td>
+                                                            <td class="colonneDateDernierEnvoi"><?php echo $poiRelance->date_derniere_relance ?></td>
                                                             <td class="colonneDateExpiration">
                                                                 <?php
                                                                 $dateAjd = new DateTime("now");
@@ -93,7 +93,7 @@
                                                                     <?php
                                                                 }
                                                                 else{
-                                                                    echo json_decode(modifierDate($poiRelance->date_expiration));
+                                                                    echo $poiRelance->date_expiration;
                                                                 }
                                                                 ?>
                                                             </td>

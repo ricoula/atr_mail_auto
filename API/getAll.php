@@ -1,5 +1,5 @@
 <?php
 require_once("fonctions.php");
 
-echo getAll();
+echo getAll($_POST["limit"]);
 ?>
