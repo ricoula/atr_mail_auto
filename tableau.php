@@ -50,7 +50,30 @@
                         foreach($listePoi as $poi)
                         {
                             ?>
-                            <tr id="poi-<?php echo $poi->id ?>" class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?>">
+                    
+                            <tr id="poi-<?php echo $poi->id ?>" class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?> 
+                               <?php  
+                                $dateAjd = strtotime("+7 day");
+                            
+                                $dateDre = strtotime($poi->ft_oeie_dre);
+                            
+                                if($dateAjd < $dateDre)
+                                {
+                                    echo "success";
+                                }
+                                else{
+                                    $poiRelance = json_decode(getPoiRelanceById($poi->id));
+                                    $dateExpiration = strtotime($poiRelance->date_expiration);
+                                    if($dateExpiration < $dateAjd)
+                                    {
+                                        echo "info";
+                                    }
+                                    else{
+                                        
+                                    }
+                                }
+                               ?>
+                               ">
                                 <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
                                 <td><?php echo $poi->atr_ui ?></td>
                                 <td><?php echo $poi->ft_numero_oeie ?></td>

@@ -269,6 +269,7 @@ $(function(){
             $("#divSousJustifs .checkboxFiltre:checked").each(function(){
                 getCheckedSJ.push("'" + $(this).parent().children("button").text().slice(1) + "'");
             });
+            getCheckedSJ.push("'Pas de SJ'");
         }
         
     getCheckedUiJoined = getCheckedUi.join(",");
