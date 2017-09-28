@@ -105,7 +105,7 @@
                     }
                     ?>
                 </div>
-                <button id="btnValiderFiltres" class="btn btn-info">Valider filtres</button>
+                <!--<button id="btnValiderFiltres" class="btn btn-info">Valider filtres</button>-->
             </form>
        
             <br/>
