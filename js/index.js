@@ -38,11 +38,11 @@ $(function(){
         });
         if(nbUiCoche == 1)
         {
-            $("#divSousJustifs").show();
+            $("#divSousJustifs").slideDown();
         }
         else
         {
-            $("#divSousJustifs").hide();
+            $("#divSousJustifs").slideUp();
         }
         
      var getCheckedUi = [];
@@ -335,4 +335,9 @@ $(function(){
             });
         }
     });
+
+
+        $('[data-toggle="tooltip"]').tooltip(); 
+
+
 });

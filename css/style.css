@@ -31,7 +31,32 @@ margin-top:3px;
     padding-top:10px;
     padding-bottom:10px;
 }
+.titre
+{
+    text-align:right;
+    font-size:22px;
+    color:white;
 
-#btnValiderFiltres{
-    text-align: center;
+    margin-right:20px;
+}
+.filtre_sec
+{
+    display:flex;
+    justify-content:space-between;
+    margin-left:20px;
+    margin-top:20px;
+    margin-right:20px;
+    margin-bottom:20px;
+}
+.mailsearch
+{
+    display:flex;
+}
+.mailsearch input,.mailsearch select
+{
+    margin-right:20px;
+}
+#nb_ligne
+{
+    width:90px;
 }

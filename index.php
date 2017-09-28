@@ -24,7 +24,9 @@
         ?>
         
             <form class="intro-header">
+            <h1 class="titre">Unité d'intervention</h1>
                 <div class="form-group row divRadios" id="divUi">
+                
                     <?php
                     $listeUis = json_decode(getUi());
                     if($listeUis != null)
@@ -45,7 +47,7 @@
                     }
                     ?>
                 </div>
-               
+                <h1 class="titre">Domaine</h1>
                 <div class="form-group row divRadios" id="divDomaines">
                     <?php
                     $listeDomaines = json_decode(getDomaines());
@@ -69,7 +71,7 @@
                     }
                     ?>
                 </div>
-         
+                <h1 class="titre">Sous domaine</h1>
                 <div class="form-group row divRadios" id="divSousDomaines">
                     <?php
                     $listeSousDomaines = json_decode(getSousDomaines());
@@ -92,7 +94,7 @@
                     }
                     ?>
                 </div>
-
+                <h1 class="titre">Sous justification</h1>
                 <div class="form-group row divRadios" id="divSousJustifs">
                     <?php
                     $listeSousJustifs = json_decode(getSousJustifs());
@@ -116,9 +118,38 @@
                 </div>
                 <!--<button id="btnValiderFiltres" class="btn btn-info">Valider filtres</button>-->
             </form>
-       
-            <br/>
-            <br/>
+            <div class="filtre_sec">
+                <div>
+                <span class="button-checkbox">
+                    <button type="button" class="btn" data-color="danger">Retard</button>
+                    <input type="checkbox" class="hidden" checked />
+                </span>
+                <span class="button-checkbox">
+                    <button type="button" class="btn" data-color="warning">Attente ATR</button>
+                    <input type="checkbox" class="hidden" checked />
+                </span>
+                <span class="button-checkbox">
+                    <button type="button" class="btn" data-color="info">Attente Orange</button>
+                    <input type="checkbox" class="hidden" checked />
+                </span>
+                <span class="button-checkbox">
+                    <button type="button" class="btn" data-color="success">En cours</button>
+                    <input type="checkbox" class="hidden" checked />
+                </span>
+                </div>
+
+                <div class="mailsearch">
+                    <select name="nb_lignre" id="nb_ligne" class="form-control" data-toggle="tooltip" title="Nombre de ligne à afficher">
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="500">500</option>
+                        <option value="illimité">illimité</option>
+                    </select>
+                    <input type="search" placeholder="Recherche POI" class="form-control searchbar" data-toggle="tooltip" title="En cours de développement">
+                    <button class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Push mail</button>
+                </div>
+            </div>
+
             <div id='tableau'>
                 <table id="tablePoi" class="tablesorter table table-striped table-bordered table-hover table-condensed table-responsive">
                         <thead>
