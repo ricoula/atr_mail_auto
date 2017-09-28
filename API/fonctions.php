@@ -389,8 +389,21 @@
 			$listePoi[$i]["id"] = $data["id"];
 			$listePoi[$i]["poi"] = $data["poi"];
 			$listePoi[$i]["nb_relances"] = $data["nb_relances"];
-			$listePoi[$i]["date_derniere_relance"] = $data["date_derniere_relance"];
-			$listePoi[$i]["date_expiration"] = $data["date_expiration"];
+			if($data["date_derniere_relance"] != null)
+				{
+					$listePoi[$i]["date_derniere_relance"] = date("d/m/Y", strtotime($data["date_derniere_relance"]));
+				}
+				else{
+					$listePoi[$i]["date_derniere_relance"] = null;
+				}
+				
+				if($data["date_expiration"] != null)
+				{
+					$listePoi[$i]["date_expiration"] = date("d/m/Y", strtotime($data["date_expiration"]));
+				}
+				else{
+					$listePoi[$i]["date_expiration"] = null;
+				}
 			$i++;
 		}
 		return json_encode($listePoi);
@@ -437,8 +450,21 @@
 				$poi["id"] = $data2["id"];
 				$poi["poi"] = $data2["poi"];
 				$poi["nb_relances"] = $data2["nb_relances"];
-				$poi["date_derniere_relance"] = $data2["date_derniere_relance"];
-				$poi["date_expiration"] = $data2["date_expiration"];
+				if($data2["date_derniere_relance"] != null)
+				{
+					$poi["date_derniere_relance"] = date("d/m/Y", strtotime($data2["date_derniere_relance"]));
+				}
+				else{
+					$poi["date_derniere_relance"] = null;
+				}
+				
+				if($data2["date_expiration"] != null)
+				{
+					$poi["date_expiration"] = date("d/m/Y", strtotime($data2["date_expiration"]));
+				}
+				else{
+					$poi["date_expiration"] = null;
+				}
 			}
 		}
 		return json_encode($poi);
