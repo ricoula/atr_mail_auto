@@ -346,15 +346,32 @@
 		return json_encode($poi_list);
 	}
 	
-	function envoyerMails($listePoi, $listeMails) //$listePoi = JSON, $listeMails = implode avec ', ' entre chaque valeur
+	function envoyerMails($liste) //$listePoi = JSON, $listeMails = implode avec ', ' entre chaque valeur
 	{
 		include("connexionBddRelance.php");
 		
 		try{
 			$reponse = false;
-			if($listePoi != null)
+			if($liste != null)
 			{
-				$listePoi = json_decode($listePoi);
+				$liste = json_decode($liste);
+				$listePoi = array();
+				$contenuHtml = "";
+				if($liste != null)
+				{
+					foreach($liste as $caff)
+					{
+						
+						if($caff->listePois != null)
+						{
+							foreach($caff->listePois as $poi)
+							{
+								
+								array_push($listePoi, $poi->id);
+							}
+						}
+					}
+				}
 				foreach($listePoi as $poi)
 				{
 					$idPoi = null;
@@ -380,6 +397,8 @@
 					}
 				}
 				
+				
+				
 				if($reponse)
 				{
 					
@@ -389,7 +408,25 @@
 					//$headers .= "CC: susan@example.com\r\n";
 					$headers .= "MIME-Version: 1.0\r\n";
 					$headers .= "Content-Type: text/html; charset=utf-8\r\n";
-					$envoiMail = mail($listeMails, "sujet", "message", $headers);
+					
+					if($liste != null)
+					{
+						foreach($liste as $caff)
+						{
+							$contenuHtml = "";
+							$contenuHtml = $contenuHtml."<table><thead><tr><th>UI</th><th>POI</th><th>DRE</th><th>Domaine</th><th>Sous-Domaine</th><th>Pg</th><th>Commune</th><th>Voie</th><th>Commentaire</th></tr></thead><tbody>";
+							
+							if($caff->listePois != null)
+							{
+								foreach($caff->listePois as $poi)
+								{
+									$contenuHtml = $contenuHtml."<tr><td>".$poi->atr_ui ."</td><td>".$poi->ft_numero_oeie ."</td><td>".$poi->ft_oeie_dre ."</td><td>".$poi->domaine ."</td><td>".$poi->sous_domaine ."</td><td>".$poi->ft_pg ."</td><td>".$poi->ft_sous_justification_oeie ."</td><td>".$poi->ft_libelle_commune ."</td><td>".$poi->ft_libelle_de_voie ."</td><td>".$poi->ft_commentaire_creation_oeie ."</td></tr>";
+								}
+							}
+							$contenuHtml = $contenuHtml."</tbody></table><br/><br/>";
+							$envoiMail = mail("cyril.ricou@ambitiontelecom.com", "Test", $contenuHtml, $headers);
+						}
+					}
 				}
 				
 			}

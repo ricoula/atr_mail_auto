@@ -121,6 +121,7 @@
                                 }*/
                                ?>
                                ">
+                                <td class="colonneObjetPoi" style="display: none"><?php echo json_encode($poi) ?></td>
                                 <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
                                 <td><?php echo $poi->atr_ui ?></td>
                                 <td><?php echo $poi->ft_numero_oeie ?></td>
@@ -204,6 +205,8 @@
                 </tbody>
         </table>
 
+        <div id="objetJson" style="display: none"></div>
+
         <div class="modal" id="mailModal">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -217,7 +220,7 @@
               <div class="modal-footer">
                  
                 <button class="btn btn-info" data-dismiss="modal">Fermer</button>
-                <button class="btn btn-success">Push mail</button>
+                <button class="btn btn-success" id="pushMailReal">Push mail</button>
               </div>
             </div>
           </div>
@@ -225,6 +228,7 @@
 
         <script>
             $(function(){
+                $(".checkPoi").prop("checked", true);
                 
                 $(".checkPoi").change(function(){
         if($(".checkPoi").length == $(".checkPoi:checked").length)
@@ -241,11 +245,11 @@
     $("#toutSelectionner").change(function(){
         if($(this).prop("checked"))
             {
-                $(".checkPoi").prop("checked", true);
+                $(".checkPoi:visible").prop("checked", true);
                 $("#badge-push-mail").html($(".checkPoi:checked").length);
             }
         else{
-            $(".checkPoi").prop("checked", false);
+            $(".checkPoi:visible").prop("checked", false);
             $("#badge-push-mail").html($(".checkPoi:checked").length);
         }
     });
@@ -335,23 +339,25 @@
                         $("#" + valeur).prop("checked", false);
                         elt.removeClass().addClass("btn btn-default");
                         $("tbody ." + valeur).hide();
-                        $("tbody ." + valeur).children(".checkPoi").prop("checked", false);
+                        $("tbody ." + valeur).children("td").children(".checkPoi").prop("checked", false);
+                        $("#badge-push-mail").html($(".checkPoi:checked").length);
                     }
                 else{
                     $("#" + valeur).prop("checked", true);
                     elt.removeClass().addClass("btn btn-" + valeur);
                     $("tbody ." + valeur).show();
-                    $("tbody ." + valeur).children(".checkPoi").prop("checked", true);
+                    $("tbody ." + valeur).children("td").children(".checkPoi").prop("checked", true);
+                    $("#badge-push-mail").html($(".checkPoi:checked").length);
                 }
             });
             });
                 
             $("#pushMail").click(function(){
-                listeCaffPoi = new Object();
+                var listeCaffPoi = new Object();
                 var listeCaffs = [];
                 $(".checkPoi:checked").each(function(){
                     var ligne = $(this).closest("tr");
-                    var idPoi = ligne.attr("id").split("-")[1];
+                    var poi = JSON.parse(ligne.children(".colonneObjetPoi").text());
                     var email = ligne.children(".colonneEmail").text();
                     var caff = ligne.children(".colonneCaff").text();
                     if(listeCaffs.indexOf(caff) == -1)
@@ -362,7 +368,11 @@
                             listeCaffPoi[caff].nom = caff;
                             listeCaffPoi[caff].listePois = [];
                         }
-                    listeCaffPoi[caff].listePois.push(idPoi);
+                    listeCaffPoi[caff].listePois.push(poi);
+                    
+                });
+                $("#objetJson").text(JSON.stringify(listeCaffPoi));
+           
                 });
               $("#bodymail").html("");
                 for(var caff in listeCaffPoi)
@@ -384,6 +394,11 @@
             // {
             //     console.log(caff.nom);
             // }
+            });
+            $("#pushMailReal").click(function(){
+
+                $.post("API/envoyerMails.php", {liste: $("#objetJson").text()}, function(data){
+                    console.log(data);
             });
             
             $("#imageChargement").hide();
