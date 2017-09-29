@@ -121,6 +121,7 @@
                                 }*/
                                ?>
                                ">
+                                <td class="colonneObjetPoi" style="display: none"><?php echo json_encode($poi) ?></td>
                                 <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
                                 <td><?php echo $poi->atr_ui ?></td>
                                 <td><?php echo $poi->ft_numero_oeie ?></td>
@@ -335,7 +336,7 @@
                 var listeCaffs = [];
                 $(".checkPoi:checked").each(function(){
                     var ligne = $(this).closest("tr");
-                    var idPoi = ligne.attr("id").split("-")[1];
+                    var poi = JSON.parse(ligne.children(".colonneObjetPoi").text());
                     var email = ligne.children(".colonneEmail").text();
                     var caff = ligne.children(".colonneCaff").text();
                     if(listeCaffs.indexOf(caff) == -1)
@@ -343,12 +344,15 @@
                             listeCaffs.push(caff);
                             listeCaffPoi[caff] = new Object();
                             listeCaffPoi[caff].email = email;
+                            listeCaffPoi[caff].nom = caff;
                             listeCaffPoi[caff].listePois = [];
                         }
-                    listeCaffPoi[caff].listePois.push(idPoi);
+                    listeCaffPoi[caff].listePois.push(poi);
                 });
                 
-                console.log(listeCaffPoi);
+                $.post("API/envoyerMails.php", {liste: JSON.stringify(listeCaffPoi)}, function(data){
+                    console.log(data);
+                });
             });
             
             $("#imageChargement").hide();
