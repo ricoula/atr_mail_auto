@@ -131,8 +131,8 @@
                                 <td><?php echo $poi->ft_sous_justification_oeie ?></td>
                                 <td><?php echo $poi->ft_libelle_commune ?></td>
                                 <td><?php echo $poi->ft_libelle_de_voie ?></td>
-                                <td><?php echo $poi->name_related ?></td>
-                                <!-- <td><?php /*echo $poi->work_email*/ ?></td> -->
+                                <td class="colonneCaff"><?php echo $poi->name_related ?></td>
+                                <td class="colonneEmail" style="display: none"><?php echo $poi->work_email ?></td>
                                 <td><?php echo $poi->mobile_phone ?></td>
                                 <td><?php echo $poi->ft_commentaire_creation_oeie ?></td>
                                 <?php 
@@ -316,17 +316,35 @@
                         $("#" + valeur).prop("checked", false);
                         elt.removeClass().addClass("btn btn-default");
                         $("tbody ." + valeur).hide();
+                        $("tbody ." + valeur).children(".checkPoi").prop("checked", false);
                     }
                 else{
                     $("#" + valeur).prop("checked", true);
                     elt.removeClass().addClass("btn btn-" + valeur);
                     $("tbody ." + valeur).show();
+                    $("tbody ." + valeur).children(".checkPoi").prop("checked", true);
                 }
             });
             });
                 
             $("#pushMail").click(function(){
-                
+                var listeCaffPoi = new Object();
+                var listeCaffs = [];
+                $(".checkPoi:checked").each(function(){
+                    var ligne = $(this).closest("tr");
+                    var idPoi = ligne.attr("id").split("-")[1];
+                    var email = ligne.children(".colonneEmail").text();
+                    var caff = ligne.children(".colonneCaff").text();
+                    if(listeCaffs.indexOf(caff) == -1)
+                        {
+                            listeCaffs.push(caff);
+                            listeCaffPoi[caff] = new Object();
+                            listeCaffPoi[caff].email = email;
+                            listeCaffPoi[caff].listePois = [];
+                        }
+                    listeCaffPoi[caff].listePois.push(idPoi);
+                });
+                console.log(listeCaffPoi);
             });
             
             $("#imageChargement").hide();
