@@ -155,8 +155,16 @@
                                                                 $dateAjd = new DateTime("now");
                                                                 $dateAjd = $dateAjd->format('Y-m-d H:i:s');
                                                                 $dateAjd = strtotime($dateAjd);
-                                                            
-                                                                $dateExpiration = strtotime($poiRelance->date_expiration);
+                                                                
+                                                                $dateExpiration = explode("/", $poiRelance->date_expiration);
+                                                                if(sizeof($dateExpiration) == 3)
+                                                                {
+                                                                    $dateExpiration = $dateExpiration[2]."-".$dateExpiration[1]."-".$dateExpiration[0];
+                                                                    $dateExpiration = strtotime($dateExpiration);
+                                                                }
+                                                                else{
+                                                                    $dateExpiration = 0;
+                                                                }
                                                                 if($dateExpiration < $dateAjd)
                                                                 {
                                                                     ?>
