@@ -61,7 +61,11 @@ margin-top:3px;
 {
     width:90px;
 }
-th
+#th-mobile
 {
-    text-align:center;
+    width:105px;
+}
+.eltTr
+{
+    border-bottom:2px solid #ffffff;
 }

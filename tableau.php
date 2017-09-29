@@ -53,7 +53,7 @@
                         <option value="illimite">illimité</option>
                     </select>-->
                     <input type="search" placeholder="Recherche POI" class="form-control searchbar" data-toggle="tooltip" title="En cours de développement">
-                    <button id="pushMail" class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Push mail</button>
+                    <button id="pushMail" class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Push mail <span class="badge badge-secondary" id="badge-push-mail">0</span></button>
                 </div>
             </div>
 
@@ -72,7 +72,7 @@
                         <th>Voie</th>
                         <th>CAFF</th>
                         <!-- <th>Email</th> -->
-                        <th>Mobile</th>
+                        <th id="th-mobile">Mobile</th>
                         <th>Commentaire</th>
                         <th>Nb relances</th>
                         <th>Dernière relance</th>
@@ -211,9 +211,11 @@
         if($(".checkPoi").length == $(".checkPoi:checked").length)
             {
                 $("#toutSelectionner").prop("checked", true);
+                $("#badge-push-mail").html($(".checkPoi:checked").length);
             }
         else{
             $("#toutSelectionner").prop("checked", false);
+            $("#badge-push-mail").html($(".checkPoi:checked").length);
         }
     });
     
@@ -221,9 +223,11 @@
         if($(this).prop("checked"))
             {
                 $(".checkPoi").prop("checked", true);
+                $("#badge-push-mail").html($(".checkPoi:checked").length);
             }
         else{
             $(".checkPoi").prop("checked", false);
+            $("#badge-push-mail").html($(".checkPoi:checked").length);
         }
     });
 
@@ -246,7 +250,12 @@
                 $("#poi-" + idPoi).children(".colonneDateExpiration").text(poi.date_expiration);
                 if(!$("#poi-" + idPoi).hasClass("success"))
                     {
+                        
                         $("#poi-" + idPoi).removeClass("info").removeClass("warning").removeClass("danger").addClass("info");
+                        $("#badge-retard").html($("tbody .danger").length);
+                        $("#badge-att-atr").html($("tbody .warning").length);
+                        $("#badge-att-orange").html($("tbody .info").length);
+                        $("#badge-en-cours").html($("tbody .success").length);
                     }
             });
         });
@@ -324,9 +333,10 @@
             $("table").show();
             $(".filtre_sec").show();
             $("#badge-retard").html($("tbody .danger").length);
-        $("#badge-att-atr").html($("tbody .warning").length);
-        $("#badge-att-orange").html($("tbody .info").length);
-        $("#badge-en-cours").html($("tbody .success").length);
+            $("#badge-att-atr").html($("tbody .warning").length);
+            $("#badge-att-orange").html($("tbody .info").length);
+            $("#badge-en-cours").html($("tbody .success").length);
+            $("#badge-push-mail").html($(".checkPoi:checked").length);
         });            
         </script>
         <?php
