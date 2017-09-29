@@ -1,4 +1,5 @@
 $(function(){
+    
     $(".checkPoi").change(function(){
         if($(".checkPoi").length == $(".checkPoi:checked").length)
             {
