@@ -11,7 +11,13 @@
 				$poi_list[$i]['id'] = $data['id'];
 				$poi_list[$i]['atr_ui'] = $data['atr_ui'];
 				$poi_list[$i]['ft_numero_oeie'] = $data['ft_numero_oeie'];
-				$poi_list[$i]['ft_oeie_dre'] = $data['ft_oeie_dre'];
+				if($data['ft_oeie_dre'] != null)
+				{
+					$poi_list[$i]['ft_oeie_dre'] = date("d/m/Y", strtotime($data['ft_oeie_dre']));
+				}
+				else{
+					$poi_list[$i]['ft_oeie_dre'] = null;
+				}
 				$poi_list[$i]['domaine'] = $data['domaine'];
 				$poi_list[$i]['sous_domaine'] = $data['sous_domaine'];
 				$poi_list[$i]['ft_pg'] = $data['ft_pg'];
@@ -315,7 +321,16 @@
 			$poi_list[$i]['id'] = $data['id'];
 			$poi_list[$i]['atr_ui'] = $data['atr_ui'];
 			$poi_list[$i]['ft_numero_oeie'] = $data['ft_numero_oeie'];
-			$poi_list[$i]['ft_oeie_dre'] = $data['ft_oeie_dre'];
+			
+			if($data['ft_oeie_dre'] != null)
+			{
+				$poi_list[$i]['ft_oeie_dre'] = date("d/m/Y", strtotime($data['ft_oeie_dre']));
+			}
+			else{
+					$poi_list[$i]['ft_oeie_dre'] = null;
+				}
+			
+			
 			$poi_list[$i]['domaine'] = $data['domaine'];
 			$poi_list[$i]['sous_domaine'] = $data['sous_domaine'];
 			$poi_list[$i]['ft_pg'] = $data['ft_pg'];
@@ -472,6 +487,38 @@
 				else{
 					$poi["date_expiration"] = null;
 				}
+			}
+		}
+		return json_encode($poi);
+	}
+	
+	function getPoiRelanceById($idPoi)
+	{
+		include("connexionBddRelance.php");
+		
+		$poi = null;
+		
+		$req = $bdd->prepare("SELECT * FROM relance WHERE poi = ?");
+		$req->execute(array($idPoi));
+		if($data = $req->fetch())
+		{
+			$poi["id"] = $data["id"];
+			$poi["poi"] = $data["poi"];
+			$poi["nb_relances"] = $data["nb_relances"];
+			if($data["date_derniere_relance"] != null)
+			{
+				$poi["date_derniere_relance"] = date("d/m/Y", strtotime($data["date_derniere_relance"]));
+			}
+			else{
+				$poi["date_derniere_relance"] = null;
+			}
+			
+			if($data["date_expiration"] != null)
+			{
+				$poi["date_expiration"] = date("d/m/Y", strtotime($data["date_expiration"]));
+			}
+			else{
+				$poi["date_expiration"] = null;
 			}
 		}
 		return json_encode($poi);

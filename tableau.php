@@ -1,4 +1,4 @@
-<?php
+    <?php
     if(isset($_POST["liste_poi"]) && $_POST["liste_poi"] != 'null')
     {
         include("API/fonctions.php");
@@ -21,7 +21,41 @@
         }
         
         ?>
-        <table id="tablePoi" class="tablesorter table table-striped table-bordered table-hover table-condensed table-responsive">
+        <div id="imageChargement" style="text-align: center">
+            <img src="img/loading.gif" />
+        </div>
+        <div class="filtre_sec" style="display: none">
+            <div>
+            <span class="button-checkbox">
+                <button type="button" class="btn" data-color="danger">Retard</button>
+                <input id="danger" type="checkbox" class="hidden" checked />
+            </span>
+            <span class="button-checkbox">
+                <button type="button" class="btn" data-color="warning">Attente ATR</button>
+                <input id="warning" type="checkbox" class="hidden" checked />
+            </span>
+            <span class="button-checkbox">
+                <button type="button" class="btn" data-color="info">Attente Orange</button>
+                <input id="info" type="checkbox" class="hidden" checked />
+            </span>
+            <span class="button-checkbox">
+                <button type="button" class="btn" data-color="success">En cours</button>
+                <input id="success" type="checkbox" class="hidden" checked />
+            </span>
+            </div>
+
+            <div class="mailsearch">
+                <!--<select name="nb_lignre" id="nb_ligne" class="form-control" data-toggle="tooltip" title="Nombre de ligne à afficher">
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                    <option value="illimite">illimité</option>
+                </select>-->
+                <input type="search" placeholder="Recherche POI" class="form-control searchbar" data-toggle="tooltip" title="En cours de développement">
+                <button class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Push mail</button>
+            </div>
+        </div>
+        <table id="tablePoi" class="tablesorter table table-striped table-bordered table-hover table-condensed table-responsive" style="display: none">
                 <thead>
                     <tr>
                         <td id="checkboxToutSelectionner"><input type="checkbox" name="toutSelectionner" id="toutSelectionner" /></td>
@@ -50,11 +84,46 @@
                         foreach($listePoi as $poi)
                         {
                             ?>
-                            <tr id="poi-<?php echo $poi->id ?>" class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?>">
+                    
+                            <tr id="poi-<?php echo $poi->id ?>" class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?> 
+                               <?php  
+                                /*$dateAjd = strtotime("+7 day");
+                            
+                                $dateDre = strtotime($poi->ft_oeie_dre);
+                            
+                                if($dateAjd < $dateDre)
+                                {
+                                    echo "success";
+                                }
+                                else{
+                                    $poiRelance = json_decode(getPoiRelanceById($poi->id));
+                                    if($poiRelance != null)
+                                    {
+                                        $dateExpiration = strtotime($poiRelance->date_expiration);
+                                        if($dateExpiration < $dateAjd)
+                                        {
+                                            echo "info";
+                                        }
+                                        else{
+                                            if($poiRelance->nb_relances != null && $poiRelance->nb_relances > 0)
+                                            {
+                                                echo "warning";
+                                            }
+                                            else{
+                                                echo "danger";
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        echo "danger";
+                                    }
+                                }*/
+                               ?>
+                               ">
                                 <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
                                 <td><?php echo $poi->atr_ui ?></td>
                                 <td><?php echo $poi->ft_numero_oeie ?></td>
-                                <td><?php echo $poi->ft_oeie_dre ?></td>
+                                <td class="colonneDre"><?php echo $poi->ft_oeie_dre ?></td>
                                 <td><?php echo $poi->domaine ?></td>
                                 <td><?php echo $poi->sous_domaine ?></td>
                                 <td><?php echo $poi->ft_pg ?></td>
@@ -125,9 +194,11 @@
                     ?>
                 </tbody>
         </table>
-        <!--<script src="js/index.js"></script>-->
+
+        <script src="js/checkbox.js"></script>
         <script>
             $(function(){
+                
                 $(".checkPoi").change(function(){
         if($(".checkPoi").length == $(".checkPoi:checked").length)
             {
@@ -150,13 +221,13 @@
 
     $("#tablePoi").tablesorter();
                 
-                if(!$("#toutSelectionner").prop("checked"))
-                    {
-                        $("#toutSelectionner").click();
-                    }
-            });
-            
-        $(".validerPoi").click(function(){
+    if(!$("#toutSelectionner").prop("checked"))
+        {
+            $("#toutSelectionner").click();
+        }
+                
+                
+    $(".validerPoi").click(function(){
             $(this).prop("disabled", true);
             var idPoi = $(this).attr("id").split("-")[1];
             $.post("API/validerPoi.php", {poi_id: idPoi}, function(data){
@@ -167,6 +238,64 @@
                 $("#poi-" + idPoi).children(".colonneDateExpiration").text(poi.date_expiration);
             });
         });
+            
+            
+        $("tbody tr").each(function(){
+            var dateAjd = new Date();
+            dateAjd = dateAjd.getTime();
+            var dateDreTab = $(this).children(".colonneDre").text().split("/");
+            var dateDre = 0;
+            if(dateDreTab.length == 3)
+                {
+                    dateDre = new Date(dateDreTab[2], dateDreTab[1], dateDreTab[0]);
+                    dateDre = dateDre.getTime() - (1000*60*60*24*7); //Pour enlever 7 jours
+                }
+            var dateExpirationTab = $(this).children(".colonneDateExpiration").text().split("/");
+            var dateExpiration = 0;
+            if(dateExpirationTab.length == 3)
+                {
+                    dateExpiration = new Date(dateExpirationTab[2], dateExpirationTab[1], dateExpirationTab[0]);
+                    dateExpiration = dateExpiration.getTime();
+                }
+            var nbRelances = parseInt($(this).children(".colonneNbRelances").text());
+            var dateDerniereRelanceTab = $(this).children(".colonneDateDernierEnvoi").text().split("/");
+            var dateDerniereRelance = 0;
+            if(dateDerniereRelanceTab.length == 3)
+                {
+                    dateDerniereRelance = new Date(dateDerniereRelanceTab[2], dateDerniereRelanceTab[1], dateDerniereRelanceTab[0]);
+                    dateDerniereRelance = dateDerniereRelance.getTime();
+                }
+            if(dateDre > dateAjd)
+                {
+                    $(this).addClass("success");
+                }
+            else{
+                if(dateExpiration > dateAjd)
+                    {
+                        $(this).addClass("info");
+                    }
+                else{
+                    if(nbRelances > 0)
+                        {
+                            $(this).addClass("warning");
+                        }
+                    else{
+                        $(this).addClass("danger");
+                    }
+                }
+            }
+            });
+            
+            $(".filtre_sec [type=checkbox]").each(function(){
+                $(this).change(function(){
+                console.log($(this).attr("id"));
+            });
+            });
+    
+            $("#imageChargement").hide();
+            $("table").show();
+            $(".filtre_sec").show();
+        });            
         </script>
         <?php
     }
