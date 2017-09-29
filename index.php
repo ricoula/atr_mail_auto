@@ -44,7 +44,7 @@
                         ?>
                             <div id="divUi-<?php echo $uiRplc ?>">
                             <span class="button-checkbox">
-                            <button id="<?php echo $uiRplc ?>" name="<?php echo $uiRplc ?>" type="button" class="btn btn-xs" data-color="primary"><?php echo json_decode(getUiNameByUiTag($ui)); ?></button>
+                            <button id="<?php echo $uiRplc ?>" name="<?php echo $uiRplc ?>" type="button" class="btn btn-sm" data-color="primary"><?php echo json_decode(getUiNameByUiTag($ui)); ?></button>
                             <input id="ui-<?php echo $uiRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxUi" />
                             </span>
                             </div>
@@ -68,7 +68,7 @@
                             
                             <div id="divDomaine-<?php echo $domaineRplc ?>" class="divFiltre">
                             <span class="button-checkbox">
-                            <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $domaineRplc ?>" id="<?php echo $domaineRplc ?>"><?php echo $domaine ?></button>
+                            <button type="button" class="btn btn-sm" data-color="primary" name="<?php echo $domaineRplc ?>" id="<?php echo $domaineRplc ?>"><?php echo $domaine ?></button>
                             <input id="domaine-<?php echo $domaineRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxDomaine" />
                              </span>
                             </div>
@@ -91,7 +91,7 @@
                             
                             <div id="divSousDomaine-<?php echo $sousDomaineRplc ?>" class="divFiltre">
                             <span class="button-checkbox">
-                            <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousDomaineRplc ?>" id="<?php echo $sousDomaineRplc ?>"><?php echo $sousDomaine ?></button>
+                            <button type="button" class="btn btn-sm" data-color="primary" name="<?php echo $sousDomaineRplc ?>" id="<?php echo $sousDomaineRplc ?>"><?php echo $sousDomaine ?></button>
                             <input id="sousDomaine-<?php echo $sousDomaineRplc ?>" type="checkbox" class="hidden checkboxFiltre checkboxSousDomaine" checked />
                              </span>
                             </div>
