@@ -206,6 +206,7 @@
 
         <script>
             $(function(){
+                $(".checkPoi").prop("checked", true);
                 
                 $(".checkPoi").change(function(){
         if($(".checkPoi").length == $(".checkPoi:checked").length)
@@ -222,11 +223,11 @@
     $("#toutSelectionner").change(function(){
         if($(this).prop("checked"))
             {
-                $(".checkPoi").prop("checked", true);
+                $(".checkPoi:visible").prop("checked", true);
                 $("#badge-push-mail").html($(".checkPoi:checked").length);
             }
         else{
-            $(".checkPoi").prop("checked", false);
+            $(".checkPoi:visible").prop("checked", false);
             $("#badge-push-mail").html($(".checkPoi:checked").length);
         }
     });
@@ -316,13 +317,15 @@
                         $("#" + valeur).prop("checked", false);
                         elt.removeClass().addClass("btn btn-default");
                         $("tbody ." + valeur).hide();
-                        $("tbody ." + valeur).children(".checkPoi").prop("checked", false);
+                        $("tbody ." + valeur).children("td").children(".checkPoi").prop("checked", false);
+                        $("#badge-push-mail").html($(".checkPoi:checked").length);
                     }
                 else{
                     $("#" + valeur).prop("checked", true);
                     elt.removeClass().addClass("btn btn-" + valeur);
                     $("tbody ." + valeur).show();
-                    $("tbody ." + valeur).children(".checkPoi").prop("checked", true);
+                    $("tbody ." + valeur).children("td").children(".checkPoi").prop("checked", true);
+                    $("#badge-push-mail").html($(".checkPoi:checked").length);
                 }
             });
             });
