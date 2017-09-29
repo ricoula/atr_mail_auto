@@ -53,7 +53,7 @@
                         <option value="illimite">illimité</option>
                     </select>-->
                     <input type="search" placeholder="Recherche POI" class="form-control searchbar" data-toggle="tooltip" title="En cours de développement">
-                    <button class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Push mail</button>
+                    <button id="pushMail" class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Push mail</button>
                 </div>
             </div>
 
@@ -86,7 +86,6 @@
                         foreach($listePoi as $poi)
                         {
                             ?>
-                    
                             <tr id="poi-<?php echo $poi->id ?>" class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?> 
                                <?php  
                                 /*$dateAjd = strtotime("+7 day");
@@ -245,7 +244,10 @@
                 $("#poi-" + idPoi).children(".colonneNbRelances").text(poi.nb_relances);
                 $("#poi-" + idPoi).children(".colonneDateDernierEnvoi").text(poi.date_derniere_relance);
                 $("#poi-" + idPoi).children(".colonneDateExpiration").text(poi.date_expiration);
-                $("#poi-" + idPoi).removeClass("info").removeClass("success").removeClass("warning").removeClass("danger").addClass("info");
+                if(!$("#poi-" + idPoi).hasClass("success"))
+                    {
+                        $("#poi-" + idPoi).removeClass("info").removeClass("warning").removeClass("danger").addClass("info");
+                    }
             });
         });
             
@@ -312,6 +314,10 @@
                     $("tbody ." + valeur).show();
                 }
             });
+            });
+                
+            $("#pushMail").click(function(){
+                
             });
             
             $("#imageChargement").hide();

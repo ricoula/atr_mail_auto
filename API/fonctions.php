@@ -375,13 +375,14 @@
 					}
 					if($idPoi != null)
 					{
-						$req = $bdd->prepare("UPDATE relance SET nb_relances = nb_relances + 1, date_derniere_relance = NOW(), date_expiration = 	date 'NOW()' + integer '15' WHERE id = ?");
+						$req = $bdd->prepare("UPDATE relance SET nb_relances = nb_relances + 1, date_derniere_relance = NOW() WHERE id = ?");
 						$reponse = $req->execute(array($idPoi));
 					}
 				}
 				
 				if($reponse)
 				{
+					
 					$headers = "";
 					//$headers .= "From: " . strip_tags($_POST['req-email']) . "\r\n";
 					//$headers .= "Reply-To: ". strip_tags($_POST['req-email']) . "\r\n";
