@@ -28,19 +28,19 @@
         <div class="filtre_sec" style="display: none">
                 <div id="btnFiltre">
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-danger" data-color="danger">Retard</button>
+                    <button type="button" class="btn btn-danger" data-color="danger">Retard <span class="badge badge-secondary" id="badge-retard">0</span></button>
                     <input id="danger" type="checkbox" class="hidden" checked />
                 </span>
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-warning" data-color="warning">Attente ATR</button>
+                    <button type="button" class="btn btn-warning" data-color="warning">Attente ATR <span class="badge badge-secondary" id="badge-att-atr">0</span></button>
                     <input id="warning" type="checkbox" class="hidden" checked />
                 </span>
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-info" data-color="info">Attente Orange</button>
+                    <button type="button" class="btn btn-info" data-color="info">Attente Orange <span class="badge badge-secondary" id="badge-att-orange">0</span></button>
                     <input id="info" type="checkbox" class="hidden" checked />
                 </span>
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-success" data-color="success">En cours</button>
+                    <button type="button" class="btn btn-success" data-color="success">En cours <span class="badge badge-secondary" id="badge-en-cours">0</span></button>
                     <input id="success" type="checkbox" class="hidden" checked />
                 </span>
                 </div>
@@ -323,9 +323,12 @@
             $("#imageChargement").hide();
             $("table").show();
             $(".filtre_sec").show();
+            $("#badge-retard").html($("tbody .danger").length);
+        $("#badge-att-atr").html($("tbody .warning").length);
+        $("#badge-att-orange").html($("tbody .info").length);
+        $("#badge-en-cours").html($("tbody .success").length);
         });            
         </script>
-
         <?php
     }
 ?>
