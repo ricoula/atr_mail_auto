@@ -344,6 +344,7 @@
                         }
                     listeCaffPoi[caff].listePois.push(idPoi);
                 });
+                
                 console.log(listeCaffPoi);
             });
             
