@@ -53,7 +53,7 @@
                         <option value="illimite">illimité</option>
                     </select>-->
                     <input type="search" placeholder="Recherche POI" class="form-control searchbar" data-toggle="tooltip" title="En cours de développement">
-                    <button id="pushMail" class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Push mail <span class="badge badge-secondary" id="badge-push-mail">0</span></button>
+                    <button id="pushMail" class="btn btn-primary" data-toggle="modal" data-target="#mailModal"><span class="glyphicon glyphicon-envelope"></span> Push mail <span class="badge badge-secondary" id="badge-push-mail">0</span></button>
                 </div>
             </div>
 
@@ -204,6 +204,25 @@
                 </tbody>
         </table>
 
+        <div class="modal" id="mailModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title">Liste de diffusion</h4>
+              </div>
+              <div class="modal-body" id="diff-mail">
+              <table class='table table-striped table-bordered table-hover table-condensed table-responsive'><thead><tr><th>Caff</th><th>Email</th><th>Relance</th></tr></thead><tbody id="bodymail"></tbody></table>
+              </div>
+              <div class="modal-footer">
+                 
+                <button class="btn btn-info" data-dismiss="modal">Fermer</button>
+                <button class="btn btn-success">Push mail</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <script>
             $(function(){
                 
@@ -328,7 +347,7 @@
             });
                 
             $("#pushMail").click(function(){
-                var listeCaffPoi = new Object();
+                listeCaffPoi = new Object();
                 var listeCaffs = [];
                 $(".checkPoi:checked").each(function(){
                     var ligne = $(this).closest("tr");
@@ -340,11 +359,31 @@
                             listeCaffs.push(caff);
                             listeCaffPoi[caff] = new Object();
                             listeCaffPoi[caff].email = email;
+                            listeCaffPoi[caff].nom = caff;
                             listeCaffPoi[caff].listePois = [];
                         }
                     listeCaffPoi[caff].listePois.push(idPoi);
                 });
-                console.log(listeCaffPoi);
+              $("#bodymail").html("");
+                for(var caff in listeCaffPoi)
+                {
+                    var nomCaff = listeCaffPoi[caff].nom;
+                    var nbPoi = listeCaffPoi[caff].listePois.length;
+                    var caffMail = listeCaffPoi[caff].email
+                    $("#bodymail").append("<tr><td>" +nomCaff+ "</td><td>" + caffMail  + "</td><td>" + nbPoi + "</td></th>");
+                }
+              
+              
+           
+            //         for (var i = 0; i < listeCaffPoi.length; i++) {
+            //             console.log(listeCaffPoi[i].nom)
+            //           }
+                
+            // console.log(listeCaffPoi.length);
+            // for(var caff in listeCaffPoi)
+            // {
+            //     console.log(caff.nom);
+            // }
             });
             
             $("#imageChargement").hide();
