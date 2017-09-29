@@ -24,37 +24,39 @@
         <div id="imageChargement" style="text-align: center">
             <img src="img/loading.gif" />
         </div>
+
         <div class="filtre_sec" style="display: none">
-            <div>
-            <span class="button-checkbox">
-                <button type="button" class="btn" data-color="danger">Retard</button>
-                <input id="danger" type="checkbox" class="hidden" checked />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn" data-color="warning">Attente ATR</button>
-                <input id="warning" type="checkbox" class="hidden" checked />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn" data-color="info">Attente Orange</button>
-                <input id="info" type="checkbox" class="hidden" checked />
-            </span>
-            <span class="button-checkbox">
-                <button type="button" class="btn" data-color="success">En cours</button>
-                <input id="success" type="checkbox" class="hidden" checked />
-            </span>
+                <div id="btnFiltre">
+                <span class="button-checkbox">
+                    <button type="button" class="btn btn-danger" data-color="danger">Retard</button>
+                    <input id="danger" type="checkbox" class="hidden" checked />
+                </span>
+                <span class="button-checkbox">
+                    <button type="button" class="btn btn-warning" data-color="warning">Attente ATR</button>
+                    <input id="warning" type="checkbox" class="hidden" checked />
+                </span>
+                <span class="button-checkbox">
+                    <button type="button" class="btn btn-info" data-color="info">Attente Orange</button>
+                    <input id="info" type="checkbox" class="hidden" checked />
+                </span>
+                <span class="button-checkbox">
+                    <button type="button" class="btn btn-success" data-color="success">En cours</button>
+                    <input id="success" type="checkbox" class="hidden" checked />
+                </span>
+                </div>
+
+                <div class="mailsearch">
+                    <!--<select name="nb_lignre" id="nb_ligne" class="form-control" data-toggle="tooltip" title="Nombre de ligne à afficher">
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="500">500</option>
+                        <option value="illimite">illimité</option>
+                    </select>-->
+                    <input type="search" placeholder="Recherche POI" class="form-control searchbar" data-toggle="tooltip" title="En cours de développement">
+                    <button class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Push mail</button>
+                </div>
             </div>
 
-            <div class="mailsearch">
-                <!--<select name="nb_lignre" id="nb_ligne" class="form-control" data-toggle="tooltip" title="Nombre de ligne à afficher">
-                    <option value="100">100</option>
-                    <option value="200">200</option>
-                    <option value="500">500</option>
-                    <option value="illimite">illimité</option>
-                </select>-->
-                <input type="search" placeholder="Recherche POI" class="form-control searchbar" data-toggle="tooltip" title="En cours de développement">
-                <button class="btn btn-primary"><span class="glyphicon glyphicon-envelope"></span> Push mail</button>
-            </div>
-        </div>
         <table id="tablePoi" class="tablesorter table table-striped table-bordered table-hover table-condensed table-responsive" style="display: none">
                 <thead>
                     <tr>
@@ -153,8 +155,16 @@
                                                                 $dateAjd = new DateTime("now");
                                                                 $dateAjd = $dateAjd->format('Y-m-d H:i:s');
                                                                 $dateAjd = strtotime($dateAjd);
-                                                            
-                                                                $dateExpiration = strtotime($poiRelance->date_expiration);
+                                                                
+                                                                $dateExpiration = explode("/", $poiRelance->date_expiration);
+                                                                if(sizeof($dateExpiration) == 3)
+                                                                {
+                                                                    $dateExpiration = $dateExpiration[2]."-".$dateExpiration[1]."-".$dateExpiration[0];
+                                                                    $dateExpiration = strtotime($dateExpiration);
+                                                                }
+                                                                else{
+                                                                    $dateExpiration = 0;
+                                                                }
                                                                 if($dateExpiration < $dateAjd)
                                                                 {
                                                                     ?>
@@ -195,7 +205,6 @@
                 </tbody>
         </table>
 
-        <script src="js/checkbox.js"></script>
         <script>
             $(function(){
                 
@@ -236,6 +245,7 @@
                 $("#poi-" + idPoi).children(".colonneNbRelances").text(poi.nb_relances);
                 $("#poi-" + idPoi).children(".colonneDateDernierEnvoi").text(poi.date_derniere_relance);
                 $("#poi-" + idPoi).children(".colonneDateExpiration").text(poi.date_expiration);
+                $("#poi-" + idPoi).removeClass("info").removeClass("success").removeClass("warning").removeClass("danger").addClass("info");
             });
         });
             
@@ -285,18 +295,31 @@
                 }
             }
             });
+                
+            $("#btnFiltre button").each(function(){
+                $(this).click(function(){
+                var elt = $(this);
+                var valeur = $(this).parent().children("input").attr("id");
+                if($("#" + valeur).prop("checked"))
+                    {
+                        $("#" + valeur).prop("checked", false);
+                        elt.removeClass().addClass("btn btn-default");
+                        $("tbody ." + valeur).hide();
+                    }
+                else{
+                    $("#" + valeur).prop("checked", true);
+                    elt.removeClass().addClass("btn btn-" + valeur);
+                    $("tbody ." + valeur).show();
+                }
+            });
+            });
             
-            $(".filtre_sec [type=checkbox]").each(function(){
-                $(this).change(function(){
-                console.log($(this).attr("id"));
-            });
-            });
-    
             $("#imageChargement").hide();
             $("table").show();
             $(".filtre_sec").show();
         });            
         </script>
+
         <?php
     }
 ?>
