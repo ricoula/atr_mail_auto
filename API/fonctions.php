@@ -366,7 +366,6 @@
 						{
 							foreach($caff->listePois as $poi)
 							{
-								
 								array_push($listePoi, $poi->id);
 							}
 						}
@@ -414,7 +413,8 @@
 						foreach($liste as $caff)
 						{
 							$contenuHtml = "";
-							$contenuHtml = $contenuHtml."<table><thead><tr><th>UI</th><th>POI</th><th>DRE</th><th>Domaine</th><th>Sous-Domaine</th><th>Pg</th><th>Commune</th><th>Voie</th><th>Commentaire</th></tr></thead><tbody>";
+							//$contenuHtml = $contenuHtml."<!DOCTYPE html><html><head><meta charset='utf-8' /><style>table{ border: 3px solid black; border-collapse: collapse; } th, td{ border: 1px solid black; }</style></head><body><table><thead><tr><th>UI</th><th>POI</th><th>DRE</th><th>Domaine</th><th>Sous-Domaine</th><th>Pg</th><th>Sous-Justif</th><th>Commune</th><th>Voie</th><th>Commentaire</th></tr></thead><tbody>";
+							$contenuHtml = $contenuHtml."<!DOCTYPE html><html><head><meta charset='utf-8' /><style>.datagrid table { border-collapse: collapse; text-align: left; width: 100%; } .datagrid {font: normal 12px/150% Arial, Helvetica, sans-serif; background: #fff; overflow: hidden; border: 1px solid #006699; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }.datagrid table td, .datagrid table th { padding: 3px 10px; }.datagrid table thead th {background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; color:#ffffff; font-size: 15px; font-weight: bold; border-left: 1px solid #0070A8; } .datagrid table thead th:first-child { border: none; }.datagrid table tbody td { color: #00557F; border-left: 1px solid #E1EEF4;font-size: 12px;border-bottom: 1px solid #E1EEF4;font-weight: normal; }.datagrid table tbody .alt td { background: #E1EEf4; color: #00557F; }.datagrid table tbody td:first-child { border-left: none; }.datagrid table tbody tr:last-child td { border-bottom: none; }.datagrid table tfoot td div { border-top: 1px solid #006699;background: #E1EEf4;} .datagrid table tfoot td { padding: 0; font-size: 12px } .datagrid table tfoot td div{ padding: 2px; }.datagrid table tfoot td ul { margin: 0; padding:0; list-style: none; text-align: right; }.datagrid table tfoot  li { display: inline; }.datagrid table tfoot li a { text-decoration: none; display: inline-block;  padding: 2px 8px; margin: 1px;color: #FFFFFF;border: 1px solid #006699;-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F) );background:-moz-linear-gradient( center top, #006699 5%, #00557F 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');background-color:#006699; }.datagrid table tfoot ul.active, .datagrid table tfoot ul a:hover { text-decoration: none;border-color: #00557F; color: #FFFFFF; background: none; background-color:#006699;}div.dhtmlx_window_active, div.dhx_modal_cover_dv { position: fixed !important; }</style></head><body>Bonjour,<br/><br/>Ci-dessous la liste des POI à actualiser via un commentaire GDP,<br/><br/><div class='datagrid'><table><thead><tr><th>UI</th><th>POI</th><th>DRE</th><th>Domaine</th><th>Sous-Domaine</th><th>Pg</th><th>Sous-Justif</th><th>Commune</th><th>Voie</th><th>Commentaire</th></tr></thead><tbody>";
 							
 							if($caff->listePois != null)
 							{
@@ -423,9 +423,9 @@
 									$contenuHtml = $contenuHtml."<tr><td>".$poi->atr_ui ."</td><td>".$poi->ft_numero_oeie ."</td><td>".$poi->ft_oeie_dre ."</td><td>".$poi->domaine ."</td><td>".$poi->sous_domaine ."</td><td>".$poi->ft_pg ."</td><td>".$poi->ft_sous_justification_oeie ."</td><td>".$poi->ft_libelle_commune ."</td><td>".$poi->ft_libelle_de_voie ."</td><td>".$poi->ft_commentaire_creation_oeie ."</td></tr>";
 								}
 							}
-							$contenuHtml = $contenuHtml."</tbody></table><br/><br/>";
+							$contenuHtml = $contenuHtml."</tbody></table></div><br/>Merci d’avance<br/><br/>Le CDS</body></html><br/><br/>";
 							$email = $caff->email;
-							$envoiMail = mail("florianspadaro@gmail.com", $email, $contenuHtml, $headers);
+							$envoiMail = mail("cyril.ricou@ambitiontelecom.com", $email, $contenuHtml, $headers);
 						}
 					}
 				}
