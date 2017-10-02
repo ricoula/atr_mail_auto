@@ -1,4 +1,31 @@
 $(function(){
+    $("#activerSousJustifs").click(function(){
+        if($("#checkActiverSousJustifs").prop("checked") == true)
+            {
+                $("#divSousJustifs").children(".divFiltre").children(".button-checkbox").children(".checkboxSJ").each(function(){
+                    if($(this).parent().parent().is(":visible"))
+                        {
+                            if($(this).prop("checked") == true)
+                                {
+                                    $(this).parent().children("button").click();
+                                }
+                        }
+                });
+                $("#activerSousJustifs").html("<span class='glyphicon glyphicon-unchecked'></span> Activer tout");
+            }
+        else{
+            $("#divSousJustifs").children(".divFiltre").children(".button-checkbox").children(".checkboxSJ").each(function(){
+                    if($(this).parent().parent().is(":visible"))
+                        {
+                            if($(this).prop("checked") == false)
+                                {
+                                    $(this).parent().children("button").click();
+                                }
+                        }
+                });
+            $("#activerSousJustifs").html("<span class='glyphicon glyphicon-check'></span> Désactiver tout");
+        }
+    });
     
     $(".checkPoi").change(function(){
         if($(".checkPoi").length == $(".checkPoi:checked").length)
@@ -30,6 +57,8 @@ $(function(){
     $(".checkboxFiltre").prop("checked", true);
 
     $(".checkboxFiltre").change(function(){
+        
+        
         $("#imageLoad").show();
         $("#tableau").hide();
         var nbUiCoche = 0;
@@ -175,7 +204,7 @@ $(function(){
         {
             $(this).hide();
         }
-    });   
+    }); 
  
      getCheckedUi = [];
      getCheckedDomaine = [];
@@ -294,6 +323,14 @@ $(function(){
             $("#tableau").show();
         });
     });
+        
+    if($("#divSousJustifs .divFiltre:visible").length > 0)
+            {
+                $("#divActiverToutSj").show();
+            }
+        else{
+            $("#divActiverToutSj").hide();
+        }
     
 });
     
