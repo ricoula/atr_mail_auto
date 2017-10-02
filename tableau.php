@@ -168,7 +168,7 @@
                                                                 if($dateExpiration < $dateAjd)
                                                                 {
                                                                     ?>
-                                                                    <button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button>
+                                                                    <button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-sm btn-success validerPoi">Valider</button>
                                                                     <?php
                                                                 }
                                                                 else{
@@ -185,7 +185,7 @@
                                                     ?>
                                                     <td class="colonneNbRelances">0</td>
                                                     <td class="colonneDateDernierEnvoi"></td>
-                                                    <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button></td>
+                                                    <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-sm btn-success validerPoi">Valider</button></td>
                                                     <?php
                                                 }
                                             }
@@ -193,7 +193,7 @@
                                                 ?>
                                                 <td class="colonneNbRelances">0</td>
                                                 <td class="colonneDateDernierEnvoi"></td>
-                                                <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-success validerPoi">Valider</button></td>
+                                                <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-sm btn-success validerPoi">Valider</button></td>
                                                 <?php
                                             }
                                             ?>
@@ -298,26 +298,27 @@
         $("tbody tr").each(function(){
             var dateAjd = new Date();
             dateAjd = dateAjd.getTime();
-            var dateDreTab = $(this).children(".colonneDre").text().split("/");
+            var dateDreTab = $(this).children(".colonneDre").text().replace(" ", "").split("/");
             var dateDre = 0;
             if(dateDreTab.length == 3)
                 {
-                    dateDre = new Date(dateDreTab[2], dateDreTab[1], dateDreTab[0]);
-                    dateDre = dateDre.getTime() - (1000*60*60*24*7); //Pour enlever 7 jours
+                    dateDre = new Date(dateDreTab[2], (parseInt(dateDreTab[1])-1), dateDreTab[0]);
+                    dateDre = dateDre.getTime();
+                    //dateDre = dateDre.getTime() - (1000*60*60*24*7); //Pour enlever 7 jours
                 }
-            var dateExpirationTab = $(this).children(".colonneDateExpiration").text().split("/");
+            var dateExpirationTab = $(this).children(".colonneDateExpiration").text().replace(" ", "").split("/");
             var dateExpiration = 0;
             if(dateExpirationTab.length == 3)
                 {
-                    dateExpiration = new Date(dateExpirationTab[2], dateExpirationTab[1], dateExpirationTab[0]);
+                    dateExpiration = new Date(dateExpirationTab[2], (parseInt(dateExpirationTab[1])-1), dateExpirationTab[0]);
                     dateExpiration = dateExpiration.getTime();
                 }
             var nbRelances = parseInt($(this).children(".colonneNbRelances").text());
-            var dateDerniereRelanceTab = $(this).children(".colonneDateDernierEnvoi").text().split("/");
+            var dateDerniereRelanceTab = $(this).children(".colonneDateDernierEnvoi").text().replace(" ", "").split("/");
             var dateDerniereRelance = 0;
             if(dateDerniereRelanceTab.length == 3)
                 {
-                    dateDerniereRelance = new Date(dateDerniereRelanceTab[2], dateDerniereRelanceTab[1], dateDerniereRelanceTab[0]);
+                    dateDerniereRelance = new Date(dateDerniereRelanceTab[2], (parseInt(dateDerniereRelanceTab[1])-1), dateDerniereRelanceTab[0]);
                     dateDerniereRelance = dateDerniereRelance.getTime();
                 }
             if(dateDre > dateAjd)

@@ -294,6 +294,20 @@
 		include("global.php");
 		$poi_list = null;
 		$i = 0;
+		if($listeUi == null)
+		{
+			$listeDomaines = null;
+		}
+		
+		if($listeDomaines == null)
+		{
+			$listeSousDomaines = null;
+		}
+		
+		if($listeSousDomaines == null)
+		{
+			$listeSousJustifs = null;
+		}
 		
 		$where = 'WHERE atr_ui IN('.$listeUi.')';
 		if($listeDomaines != null)
@@ -346,7 +360,7 @@
 		return json_encode($poi_list);
 	}
 	
-	function envoyerMails($liste) //$listePoi = JSON, $listeMails = implode avec ', ' entre chaque valeur
+	function envoyerMails($liste)
 	{
 		include("connexionBddRelance.php");
 		
@@ -361,7 +375,6 @@
 				{
 					foreach($liste as $caff)
 					{
-						
 						if($caff->listePois != null)
 						{
 							foreach($caff->listePois as $poi)
@@ -425,7 +438,7 @@
 							}
 							$contenuHtml = $contenuHtml."</tbody></table></div><br/>Merci d’avance<br/><br/>Le CDS</body></html><br/><br/>";
 							$email = $caff->email;
-							$envoiMail = mail("cyril.ricou@ambitiontelecom.com", $email, $contenuHtml, $headers);
+							$envoiMail = mail("florianspadaro@gmail.com", $email, $contenuHtml, $headers);
 						}
 					}
 				}
@@ -500,7 +513,7 @@
 			}
 		}
 		
-		$req = $bdd->prepare("UPDATE relance SET date_expiration = date_expiration + integer '15' WHERE poi = ?");
+		$req = $bdd->prepare("UPDATE relance SET date_expiration = date_expiration + integer '15', nb_relances = 0 WHERE poi = ?");
 		$reponse = $req->execute(array($idPoi));
 		if($reponse)
 		{

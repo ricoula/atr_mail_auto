@@ -294,6 +294,7 @@ $(function(){
             $("#tableau").show();
         });
     });
+    
 });
     
     $(".checkboxDomaine, .checkboxUi").each(function(){
