@@ -221,6 +221,7 @@
                  
                 <button class="btn btn-info" data-dismiss="modal">Fermer</button>
                 <button class="btn btn-success" id="pushMailReal">Push mail</button>
+                <img src="img/wait.gif" id="chargementValiderPush" style="display: none" />
               </div>
             </div>
           </div>
@@ -228,6 +229,16 @@
 
         <script>
             $(function(){
+                $('#badge-push-mail').bind("DOMSubtreeModified",function(){
+                  if($(this).text() == 0)
+                      {
+                          $("#pushMail").prop("disabled", true);
+                      }
+                    else{
+                        $("#pushMail").prop("disabled", false);
+                    }
+                });
+                
                 $(".checkPoi").prop("checked", true);
                 
                 $(".checkPoi").change(function(){
@@ -369,12 +380,9 @@
                             listeCaffPoi[caff].listePois = [];
                         }
                     listeCaffPoi[caff].listePois.push(poi);
-                    
                 });
                 $("#objetJson").text(JSON.stringify(listeCaffPoi));
-           
-                });
-              $("#bodymail").html("");
+                $("#bodymail").html("");
                 for(var caff in listeCaffPoi)
                 {
                     var nomCaff = listeCaffPoi[caff].nom;
@@ -382,6 +390,7 @@
                     var caffMail = listeCaffPoi[caff].email
                     $("#bodymail").append("<tr><td>" +nomCaff+ "</td><td>" + caffMail  + "</td><td>" + nbPoi + "</td></th>");
                 }
+                });
               
               
            
@@ -394,11 +403,21 @@
             // {
             //     console.log(caff.nom);
             // }
-            });
+            //});
             $("#pushMailReal").click(function(){
-
+                $("#pushMailReal").prop("disabled", true);
+                $("#chargementValiderPush").show();
+                
                 $.post("API/envoyerMails.php", {liste: $("#objetJson").text()}, function(data){
-                    console.log(data);
+                    var reponse = JSON.parse(data);
+                    if(reponse)
+                        {
+                            window.location.reload();
+                        }
+                    else{
+                        alert("Une erreur s'est produite, veuillez réessayer plus tard");
+                    }
+            });
             });
             
             $("#imageChargement").hide();

@@ -424,7 +424,8 @@
 								}
 							}
 							$contenuHtml = $contenuHtml."</tbody></table><br/><br/>";
-							$envoiMail = mail("cyril.ricou@ambitiontelecom.com", "Test", $contenuHtml, $headers);
+							$email = $caff->email;
+							$envoiMail = mail("florianspadaro@gmail.com", $email, $contenuHtml, $headers);
 						}
 					}
 				}
