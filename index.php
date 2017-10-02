@@ -101,27 +101,36 @@
                     }
                     ?>
                 </div>
-                <h1 class="titre"><span class="label label-default">Sous justification</span></h1>
+                <h1 class="titre">
+                    <span class="label label-default">Sous justification</span>
+                    <div id="divActiverToutSj" style="display: none">
+                        <span class="button-checkbox">
+                        <button type="button" class="btn btn-sm" data-color="success" name="<?php echo $sousDomaineRplc ?>" id="activerSousJustifs">Désactiver tout</button>
+                        <input id="checkActiverSousJustifs" type="checkbox" class="hidden" checked />
+                         </span>
+                    </div>
+                </h1>
+                
                 <div class="form-group row divRadios" id="divSousJustifs">
-                    <?php
-                    $listeSousJustifs = json_decode(getSousJustifs());
-                    if($listeSousJustifs != null)
-                    {
-                        foreach($listeSousJustifs as $sousJustif)
+                        <?php
+                        $listeSousJustifs = json_decode(getSousJustifs());
+                        if($listeSousJustifs != null)
                         {
-                            $sousJustifRplc = str_replace(" ", "_", $sousJustif);
-                            $sousJustifRplc = str_replace("&", "_", $sousJustifRplc);
-                            ?>
-                            <div id="divSousJustif-<?php echo $sousJustifRplc ?>" class="divFiltre col-lg-1">
-                            <span class="button-checkbox">
-                            <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousJustifRplc ?>" id="<?php echo $sousJustifRplc ?>"><?php echo $sousJustif ?></button>
-                            <input id="sousJustification-<?php echo $sousJustifRplc ?>" type="checkbox" class="checkboxFiltre hidden filtre checkboxSJ" checked />
-                             </span>
-                            </div>
-                            <?php
+                            foreach($listeSousJustifs as $sousJustif)
+                            {
+                                $sousJustifRplc = str_replace(" ", "_", $sousJustif);
+                                $sousJustifRplc = str_replace("&", "_", $sousJustifRplc);
+                                ?>
+                                <div id="divSousJustif-<?php echo $sousJustifRplc ?>" class="divFiltre col-lg-1">
+                                <span class="button-checkbox">
+                                <button type="button" class="btn btn-xs" data-color="primary" name="<?php echo $sousJustifRplc ?>" id="<?php echo $sousJustifRplc ?>"><?php echo $sousJustif ?></button>
+                                <input id="sousJustification-<?php echo $sousJustifRplc ?>" type="checkbox" class="checkboxFiltre hidden filtre checkboxSJ" checked />
+                                 </span>
+                                </div>
+                                <?php
+                            }
                         }
-                    }
-                    ?>
+                        ?>
                 </div>
                 <!--<button id="btnValiderFiltres" class="btn btn-info">Valider filtres</button>-->
             </form>
