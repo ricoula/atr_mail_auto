@@ -3,6 +3,16 @@
     {
         include("API/fonctions.php");
         $listePoi = json_decode($_POST["liste_poi"]);
+        $listeNomPoi = array();
+        if(sizeof($listePoi) > 0)
+        {
+            foreach($listePoi as $poi)
+            {
+                array_push($listeNomPoi, $poi->ft_numero_oeie);
+            }
+            asort($listeNomPoi);
+        }
+        
         $toutesPoi = array();
         if($listePoi != null)
         {
@@ -52,7 +62,21 @@
                         <option value="500">500</option>
                         <option value="illimite">illimité</option>
                     </select>-->
-                    <input type="search" placeholder="Recherche POI" class="form-control searchbar" data-toggle="tooltip" title="En cours de développement">
+                    <!--<input type="search" placeholder="Recherche POI" class="form-control searchbar" data-toggle="tooltip" title="En cours de développement">-->
+                    <select id="recherchePoi" class="chosen-select">
+                        <option id="selectNull" disabled selected value="selectNull">Rechercher une POI</option>
+                        <?php
+                        if(sizeof($listeNomPoi) > 0)
+                        {
+                            foreach($listeNomPoi as $nomPoi)
+                            {
+                                ?>
+                                <option value="<?php echo $nomPoi ?>" ><?php echo $nomPoi ?></option>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </select>
                     <button id="pushMail" class="btn btn-primary" data-toggle="modal" data-target="#mailModal"><span class="glyphicon glyphicon-envelope"></span> Push mail <span class="badge badge-secondary" id="badge-push-mail">0</span></button>
                 </div>
             </div>
@@ -86,6 +110,7 @@
                         foreach($listePoi as $poi)
                         {
                             ?>
+                            
                             <tr id="poi-<?php echo $poi->id ?>" class="eltTr ui-<?php echo $poi->atr_ui ?> domaine-<?php echo $poi->domaine ?> sousDomaine-<?php echo $poi->sous_domaine ?> sousJustif-<?php echo $poi->ft_sous_justification_oeie ?> 
                                <?php  
                                 /*$dateAjd = strtotime("+7 day");
@@ -124,7 +149,7 @@
                                 <td class="colonneObjetPoi" style="display: none"><?php echo json_encode($poi) ?></td>
                                 <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
                                 <td><?php echo $poi->atr_ui ?></td>
-                                <td><?php echo $poi->ft_numero_oeie ?></td>
+                                <td class="colonneNomPoi"><?php echo $poi->ft_numero_oeie ?></td>
                                 <td class="colonneDre"><?php echo $poi->ft_oeie_dre ?></td>
                                 <td><?php echo $poi->domaine ?></td>
                                 <td><?php echo $poi->sous_domaine ?></td>
@@ -168,7 +193,7 @@
                                                                 if($dateExpiration < $dateAjd)
                                                                 {
                                                                     ?>
-                                                                    <button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-sm btn-success validerPoi">Valider</button>
+                                                                    <button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-xs btn-success validerPoi">Valider <span class="glyphicon glyphicon-ok-sign"></span></button>
                                                                     <?php
                                                                 }
                                                                 else{
@@ -185,7 +210,7 @@
                                                     ?>
                                                     <td class="colonneNbRelances">0</td>
                                                     <td class="colonneDateDernierEnvoi"></td>
-                                                    <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-sm btn-success validerPoi">Valider</button></td>
+                                                    <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-xs btn-success validerPoi">Valider <span class="glyphicon glyphicon-ok-sign"></span></button></td>
                                                     <?php
                                                 }
                                             }
@@ -193,7 +218,7 @@
                                                 ?>
                                                 <td class="colonneNbRelances">0</td>
                                                 <td class="colonneDateDernierEnvoi"></td>
-                                                <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-sm btn-success validerPoi">Valider</button></td>
+                                                <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-xs btn-success validerPoi">Valider <span class="glyphicon glyphicon-ok-sign"></span></button></td>
                                                 <?php
                                             }
                                             ?>
@@ -227,8 +252,43 @@
           </div>
         </div>
 
+        <script src="chosen/chosen.jquery.min.js"></script>
         <script>
             $(function(){
+                jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
+                    this.each(function() {
+                        $(this).css("position","relative"); 
+                        for (var x=1; x<=intShakes; x++) {
+                        $(this).animate({left:(intDistance*-1)}, (((intDuration/intShakes)/4)))
+                    .animate({left:intDistance}, ((intDuration/intShakes)/2))
+                    .animate({left:0}, (((intDuration/intShakes)/4)));
+                    }
+                  });
+                return this;
+                };
+                
+                $("#recherchePoi").chosen({search_contains: true, width: "inherit"});
+                
+                $("#recherchePoi").change(function(){
+                    var nomPoi = $(this).val();
+                    //$("#tablePoi tbody tr:first").hide().show("shake");
+                    $("#tablePoi tbody tr").each(function(){
+                        if($(this).children(".colonneNomPoi").text() == nomPoi)
+                            {
+                                var idPoi = $(this).attr("id");
+                                $('html, body').animate({
+                                    scrollTop: $("#" + idPoi).offset().top
+                                }, 500, function(){
+                                    $("#" + idPoi).shake(2, 5, 200);
+                                });
+                                $("#recherchePoi").val("selectNull");
+                                $('#recherchePoi').trigger("chosen:updated");
+                                //$("#recherchePoi").chosen("destroy").chosen();
+                                //$("#recherchePoi option:first").prop("selected", true);
+                            }
+                    });
+                });
+                
                 $('#badge-push-mail').bind("DOMSubtreeModified",function(){
                   if($(this).text() == 0)
                       {
