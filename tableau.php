@@ -53,6 +53,10 @@
                     <button type="button" class="btn btn-success" data-color="success">En cours <span class="badge badge-secondary" id="badge-en-cours">0</span></button>
                     <input id="success" type="checkbox" class="hidden" checked />
                 </span>
+                <span class="button-checkbox">
+                    <button type="button" class="btn btn-secondary" data-color="secondary"><span class="glyphicon glyphicon-star"></span> Alert <span class="badge badge-secondary" id="badge-en-cours">0</span></button>
+                    <input id="secondary" type="checkbox" class="hidden" checked />
+                </span>
                 </div>
 
                 <div class="mailsearch">
