@@ -270,6 +270,8 @@
                 $("#recherchePoi").chosen({search_contains: true, width: "inherit"});
                 
                 $("#recherchePoi").change(function(){
+                    
+                    
                     var nomPoi = $(this).val();
                     //$("#tablePoi tbody tr:first").hide().show("shake");
                     $("#tablePoi tbody tr").each(function(){
@@ -279,7 +281,9 @@
                                 $('html, body').animate({
                                     scrollTop: $("#" + idPoi).offset().top
                                 }, 500, function(){
-                                    $("#" + idPoi).shake(2, 5, 200);
+                                    //$("#" + idPoi).css("position","relative").hide().show("shake");
+                                    $("#" + idPoi).fadeOut().fadeIn();
+                                    //$("#" + idPoi).shake(2, 5, 200);
                                 });
                                 $("#recherchePoi").val("selectNull");
                                 $('#recherchePoi').trigger("chosen:updated");
