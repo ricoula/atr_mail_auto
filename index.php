@@ -30,11 +30,34 @@
         $listePoiRelance = json_decode(getListePoiRelances($toutesPoi));*/
         ?>
             <div id="statsUi" class="statsUiov">
-                <div><h4 class="green">Alpes<span class="glyphicon glyphicon-triangle-right green stat_icon"></span>89.2%<h1></div>
+                <div id="listeStatsUi">
+                    <?php
+                    $listeUI = json_decode(getStatsUi());
+                    foreach($listeUI as $ui)
+                    {
+                        ?>
+                    <div><h4 class="<?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($ui->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $ui->statistique ?>%</h4></div>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <div id="listeTableauxUi" style="display:none" class="container-fluid">
+                    <?php
+                    foreach($listeUI as $ui)
+                    {
+                        ?>
+                        <div class="col-lg-4">
+                            <h4 id="listeUi-<?php echo $ui->libelle ?>" class="<?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($ui->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $ui->statistique ?>%</h4>
+                            <div class="list-group tableauUi" id="liste-<?php echo $ui->libelle ?>">
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <!--<div><h4 class="green">Alpes<span class="glyphicon glyphicon-triangle-right green stat_icon"></span>89.2%<h1></div>
                 <div><h4 class="red">Midi Py<span class="glyphicon glyphicon-triangle-right red stat_icon"></span>69.1%<h1></div>
-                <div><h4 class="red">Lyon<span class="glyphicon glyphicon-triangle-right red stat_icon"></span>76.8%<h1></div>
-            </div>
-            <div id="statUiExpend" class="statsUiov">
+                <div><h4 class="red">Lyon<span class="glyphicon glyphicon-triangle-right red stat_icon"></span>76.8%<h1></div>-->
             </div>
             <form class="intro-header">
             <h1 class="titre"><span class="label label-default">Unité d'intervention</span></h1>
