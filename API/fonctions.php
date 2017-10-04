@@ -576,4 +576,199 @@
 		}
 		return json_encode($poi);
 	}
+	
+	function getStatsUi()
+	{
+		include("connexionBdd.php");
+		$bddErp = $bdd;
+		$bdd = null;
+		unset($bdd);
+		include("connexionBddRelance.php");
+		$maBdd = $bdd;
+		include("global.php");
+		
+		$listeUI = array();
+		$i = 0;
+		$req = $bddErp->query("SELECT DISTINCT atr_ui FROM (".$global.") atr ");
+		while($data = $req->fetch())
+		{
+			$ui = (object) array();
+			$ui->libelle = $data["atr_ui"];
+			array_push($listeUI, $ui);
+		}
+		
+		foreach($listeUI as $ui)
+		{
+			$listePoi = array();
+			
+			$req = $bddErp->prepare("SELECT id, ft_oeie_dre FROM (".$global.") atr WHERE atr_ui = ?");
+			$req->execute(array($ui->libelle));
+			while($data = $req->fetch())
+			{
+				$poi = (object) array();
+				
+				$poi->id = $data["id"];
+				$poi->dre = strtotime($data["ft_oeie_dre"]);
+
+				$req2 = $maBdd->prepare("SELECT nb_relances, date_expiration FROM relance WHERE poi = ?");
+				$req2->execute(array($poi->id));
+				if($data2 = $req2->fetch())
+				{
+					$poi->nbRelances = $data2["nb_relances"];
+					$poi->dateExpiration = strtotime($data2["date_expiration"]);
+				}
+				else{
+					$poi->nbRelances = 0;
+					$poi->dateExpiration = 0;
+				}
+				
+				array_push($listePoi, $poi);
+			}
+			
+			$ui->listePoi = $listePoi;
+		}
+		
+		$dateAjd = time();
+		foreach($listeUI as $ui)
+		{
+			$nbEnCours = 0;
+			$nbAttOrange = 0;
+			$nbAttAtr = 0;
+			$nbRetard = 0;
+			foreach($ui->listePoi as $poi)
+			{
+				if($poi->dre > $dateAjd)
+				{
+					$poi->categorie = "en_cours";
+					$nbEnCours++;
+				}
+				elseif($poi->dateExpiration > $dateAjd)
+				{
+					$poi->categorie = "att_orange";
+					$nbAttOrange++;
+				}
+				elseif($poi->nbRelances > 0)
+				{
+					$poi->categorie = "att_atr";
+					$nbAttAtr++;
+				}
+				else{
+					$poi->categorie = "retard";
+					$nbRetard++;
+				}
+			}
+			$ui->statistique = round((1-(($nbRetard + $nbAttAtr) / sizeof($ui->listePoi))) * 100, 1);
+		}
+		
+		return json_encode($listeUI);
+	}
+	
+	function getStatsDomaine()
+	{
+		include("connexionBdd.php");
+		$bddErp = $bdd;
+		$bdd = null;
+		unset($bdd);
+		include("connexionBddRelance.php");
+		$maBdd = $bdd;
+		$bdd = null;
+		unset($bdd);
+		include("global.php");
+		
+		$listeDomaines = array();
+		$req = $bddErp->query("SELECT DISTINCT domaine FROM (".$global.") atr WHERE domaine IS NOT NULL");
+		while($data = $req->fetch())
+		{
+			$domaine = (object) array();
+			$domaine->libelle = $data["domaine"];
+			
+			array_push($listeDomaines, $domaine);
+		}
+		
+		foreach($listeDomaines as $domaine)
+		{
+			$listeUI = array();
+			$req = $bddErp->prepare("SELECT DISTINCT atr_ui FROM (".$global.") atr WHERE domaine = ?");
+			$req->execute(array($domaine->libelle));
+			while($data = $req->fetch())
+			{
+				$ui = (object) array();
+				$ui->libelle = $data["atr_ui"];
+				
+				array_push($listeUI, $ui);
+			}
+			$domaine->listeUi = $listeUI;
+		}
+		
+		foreach($listeDomaines as $domaine)
+		{
+			foreach($domaine->listeUi as $ui)
+			{
+				$listePoi = array();
+				
+				$req = $bddErp->prepare("SELECT id, ft_oeie_dre FROM (".$global.") atr WHERE atr_ui = ? AND domaine = ?");
+				$req->execute(array($ui->libelle, $domaine->libelle));
+				while($data = $req->fetch())
+				{
+					$poi = (object) array();
+					$poi->id = $data["id"];
+					$poi->dre = strtotime($data["ft_oeie_dre"]);
+					
+					$req2 = $maBdd->prepare("SELECT nb_relances, date_expiration FROM relance WHERE poi = ?");
+					$req2->execute(array($poi->id));
+					if($data2 = $req2->fetch())
+					{
+						$poi->nbRelances = $data2["nb_relances"];
+						$poi->dateExpiration = $data2["date_expiration"];
+					}
+					else{
+						$poi->nbRelances = 0;
+						$poi->dateExpiration = 0;
+					}
+					
+					array_push($listePoi, $poi);
+				}
+				
+				$ui->listePoi = $listePoi;
+			}
+		}
+		
+		$dateAjd = time();
+		foreach($listeDomaines as $domaine)
+		{
+			foreach($domaine->listeUi as $ui)
+			{
+				$nbEnCours = 0;
+				$nbAttAtr = 0;
+				$nbAttOrange = 0;
+				$nbRetard = 0;
+				foreach($ui->listePoi as $poi)
+				{
+					if($poi->dre > $dateAjd)
+					{
+						$poi->categorie = "en_cours";
+						$nbEnCours++;
+					}
+					elseif($poi->dateExpiration > $dateAjd)
+					{
+						$poi->categorie = "att_orange";
+						$nbAttOrange++;
+					}
+					elseif($poi->nbRelances > 0)
+					{
+						$poi->categorie = "att_atr";
+						$nbAttAtr++;
+					}
+					else{
+						$poi->categorie = "retard";
+						$nbRetard++;
+					}
+				}
+				
+				$ui->statistique = round((1-(($nbRetard + $nbAttAtr) / sizeof($ui->listePoi))) * 100, 1);
+			}
+		}
+		
+		return json_encode($listeDomaines);
+	}
 ?>

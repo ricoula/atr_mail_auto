@@ -108,6 +108,7 @@
                         <th>Nb relances</th>
                         <th>Dernière relance</th>
                         <th>Expiration</th>
+                        <th>Alerte</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -229,6 +230,7 @@
                                                 <?php
                                             }
                                             ?>
+                                <td><span class="glyphicon glyphicon-supprimer"></span></td>
                             </tr>
                             <?php
                         }
