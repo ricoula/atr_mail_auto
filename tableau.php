@@ -54,8 +54,11 @@
                     <input id="success" type="checkbox" class="hidden" checked />
                 </span>
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-secondary" data-color="secondary"><span class="glyphicon glyphicon-star"></span> Alert <span class="badge badge-secondary" id="badge-en-cours">0</span></button>
-                    <input id="secondary" type="checkbox" class="hidden" checked />
+                    <button type="button" class="btn btn-dark starButton" data-color="dark"><span class="glyphicon glyphicon-star"></span> Alert <span class="badge badge-secondary" id="badge-en-cours">0</span></button>
+                    <input id="dark" type="checkbox" class="hidden" checked />
+                </span>
+                <span>
+                      <input type="search" class="form-control" placeholder="Recherche commentaire" id="searchCommentBar">
                 </span>
                 </div>
 

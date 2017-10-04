@@ -1,4 +1,15 @@
 $(function(){
+
+    $("#statsUi").mouseover(function(e){
+        e.preventDefault();
+        e.stopPropagation(); 
+        $(this).animate({height: "800px"}, 500);
+    });
+    $("#statsUi").focusout(function(e){ 
+        $(this).animate({height: "45px"}, 500);
+    });
+
+
     $("#activerSousJustifs").click(function(){
         if($("#checkActiverSousJustifs").prop("checked") == true)
             {

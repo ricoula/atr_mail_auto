@@ -69,8 +69,55 @@ margin-top:3px;
 {
     border-bottom:2px solid #ffffff;
 }
-.chosen-single
+
+#recherchePoi_chosen a
 {
-    height:35px;
-    margin-right:10px;
+     height:35px;   
+     margin-right:20px;
+}
+#recherchePoi_chosen a
+{
+     height:35px;   
+     margin-right:20px;
+}
+#recherchePoi_chosen span
+{
+    margin-top:5px; 
+}
+
+#searchCommentBar
+{
+    width:250px;
+    display:-webkit-inline-box;
+    margin-left:30px;
+}
+#statsUi
+{
+    height:45px;
+    background-color:#2c3e50;
+    display:flex;
+}
+#statsUi div
+{
+    color:#c5c5c5;
+    margin-left:50px;
+}
+.green
+{
+    color:green;
+}
+.red
+{
+    color:red;
+}
+.stat_icon
+{
+    top:3px;
+}
+#statUiExpend
+{
+    height:450px;
+    background-color:#2c3e50;
+    display:none;
+    
 }

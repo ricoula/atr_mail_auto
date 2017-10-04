@@ -29,7 +29,13 @@
         $toutesPoi = implode(",", $toutesPoi);
         $listePoiRelance = json_decode(getListePoiRelances($toutesPoi));*/
         ?>
-        
+            <div id="statsUi" class="statsUiov">
+                <div><h4 class="green">Alpes<span class="glyphicon glyphicon-triangle-right green stat_icon"></span>89.2%<h1></div>
+                <div><h4 class="red">Midi Py<span class="glyphicon glyphicon-triangle-right red stat_icon"></span>69.1%<h1></div>
+                <div><h4 class="red">Lyon<span class="glyphicon glyphicon-triangle-right red stat_icon"></span>76.8%<h1></div>
+            </div>
+            <div id="statUiExpend" class="statsUiov">
+            </div>
             <form class="intro-header">
             <h1 class="titre"><span class="label label-default">Unité d'intervention</span></h1>
                 <div class="form-group row divRadios" id="divUi">
