@@ -53,10 +53,6 @@
                     <button type="button" class="btn btn-success" data-color="success">En cours <span class="badge badge-secondary" id="badge-en-cours">0</span></button>
                     <input id="success" type="checkbox" class="hidden" checked />
                 </span>
-                <span class="button-checkbox">
-                    <button type="button" class="btn btn-dark starButton" data-color="dark"><span class="glyphicon glyphicon-star"></span> Alert <span class="badge badge-secondary" id="badge-en-cours">0</span></button>
-                    <input id="dark" type="checkbox" class="hidden" checked />
-                </span>
                 <span>
                       <input type="search" class="form-control" placeholder="Recherche commentaire" id="searchCommentBar">
                 </span>
@@ -207,9 +203,21 @@
                                                                 else{
                                                                     echo $poiRelance->date_expiration;
                                                                 }
+                                                                
                                                                 ?>
                                                             </td>
                                                             <?php
+                                                            if($poiRelance->alerte == true)
+                                                            {
+                                                                ?>
+                                                                <td><button class="btn btn-link btnAlertPoi"><span class="glyphicon glyphicon-star"></span></button></td>
+                                                                <?php
+                                                            }
+                                                        else{
+                                                            ?>
+                                                            <td><button class="btn btn-link btnAlertPoi"><span class="glyphicon glyphicon-star-empty"></span></button></td>
+                                                            <?php
+                                                        }
                                                         }
                                                     }
                                                 }
@@ -219,7 +227,8 @@
                                                     <td class="colonneNbRelances">0</td>
                                                     <td class="colonneDateDernierEnvoi"></td>
                                                     <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-xs btn-success validerPoi">Valider <span class="glyphicon glyphicon-ok-sign"></span></button></td>
-                                                    <?php
+                                                    <td><button class="btn btn-link btnAlertPoi"><span class="glyphicon glyphicon-star-empty"></span></button></td>
+                                                <?php
                                                 }
                                             }
                                             else{
@@ -227,10 +236,10 @@
                                                 <td class="colonneNbRelances">0</td>
                                                 <td class="colonneDateDernierEnvoi"></td>
                                                 <td class="colonneDateExpiration"><button id="validerPoi-<?php echo $poi->id ?>" class="btn btn-xs btn-success validerPoi">Valider <span class="glyphicon glyphicon-ok-sign"></span></button></td>
+                                                <td><button class="btn btn-link btnAlertPoi"><span class="glyphicon glyphicon-star-empty"></span></button></td>
                                                 <?php
                                             }
                                             ?>
-                                <td><span class="glyphicon glyphicon-supprimer"></span></td>
                             </tr>
                             <?php
                         }
@@ -275,6 +284,8 @@
                   });
                 return this;
                 };
+                
+                $(".glyphicon-star").closest("tr").addClass("alerte");
                 
                 $("#recherchePoi").chosen({search_contains: true, width: "inherit"});
                 
@@ -493,6 +504,33 @@
                     }
             });
             });
+                
+            $(".btnAlertPoi").click(function(){
+                var btnAlertPoi = $(this);
+                var poi = $(this).closest("tr").attr("id").split("-")[1];
+                if(!btnAlertPoi.closest("tr").hasClass("alerte"))
+                    {
+                        $.post("API/ajouterAlerte.php", {poi: poi}, function(data){
+                            var reponse = JSON.parse(data);
+                            if(reponse)
+                                {
+                                    btnAlertPoi.html("<span class='glyphicon glyphicon-star alerte'></span>");
+                                    btnAlertPoi.closest("tr").addClass("alerte");
+                                }
+                        });
+                    }
+                else{
+                    $.post("API/removeAlerte.php", {poi: poi}, function(data){
+                            var reponse = JSON.parse(data);
+                            if(reponse)
+                                {
+                                    btnAlertPoi.html("<span class='glyphicon glyphicon-star-empty'></span>");
+                                    btnAlertPoi.closest("tr").removeClass("alerte");
+                                }
+                        });
+                }
+            });
+
             
             $("#imageChargement").hide();
             $("table").show();

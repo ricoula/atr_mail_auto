@@ -162,6 +162,10 @@
                         ?>
                 </div>
                 <!--<button id="btnValiderFiltres" class="btn btn-info">Valider filtres</button>-->
+                <div style="text-align: center">
+                        <button id="btnAlerte" type="button" class="btn btn-default" data-color="dark"><span class="glyphicon glyphicon-star"></span> Alertes </button>
+                        <input type="checkbox" id="checkboxAlerte" class="checkboxFiltre" hidden/>
+                </div>
             </form>
             
         

@@ -464,6 +464,7 @@
 			$listePoi[$i]["id"] = $data["id"];
 			$listePoi[$i]["poi"] = $data["poi"];
 			$listePoi[$i]["nb_relances"] = $data["nb_relances"];
+			$listePoi[$i]["alerte"] = $data["alerte"];
 			if($data["date_derniere_relance"] != null)
 				{
 					$listePoi[$i]["date_derniere_relance"] = date("d/m/Y", strtotime($data["date_derniere_relance"]));
@@ -587,6 +588,51 @@
 		$maBdd = $bdd;
 		include("global.php");
 		
+		$listePoiBleues = array();
+		$req = $maBdd->query("select poi from relance where date_expiration >= NOW()");
+		while($data = $req->fetch())
+		{
+			array_push($listePoiBleues, $data["poi"]);
+		}
+		
+		$listePoiBleues = implode(", ", $listePoiBleues);
+		
+		$listeUi = array();
+		if($listePoiBleues != null && $listePoiBleues != "")
+		{
+			$req = $bddErp->query("select atr_ui,count(dre_ko) as dre_ko,count(dre_ok) as dre_ok from(select atr_ui,ft_oeie_dre,case when (ft_oeie_dre IS NULL OR ft_oeie_dre <= NOW()) and id not in (".$listePoiBleues.") then 1 end as dre_ko,case when ft_oeie_dre > NOW() or id in (".$listePoiBleues.") then 1 end as dre_ok from (".$global.")dre)dre2 group by atr_ui");
+			while($data = $req->fetch())
+			{
+				$ui = (object) array();
+				$ui->libelle = $data["atr_ui"];
+				$ui->statistique = round((1-($data["dre_ko"]/($data["dre_ko"] + $data["dre_ok"])))*100, 1);
+				array_push($listeUi, $ui);
+			}
+		}
+		else{
+			$req = $bddErp->query("select atr_ui,count(dre_ko) as dre_ko,count(dre_ok) as dre_ok from(select atr_ui,ft_oeie_dre,case when (ft_oeie_dre IS NULL OR ft_oeie_dre <= NOW()) then 1 end as dre_ko,case when ft_oeie_dre > NOW() then 1 end as dre_ok from (".$global.")dre)dre2 group by atr_ui");
+			while($data = $req->fetch())
+			{
+				$ui = (object) array();
+				$ui->libelle = $data["atr_ui"];
+				$ui->statistique = round((1-($data["dre_ko"]/($data["dre_ko"] + $data["dre_ok"])))*100, 1);
+				array_push($listeUi, $ui);
+			}
+		}
+		
+		return json_encode($listeUi);
+	}
+	
+	/*function getStatsUi()
+	{
+		include("connexionBdd.php");
+		$bddErp = $bdd;
+		$bdd = null;
+		unset($bdd);
+		include("connexionBddRelance.php");
+		$maBdd = $bdd;
+		include("global.php");
+		
 		$listeUI = array();
 		$i = 0;
 		$req = $bddErp->query("SELECT DISTINCT atr_ui FROM (".$global.") atr ");
@@ -661,7 +707,7 @@
 		}
 		
 		return json_encode($listeUI);
-	}
+	}*/
 	
 	function getStatsDomaine()
 	{
@@ -770,5 +816,99 @@
 		}
 		
 		return json_encode($listeDomaines);
+	}
+	
+	function ajouterAlerte($poi)
+	{
+		include("connexionBddRelance.php");
+		
+		$reponse = false;
+		
+		try{
+			$req = $bdd->prepare("SELECT id FROM relance WHERE poi = ?");
+			$req->execute(array($poi));
+			if(!$data = $req->fetch())
+			{
+				$req2 = $bdd->prepare("INSERT INTO relance(poi) VALUES(?)");
+				$req2->execute(array($poi));
+			}
+			
+			$req = $bdd->prepare("UPDATE relance SET alerte = TRUE WHERE poi = ?");
+			$reponse = $req->execute(array($poi));
+		}
+		catch(Exception $e){
+			$reponse = false;
+		}
+		return json_encode($reponse);
+	}
+	
+	function removeAlerte($poi)
+	{
+		include("connexionBddRelance.php");
+		
+		$reponse = false;
+		
+		try{
+			$req = $bdd->prepare("UPDATE relance SET alerte = FALSE WHERE poi = ?");
+			$reponse = $req->execute(array($poi));
+		}
+		catch(Exception $e){
+			$reponse = false;
+		}
+		return json_encode($reponse);
+	}
+	
+	function getAlertesUi($listeUi)
+	{
+		include("connexionBdd.php");
+		$bddErp = $bdd;
+		$bdd = null;
+		unset($bdd);
+		include("connexionBddRelance.php");
+		$maBdd = $bdd;
+		$bdd = null;
+		unset($bdd);
+		include("global.php");
+		
+		$poi_list = null;
+		$i = 0;
+		
+		$listePoiAlerteRelance = array();
+		$req = $maBdd->query("SELECT poi FROM relance WHERE alerte = TRUE");
+		while($data = $req->fetch())
+		{
+			array_push($listePoiAlerteRelance, $data["poi"]);
+		}
+		$listePoiAlerteRelance = implode(", ", $listePoiAlerteRelance);
+		
+		$req = $bddErp->query("SELECT * FROM (".$global.") poi WHERE atr_ui IN(".$listeUi.") AND id IN(".$listePoiAlerteRelance.")");
+		while($data = $req->fetch())
+		{
+			$poi_list[$i]['id'] = $data['id'];
+			$poi_list[$i]['atr_ui'] = $data['atr_ui'];
+			$poi_list[$i]['ft_numero_oeie'] = $data['ft_numero_oeie'];
+			
+			if($data['ft_oeie_dre'] != null)
+			{
+				$poi_list[$i]['ft_oeie_dre'] = date("d/m/Y", strtotime($data['ft_oeie_dre']));
+			}
+			else{
+					$poi_list[$i]['ft_oeie_dre'] = null;
+				}
+			
+			
+			$poi_list[$i]['domaine'] = $data['domaine'];
+			$poi_list[$i]['sous_domaine'] = $data['sous_domaine'];
+			$poi_list[$i]['ft_pg'] = $data['ft_pg'];
+			$poi_list[$i]['ft_sous_justification_oeie'] = $data['ft_sous_justification_oeie'];
+			$poi_list[$i]['ft_libelle_commune'] = $data['ft_libelle_commune'];
+			$poi_list[$i]['ft_libelle_de_voie'] = $data['ft_libelle_de_voie'];
+			$poi_list[$i]['name_related'] = $data['name_related'];
+			$poi_list[$i]['work_email'] = $data['work_email'];
+			$poi_list[$i]['mobile_phone'] = $data['mobile_phone'];
+			$poi_list[$i]['ft_commentaire_creation_oeie'] = $data['ft_commentaire_creation_oeie'];
+			$i++;
+		}
+		return json_encode($poi_list);
 	}
 ?>
