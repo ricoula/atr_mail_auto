@@ -18,6 +18,7 @@
 
         <?php
         include("API/fonctions.php");
+        $listeDomaines = json_decode(getDomaines());
         /*$listePoi = json_decode(getAll(100));
         $toutesPoi = array();
         if($listePoi != null)
@@ -43,15 +44,24 @@
                     ?>
                 </div>
                 <div id="allTableStat">
-                <div class="listeTableUi">
-                    <span class="tableStatTitle"><h4 class="<?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($listeUI[0]->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $listeUI[0]->statistique ?>%</h4></span>
-                    <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="green pull-right">83.2%</span></li>
-                    <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="green pull-right">81.0%</span></li>
-                    <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="red pull-right">76.2%</span></li>
-                    <li class="tableStatDomaine"><span class="tbl_domaine">Fo Cu</span><span class="red pull-right">60.8%</span></li>
-                    <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="red pull-right">33.5%</span></li>
-                    <div class="graphStat"></div>
-                </div>
+                    <?php
+                    $listeStatsUiDomaine = json_decode(getStatsDomaine());
+                    $listDom = array("Client", "FO & CU", "Immo", "Dissi", "Coordi");
+                    foreach($listeStatsUiDomaine as $statsTable)
+                    {
+                        ?>
+                        <div class="listeTableUi">
+                            <span class="tableStatTitle"><h4 class="<?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($listeUI[0]->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $listeUI[0]->statistique ?>%</h4></span>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="green pull-right">83.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Fo & Cu</span><span class="red pull-right">60.8%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="green pull-right">81.0%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="red pull-right">76.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="red pull-right">33.5%</span></li>
+                            <div class="graphStat"></div>
+                        </div>
+                        <?php
+                    }
+                    ?>
      
 
                 </div>
@@ -100,7 +110,6 @@
                 <h1 class="titre"><span class="label label-default">Domaine</span></h1>
                 <div class="form-group row divRadios" id="divDomaines">
                     <?php
-                    $listeDomaines = json_decode(getDomaines());
                     if($listeDomaines != null)
                     {
                         foreach($listeDomaines as $domaine)
