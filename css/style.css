@@ -156,3 +156,8 @@ margin-top:3px;
 {
     display:flex;
 }
+.tbl_domaine:hover
+{
+    cursor:pointer;
+    font-weight: bold;
+}
