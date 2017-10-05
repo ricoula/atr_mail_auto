@@ -35,52 +35,54 @@ $(function(){
             e.preventDefault();
             e.stopPropagation();
             $(this).stop().animate({height: "580px"}, 500, function(){
-            
-                $("#listeTableauxUi").show();
-                $(".listeTableUi").show();
-                $(".listeTableUi").css({ borderTopColor: '#2c3e50', borderLeftColor: '#2c3e50', borderRightColor: '#2c3e50', borderBottomColor: '#2c3e50' });
-                $(".listeTableUi").stop().animate({ borderTopColor: '#f7f9f8', borderLeftColor: '#f7f9f8', borderRightColor: '#f7f9f8', borderBottomColor: '#f7f9f8' }, 2000);
-                console.log("te");
-                $(".tableStatTitle").fadeIn(function(){
-                    $(".tableStatDomaine").fadeIn(function(){
-                        $(".graphStat").fadeIn(function(){
-                            var chart = new Chartist.Line('.graphStat', {
-                                labels: ['J-10', 'J-9','J-8','J-7','J-6','J-5','J-4','J-3','J-2'],
-                                series: [
-                                  [50, 90, 70, 80, 50, 30, 50, 40,30,20]
-                                ]
-                              }, {
-                                low: 0,
-                                high:100,
-                                width:228,
-                                height:150,
-                                fullWidth:true,
-                                showPoint:false,
-                                showArea: true,
-                              });
-                             
-                              
-                              chart.on('draw', function(data) {
-                                if(data.type === 'line' || data.type === 'area') {
-                                  data.element.animate({
-                                    d: {
-                                      begin: 2000 * data.index,
-                                      dur: 3000,
-                                      from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-                                      to: data.path.clone().stringify(),
-                                      easing: Chartist.Svg.Easing.easeOutQuint
+                $("#listeStatsUi h4").fadeOut(function(){
+                    $("#listeTableauxUi").show();
+                    $(".listeTableUi").show();
+                    $(".listeTableUi").css({ borderTopColor: '#2c3e50', borderLeftColor: '#2c3e50', borderRightColor: '#2c3e50', borderBottomColor: '#2c3e50' });
+                    $(".listeTableUi").stop().animate({ borderTopColor: '#f7f9f8', borderLeftColor: '#f7f9f8', borderRightColor: '#f7f9f8', borderBottomColor: '#f7f9f8' }, 2000);
+                    console.log("te");
+                    $(".tableStatTitle").fadeIn(function(){
+                        $(".tableStatDomaine").fadeIn(function(){
+                            $(".graphStat").fadeIn(function(){
+                                var chart = new Chartist.Line('.graphStat', {
+                                    labels: ['J-10', 'J-9','J-8','J-7','J-6','J-5','J-4','J-3','J-2'],
+                                    series: [
+                                      [50, 90, 70, 80, 50, 30, 50, 40,30,20]
+                                    ]
+                                  }, {
+                                    low: 0,
+                                    high:100,
+                                    width:228,
+                                    height:150,
+                                    fullWidth:true,
+                                    showPoint:false,
+                                    showArea: true,
+                                  });
+                                 
+                                  
+                                  chart.on('draw', function(data) {
+                                    if(data.type === 'line' || data.type === 'area') {
+                                      data.element.animate({
+                                        d: {
+                                          begin: 2000 * data.index,
+                                          dur: 3000,
+                                          from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
+                                          to: data.path.clone().stringify(),
+                                          easing: Chartist.Svg.Easing.easeOutQuint
+                                        }
+                                      });
                                     }
                                   });
-                                }
-                              });
-                              
-                             
-                             
+                                  
+                                 
+                                 
+                            });
+                           
                         });
-                       
+                        
                     });
-                    
                 });
+                
                 // var chart = new Chartist.Line('.graphStat', {
                 //     labels: ['J-10', 'J-9','J-8','J-7','J-6','J-5','J-4','J-3','J-2'],
                 //     series: [
@@ -115,7 +117,7 @@ $(function(){
     $("#statsUi").mouseleave(function(){
        
         //$(".listeTableUi").css({borderTopColor:"#2c3e00",borderRightColor:"#2c3e00",borderLeftColor:"#2c3e00",borderBottomColor:"#2c3e00"});
-        
+        $("#listeStatsUi h4").fadeIn();
         $(".graphStat").html("");
         $(".graphStat").css({display:"none"});
         $(".tableStatDomaine").css({display:"none"});
