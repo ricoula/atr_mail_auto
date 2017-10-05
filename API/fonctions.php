@@ -719,6 +719,76 @@
 		$maBdd = $bdd;
 		$bdd = null;
 		unset($bdd);
+		include("global.php");		
+		
+		
+		$listePoiBleues = array();
+		$req = $maBdd->query("select poi from relance where date_expiration >= NOW()");
+		while($data = $req->fetch())
+		{
+			array_push($listePoiBleues, $data["poi"]);
+		}
+		
+		$listePoiBleues = implode(", ", $listePoiBleues);
+		
+		$listeUi = array();
+		if($listePoiBleues != null && $listePoiBleues != "")
+		{
+			$req = $bddErp->query("select atr_ui,domaine,case when sum(dre_ko) is null then 0 else sum(dre_ko) end as dre_ko,case when sum(dre_ok) is null then 0 else sum(dre_ok) end as dre_ok from(select atr_ui,domaine,ft_oeie_dre,case when (ft_oeie_dre is null or ft_oeie_dre <= NOW()) and id not in (".$listePoiBleues.") then 1 end as dre_ko,case when ft_oeie_dre > NOW() or id in (".$listePoiBleues.") then 1 end as dre_ok from (".$global.")dre)dre2 where domaine is not null group by atr_ui,domaine order by atr_ui,domaine");
+		}
+		else{
+			$req = $bddErp->query("select atr_ui,domaine,case when sum(dre_ko) is null then 0 else sum(dre_ko) end as dre_ko,case when sum(dre_ok) is null then 0 else sum(dre_ok) end as dre_ok from(select atr_ui,domaine,ft_oeie_dre,case when (ft_oeie_dre is null or ft_oeie_dre <= NOW()) then 1 end as dre_ko,case when ft_oeie_dre > NOW() then 1 end as dre_ok from (".$global.")dre)dre2 where domaine is not null group by atr_ui,domaine order by atr_ui,domaine");
+		}
+		while($data = $req->fetch())
+		{
+			$uiExistante = false;
+			foreach($listeUi as $ui)
+			{
+				if($ui->libelle == $data["atr_ui"])
+				{
+					$uiExistante = true;
+				}
+			}
+			if(!$uiExistante)
+			{
+				$ui = (object) array();
+				$ui->libelle = $data["atr_ui"];
+				$ui->listeDomaines = array();
+				
+				$domaine = (object) array();
+				$domaine->libelle = $data["domaine"];
+				$domaine->statistiques = round((1-($data["dre_ko"]/($data["dre_ko"] + $data["dre_ok"])))*100, 1);
+				array_push($ui->listeDomaines, $domaine);
+				
+				array_push($listeUi, $ui);
+			}
+			else{
+				foreach($listeUi as $ui)
+				{
+					if($ui->libelle == $data["atr_ui"])
+					{
+						$domaine = (object) array();
+						$domaine->libelle = $data["domaine"];
+						$domaine->statistiques = round((1-($data["dre_ko"]/($data["dre_ko"] + $data["dre_ok"])))*100, 1);
+						array_push($ui->listeDomaines, $domaine);
+					}
+				}
+			}
+		}
+		
+		return json_encode($listeUi);
+	}
+	
+	/*function getStatsDomaine()
+	{
+		include("connexionBdd.php");
+		$bddErp = $bdd;
+		$bdd = null;
+		unset($bdd);
+		include("connexionBddRelance.php");
+		$maBdd = $bdd;
+		$bdd = null;
+		unset($bdd);
 		include("global.php");
 		
 		$listeDomaines = array();
@@ -816,7 +886,7 @@
 		}
 		
 		return json_encode($listeDomaines);
-	}
+	}*/
 	
 	function ajouterAlerte($poi)
 	{
