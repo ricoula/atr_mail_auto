@@ -461,6 +461,33 @@ $(function(){
             });
         }
     });
+    
+    $("#btnAlerte").click(function(){
+        if($(this).hasClass("btn-default"))
+            {
+                var getCheckedUi = [];
+                $(".checkboxUi").each(function(){
+                  if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                  {
+                      getCheckedUi.push("'" + $(this).attr("id").split("-")[1] + "'");
+                  }
+                });
+                getCheckedUi = getCheckedUi.join(", ");
+                 console.log(getCheckedUi);                     
+                $(this).removeClass().addClass("btn btn-primary");
+                
+                $.post("API/getAlertesUi.php", {liste_ui: getCheckedUi}, function(data){
+                    $("#tableau").load("tableau.php", {liste_poi: data, alerte: true}, function(){
+                        $("#imageLoad").hide();
+                        $("#tableau").show();
+                    });
+                });
+            }
+        else{
+            $("#checkboxAlerte").click();
+            $(this).removeClass().addClass("btn btn-default");
+        }
+    });
 
 
         $('[data-toggle="tooltip"]').tooltip(); 
