@@ -1,4 +1,5 @@
 $(function(){
+<<<<<<< HEAD
 
     $("#statsUi").hover(function(){
         /*var divElt = document.createElement("div");
@@ -32,7 +33,93 @@ $(function(){
         $(this).animate({height: "800px"}, 500, function(){
             $("#listeTableauxUi").show();
         });
+=======
+    
+    $(".btn_detail").click(function(e){
+        console.log("click");
+        if($(".btn_detail").hasClass("btn_detail_active")){
+            console.log("if");
+                $(this).removeClass("btn_detail_active");
+                console.log("remove active");
+                $(this).addClass("btn_detail_disable");
+                console.log("add disable");
+                $(this).text("Plus de détail ");
+                //$(".listeTableUi").css({borderTopColor:"#2c3e00",borderRightColor:"#2c3e00",borderLeftColor:"#2c3e00",borderBottomColor:"#2c3e00"});
+                $("#listeStatsUi h4").fadeIn();
+                $(".graphStat").html("");
+                $(".graphStat").css({display:"none"});
+                $(".tableStatDomaine").css({display:"none"});
+                $(".tableStatTitle").css({display:"none"});
+                $(".listeTableUi").css({display:"none"});
+               $("#statsUi").css({height:"45px"});
+               console.log("ferme");
+        }
+        else
+        {
+            console.log("else");
+            $(this).prop("disabled",true);
+            $(this).removeClass("btn_detail_disable");
+            console.log("remove disable");
+            $(this).addClass("btn_detail_active");
+            console.log("add active active");
+            $(this).text("Fermer le détail ");
+            console.log("ouvrir");
+            if($("#statsUi").css("height")!='580px'){
+                e.preventDefault();
+                e.stopPropagation();
+                $("#statsUi").stop().animate({height: "580px"}, 500, function(){
+                    $("#listeStatsUi h4").fadeOut(function(){
+                        $("#listeTableauxUi").show();
+                        $(".listeTableUi").show();
+                        $(".listeTableUi").css({ borderTopColor: '#2c3e50', borderLeftColor: '#2c3e50', borderRightColor: '#2c3e50', borderBottomColor: '#2c3e50' });
+                        $(".listeTableUi").stop().animate({ borderTopColor: '#f7f9f8', borderLeftColor: '#f7f9f8', borderRightColor: '#f7f9f8', borderBottomColor: '#f7f9f8' }, 2000);
+                        console.log("te");
+                        $(".tableStatTitle").fadeIn(function(){
+                            $(".tableStatDomaine").fadeIn(function(){
+                                $(".graphStat").fadeIn(function(){
+                                    var chart = new Chartist.Line('.graphStat', {
+                                        labels: ['J-10', 'J-9','J-8','J-7','J-6','J-5','J-4','J-3','J-2'],
+                                        series: [
+                                          [50, 90, 70, 80, 50, 30, 50, 40,30,20]
+                                        ]
+                                      }, {
+                                        low: 0,
+                                        high:100,
+                                        width:228,
+                                        height:150,
+                                        fullWidth:true,
+                                        showPoint:false,
+                                        showArea: true,
+                                      });
+                                     
+                                      
+                                    //   chart.on('draw', function(data) {
+                                    //     if(data.type === 'line' || data.type === 'area') {
+                                    //       data.element.animate({
+                                    //         d: {
+                                    //           begin: 2000 * data.index,
+                                    //           dur: 3000,
+                                    //           from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
+                                    //           to: data.path.clone().stringify(),
+                                    //           easing: Chartist.Svg.Easing.easeOutQuint
+                                    //         }
+                                    //       });
+                                    //     }
+                                    //   });
+                                      $(".btn_detail").prop("disabled",false);
+                                });
+
+                            });
+                        });
+                    });
+                });
+            }
+        }
+        
+        
+>>>>>>> 4cd8e6b2b2a15fc1579eafcb02c2575f52b0e427
     });
+    
 
 
     $("#activerSousJustifs").click(function(){

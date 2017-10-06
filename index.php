@@ -36,12 +36,95 @@
                     foreach($listeUI as $ui)
                     {
                         ?>
-                    <div><h4 class="<?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($ui->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $ui->statistique ?>%</h4></div>
+                    <div><h4 class="<?php echo "stats-".$ui->libelle." "; if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($ui->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><label><?php echo  $ui->statistique ?>%</label></h4></div>
                         <?php
                     }
                     ?>
+                    <button class="btn_detail btn_detail_disable pull-right">Plus de détail <span class="glyphicon glyphicon-menu-down"></span></button>
                 </div>
+<<<<<<< HEAD
                 <div id="listeTableauxUi" style="display:none" class="container-fluid">
+=======
+                <div class="carousel">
+                    <div id="allTableStat" class="reel">
+                        <div class="listeTableUi">
+                            <span class="tableStatTitle"><h4 class="<?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($listeUI[0]->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $listeUI[0]->statistique ?>%</h4></span>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="green pull-right">83.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="green pull-right">81.0%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="red pull-right">76.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Fo Cu</span><span class="red pull-right">60.8%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="red pull-right">33.5%</span></li>
+                            <div class="graphStat"></div>
+                        </div>
+                        <div class="listeTableUi">
+                            <span class="tableStatTitle"><h4 class="<?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($listeUI[0]->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $listeUI[0]->statistique ?>%</h4></span>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="green pull-right">83.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="green pull-right">81.0%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="red pull-right">76.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Fo Cu</span><span class="red pull-right">60.8%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="red pull-right">33.5%</span></li>
+                            <div class="graphStat"></div>
+                        </div>
+                        <div class="listeTableUi">
+                            <span class="tableStatTitle"><h4 class="<?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($listeUI[0]->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $listeUI[0]->statistique ?>%</h4></span>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="green pull-right">83.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="green pull-right">81.0%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="red pull-right">76.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Fo Cu</span><span class="red pull-right">60.8%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="red pull-right">33.5%</span></li>
+                            <div class="graphStat"></div>
+                        </div>
+                        <div class="listeTableUi">
+                            <span class="tableStatTitle"><h4 class="<?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($listeUI[0]->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $listeUI[0]->statistique ?>%</h4></span>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="green pull-right">83.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="green pull-right">81.0%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="red pull-right">76.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Fo Cu</span><span class="red pull-right">60.8%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="red pull-right">33.5%</span></li>
+                            <div class="graphStat"></div>
+                        </div>
+                        <div class="listeTableUi">
+                            <span class="tableStatTitle"><h4 class="<?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($listeUI[0]->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $listeUI[0]->statistique ?>%</h4></span>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="green pull-right">83.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="green pull-right">81.0%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="red pull-right">76.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Fo Cu</span><span class="red pull-right">60.8%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="red pull-right">33.5%</span></li>
+                            <div class="graphStat"></div>
+                        </div>
+                        <div class="listeTableUi">
+                            <span class="tableStatTitle"><h4 class="<?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($listeUI[0]->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $listeUI[0]->statistique ?>%</h4></span>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="green pull-right">83.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="green pull-right">81.0%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="red pull-right">76.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Fo Cu</span><span class="red pull-right">60.8%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="red pull-right">33.5%</span></li>
+                            <div class="graphStat"></div>
+                        </div>
+                        <div class="listeTableUi">
+                            <span class="tableStatTitle"><h4 class="<?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($listeUI[0]->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $listeUI[0]->statistique ?>%</h4></span>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="green pull-right">83.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="green pull-right">81.0%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="red pull-right">76.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Fo Cu</span><span class="red pull-right">60.8%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="red pull-right">33.5%</span></li>
+                            <div class="graphStat"></div>
+                        </div>
+                        <div class="listeTableUi">
+                            <span class="tableStatTitle"><h4 class="<?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($listeUI[0]->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($listeUI[0]->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $listeUI[0]->statistique ?>%</h4></span>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="green pull-right">83.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="green pull-right">81.0%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="red pull-right">76.2%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Fo Cu</span><span class="red pull-right">60.8%</span></li>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="red pull-right">33.5%</span></li>
+                            <div class="graphStat"></div>
+                        </div>
+                    </div>
+                </div>
+               
+               
+                <!-- <div id="listeTableauxUi" style="display:none" class="container-fluid">
+>>>>>>> 4cd8e6b2b2a15fc1579eafcb02c2575f52b0e427
                     <?php
                     foreach($listeUI as $ui)
                     {
