@@ -376,6 +376,31 @@
                         $("#badge-en-cours").html($("tbody .success").length);
                     }
             });
+            $.post("API/getStatsUi.php",function(data){
+                var statsUi = JSON.parse(data);
+                statsUi.forEach(function(ui){
+                    if($(".stats-"+ui.libelle+" label").text() != ui.statistique +"%"){
+                  
+                        $(".stats-"+ui.libelle+" label").text(ui.statistique + "%");
+                        if(ui.statistique >= 80){
+                            $(".stats-"+ui.libelle).removeClass("red");
+                            $(".stats-"+ui.libelle).addClass("green");
+                            $(".stats-"+ui.libelle+" span").removeClass("red");
+                            $(".stats-"+ui.libelle+" span").addClass("green");
+                        }
+                        if(ui.statistique < 80){
+                            $(".stats-"+ui.libelle).removeClass("green");
+                            $(".stats-"+ui.libelle).addClass("red");
+                            $(".stats-"+ui.libelle+" span").removeClass("green");
+                            $(".stats-"+ui.libelle+" span").addClass("red");
+                        }
+        
+
+                        console.log(ui.libelle);
+                    }
+                    
+                })
+            });
         });
             
             

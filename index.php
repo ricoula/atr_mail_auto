@@ -37,10 +37,11 @@
                     foreach($listeUI as $ui)
                     {
                         ?>
-                    <div><h4 class="<?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($ui->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $ui->statistique ?>%</h4></div>
+                    <div><h4 class="<?php echo "stats-".$ui->libelle." "; if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($ui->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><label><?php echo  $ui->statistique ?>%</label></h4></div>
                         <?php
                     }
                     ?>
+                    <button class="btn_detail btn_detail_disable pull-right">Plus de détail <span class="glyphicon glyphicon-menu-down"></span></button>
                 </div>
                 <div class="carousel">
                     <div id="allTableStat" class="reel">

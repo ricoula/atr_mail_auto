@@ -101,8 +101,11 @@ margin-top:3px;
 }
 #listeStatsUi div
 {
+    width:100%;
     color:#c5c5c5;
-    margin-left:50px;
+
+    display:flex;
+    justify-content:space-around;
 }
 .green
 {
@@ -171,4 +174,16 @@ margin-top:3px;
     cursor:pointer;
     font-weight: bold;
 
+}
+.btn_detail
+{
+    min-width:170px;
+    background-color:transparent;
+    border:1px solid white;
+    height:35px;
+    margin-top:5px;
+    text-align:center;
+    color:white;
+    border-radius:5px;
+    margin-right:5px;
 }
