@@ -6,7 +6,6 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="chosen/chosen.min.css" >
-        <link rel="stylesheet" href="css/chart.css">
         <style>
             #imageLoad{
                 text-align: center;
@@ -43,6 +42,9 @@
                     ?>
                     <button class="btn_detail btn_detail_disable pull-right">Plus de détail <span class="glyphicon glyphicon-menu-down"></span></button>
                 </div>
+<<<<<<< HEAD
+                <div id="listeTableauxUi" style="display:none" class="container-fluid">
+=======
                 <div class="carousel">
                     <div id="allTableStat" class="reel">
                         <div class="listeTableUi">
@@ -122,6 +124,7 @@
                
                
                 <!-- <div id="listeTableauxUi" style="display:none" class="container-fluid">
+>>>>>>> 4cd8e6b2b2a15fc1579eafcb02c2575f52b0e427
                     <?php
                     foreach($listeUI as $ui)
                     {
@@ -134,7 +137,7 @@
                         <?php
                     }
                     ?>
-                </div> -->
+                </div>
                 <!--<div><h4 class="green">Alpes<span class="glyphicon glyphicon-triangle-right green stat_icon"></span>89.2%<h1></div>
                 <div><h4 class="red">Midi Py<span class="glyphicon glyphicon-triangle-right red stat_icon"></span>69.1%<h1></div>
                 <div><h4 class="red">Lyon<span class="glyphicon glyphicon-triangle-right red stat_icon"></span>76.8%<h1></div>-->
@@ -263,7 +266,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="tablesort/jquery.tablesorter.min.js"></script>
-        <script src="js/chart.js"></script>
         <script src="js/index.js"></script>
         <script src="js/checkbox.js"></script>
         <!--<script src="js/checkbox.js"></script>-->
