@@ -370,13 +370,10 @@
                     {
                         
                         $("#poi-" + idPoi).removeClass("info").removeClass("warning").removeClass("danger").addClass("info");
-                        $("#poi-" + idPoi).children("td").children(".checkPoi").prop("checked", false);
                         $("#badge-retard").html($("tbody .danger").length);
                         $("#badge-att-atr").html($("tbody .warning").length);
                         $("#badge-att-orange").html($("tbody .info").length);
                         $("#badge-en-cours").html($("tbody .success").length);
-                        $("#badge-push-mail").html($(".checkPoi:checked").length);
-                        
                     }
             });
         });
