@@ -85,7 +85,6 @@ $(function(){
     });
     
 
-
     $("#activerSousJustifs").click(function(){
         if($("#checkActiverSousJustifs").prop("checked") == true)
             {
