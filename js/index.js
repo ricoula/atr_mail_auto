@@ -1,39 +1,4 @@
 $(function(){
-<<<<<<< HEAD
-
-    $("#statsUi").hover(function(){
-        /*var divElt = document.createElement("div");
-        divElt.id = "divTableaux";
-        divElt.style.width = "30em";
-        divElt.style.overflowX = "auto";
-        divElt.style.whiteSpace = "nowrap";
-        divElt.classList += "container-fluid";
-        
-        $.post("API/getStatsDomaine.php", {}, function(data){
-            var listeDomaines = JSON.parse(data);
-            listeDomaines.forEach(function(domaine){
-                var itemList = document.createElement("a");
-                itemList.href = "#";
-                itemList.classList += "list-group-item";
-                itemList.textContent = domaine.libelle;
-                $(".tableauUi").each(function(i, elt){
-                    
-                    if(domaine.listeUi.indexOf(elt.attr("id").split("-")[1]) != -1)
-                        {
-                            elt.append(itemList);
-                        }
-                    else{
-                        itemList.textContent = "-----------";
-                        elt.append(itemList);
-                    }
-                });
-            });
-        });*/
-        
-        $(this).animate({height: "800px"}, 500, function(){
-            $("#listeTableauxUi").show();
-        });
-=======
     
     $(".btn_detail").click(function(e){
         console.log("click");
@@ -117,7 +82,6 @@ $(function(){
         }
         
         
->>>>>>> 4cd8e6b2b2a15fc1579eafcb02c2575f52b0e427
     });
     
 
