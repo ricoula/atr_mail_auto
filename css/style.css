@@ -107,6 +107,10 @@ margin-top:3px;
     display:flex;
     justify-content:space-around;
 }
+#listeStatsUi h4
+{
+   margin-bottom:0px;
+}
 .green
 {
     color:green;
@@ -159,15 +163,8 @@ margin-top:3px;
 {
     display:flex;
      overflow:hidden;
-    white-space:nowrap;
-    position:absolute;
-    
-}
-#allTableStat
-{
-
+    white-space:nowrap;  
    
-    
 }
 .tbl_domaine:hover
 {

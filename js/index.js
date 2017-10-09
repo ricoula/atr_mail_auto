@@ -1,7 +1,11 @@
 $(function(){
     $.post("API/getUi.php", {}, function(data){
         var listeUi = JSON.parse(data);
-    
+        console.log("startf");
+       
+    // $.post("API/getStats.php",function(data){
+    //     var stats = JSON.parse(data);
+    // })    
     
     $(".btn_detail").click(function(e){
         console.log("click");
@@ -33,57 +37,85 @@ $(function(){
             $(this).text("Fermer le détail ");
             console.log("ouvrir");
             if($("#statsUi").css("height")!='580px'){
+                
                 e.preventDefault();
                 e.stopPropagation();
                 $("#statsUi").stop().animate({height: "580px"}, 500, function(){
+                    
                     $("#listeStatsUi h4").fadeOut();
                         console.log("CECI EST UN TEST");
                         $("#listeTableauxUi").show();
-                        $(".listeTableUi").show();
+                        $(".listeTableUi").delay(500).show();
                         $(".listeTableUi").css({ borderTopColor: '#2c3e50', borderLeftColor: '#2c3e50', borderRightColor: '#2c3e50', borderBottomColor: '#2c3e50' });
                         $(".listeTableUi").stop().animate({ borderTopColor: '#f7f9f8', borderLeftColor: '#f7f9f8', borderRightColor: '#f7f9f8', borderBottomColor: '#f7f9f8' }, 2000);
                         console.log("te");
-                        $(".tableStatTitle").fadeIn(function(){
-                            $(".tableStatDomaine").fadeIn(function(){
-                                $(".graphStat").fadeIn(function(){
+                        $(".tableStatTitle").fadeIn();
+                            console.log("nbtablestat");
+                            $(".tableStatDomaine").delay(500).fadeIn();
+                                console.log("nbtabledom");
+                                $(".graphStat").delay(500).fadeIn();
+                                    
                                     
                                     listeUi.forEach(function(ui){
+                                        console.log("graph")
                                         var lienGraph = "#graph-" + ui;
-                                        var chart = new Chartist.Line(lienGraph, {
-                                        labels: ['J-10', 'J-9','J-8','J-7','J-6','J-5','J-4','J-3','J-2'],
-                                        series: [
-                                          [50, 90, 70, 80, 50, 30, 50, 40,30,20]
-                                        ]
-                                      }, {
-                                        low: 0,
-                                        high:100,
-                                        width:228,
-                                        height:150,
-                                        fullWidth:true,
-                                        showPoint:false,
-                                        showArea: true,
-                                      });
+                                        $.post("API/getStats.php", {ui:ui}, function(data){
+                                             var stats = JSON.parse(data);
+                                            var ser_stat = [];
+                                            var lab_stat = [];
+                            
+                                            
+                                            for(var i = 0; i < stats.length;i++){
+                                               ser_stat.push(stats[i].globale);
+                                               date_stat = stats[i].date;
+                                               console.log(date_stat);
+                                               var jour = new Date(date_stat);
+                                               jour = jour.getDate()+"/"+ (jour.getMonth() + 1);
+                                               console.log(jour);
+                                               lab_stat.push(jour);
+                                            
+                                            }
+                                            console.log(lab_stat);
+                                       
+                                            var chart = new Chartist.Line(lienGraph, {
+                                                labels: lab_stat,
+                                                series: [
+                                                    ser_stat
+                                                ]
+                                              }, {
+                                                low: 0,
+                                                high:100,
+                                                width:228,
+                                                height:150,
+                                                fullWidth:true,
+                                                showPoint:false,
+                                                showArea: true,
+                                              });
+                                              chart.on('draw', function(data) {
+                                                if(data.type === 'line' || data.type === 'area') {
+                                                  data.element.animate({
+                                                    d: {
+                                                      begin: 2000 * data.index,
+                                                      dur: 3000,
+                                                      from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
+                                                      to: data.path.clone().stringify(),
+                                                      easing: Chartist.Svg.Easing.easeOutQuint
+                                                    }
+                                                  });
+                                                }
+                                              });
+                                        });
                                         
-                                    chart.on('draw', function(data) {
-                                         if(data.type === 'line' || data.type === 'area') {
-                                           data.element.animate({
-                                             d: {
-                                               begin: 2000 * data.index,
-                                               dur: 3000,
-                                               from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-                                               to: data.path.clone().stringify(),
-                                               easing: Chartist.Svg.Easing.easeOutQuint
-                                             }
-                                           });
-                                         }
-                                       });
+                                       
+                                        
+                                    
                                     });
                                      
                                       $(".btn_detail").prop("disabled",false);
-                                });
+                               
 
-                            });
-                        });
+                            
+                        
                 });
             }
         }

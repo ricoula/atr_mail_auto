@@ -47,6 +47,34 @@
 		}
 		return json_encode($uis);
 	}
+	function getStats($ui)
+	{
+		include("connexionBddRelance.php");
+		//$uis = null;
+		// $global = null;
+		// $client = null;
+		// $immo = null;
+		// $focu = null;
+		// $dissi = null;
+		// $coordi = null;
+		$stats = null;
+		$i = 0;
+		$req = $bdd->query("SELECT * FROM save_data WHERE ui = '".$ui."' ORDER BY ui,date");
+		// SELECT * FROM save_data WHERE date >= now() + interval '-10 day' and ui = '".$ui."' ORDER BY ui,date
+		while($data = $req->fetch())
+		{
+			$stats[$i]["date"] = $data["date"];
+			$stats[$i]["ui"] = $data["ui"];
+			$stats[$i]["globale"] = $data["globale"];
+			$stats[$i]["client"] = $data["client"];
+			$stats[$i]["immo"] = $data["immo"];
+			$stats[$i]["focu"] = $data["focu"];
+			$stats[$i]["dissi"] = $data["dissi"];
+			$stats[$i]["coordi"] = $data["coordi"];
+			$i++;
+		}
+		return json_encode($stats);
+	}
 	
 	function getDomainesByUi($listeUI) //$listeUi au format implode avec des virgules entre (chaque ui doit être entouré de '')
 	{
