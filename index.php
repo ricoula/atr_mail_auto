@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="chosen/chosen.min.css" >
+        <link rel="stylesheet" href="css/chart.css">
         <style>
             #imageLoad{
                 text-align: center;
@@ -17,6 +18,7 @@
 
         <?php
         include("API/fonctions.php");
+        $listeDomaines = json_decode(getDomaines());
         /*$listePoi = json_decode(getAll(100));
         $toutesPoi = array();
         if($listePoi != null)
@@ -42,23 +44,42 @@
                     ?>
                     <button class="btn_detail btn_detail_disable pull-right">Plus de détail <span class="glyphicon glyphicon-menu-down"></span></button>
                 </div>
-                <div id="listeTableauxUi" style="display:none" class="container-fluid">
+                
+                <div id="allTableStat">
                     <?php
-                    foreach($listeUI as $ui)
+                    $listeStatsUiDomaine = json_decode(getStatsDomaine());
+                    $listDom = array("Client", "FO & CU", "Immo", "Dissi", "Coordi");
+                    foreach($listeStatsUiDomaine as $statsUiDomaine)
                     {
+                        $statsUiDomaine->statistique = 0;
+                        foreach($listeUI as $ui)
+                        {
+                            if($ui->libelle == $statsUiDomaine->libelle)
+                            {
+                                $statsUiDomaine->statistique = $ui->statistique;
+                            }
+                            
+                        }
                         ?>
-                        <div class="col-lg-4">
-                            <h4 id="listeUi-<?php echo $ui->libelle ?>" class="<?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($ui->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo  $ui->statistique ?>%</h4>
-                            <div class="list-group tableauUi" id="liste-<?php echo $ui->libelle ?>">
-                            </div>
+                        <div class="listeTableUi">
+                            <span class="tableStatTitle"><h4 class="<?php if($statsUiDomaine->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($statsUiDomaine->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($statsUiDomaine->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo $statsUiDomaine->statistique ?>%</h4></span>
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Client</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Client"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Client"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Fo & Cu</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "FO & CU"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "FO & CU"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Immo</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Immo"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Immo"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Dissi</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Dissi"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Dissi"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            
+                            <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Coordi"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Coordi"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            <div id="graph-<?php echo $statsUiDomaine->libelle; ?>" class="graphStat"></div>
                         </div>
                         <?php
                     }
                     ?>
+     
+
                 </div>
-                <!--<div><h4 class="green">Alpes<span class="glyphicon glyphicon-triangle-right green stat_icon"></span>89.2%<h1></div>
-                <div><h4 class="red">Midi Py<span class="glyphicon glyphicon-triangle-right red stat_icon"></span>69.1%<h1></div>
-                <div><h4 class="red">Lyon<span class="glyphicon glyphicon-triangle-right red stat_icon"></span>76.8%<h1></div>-->
             </div>
             <form class="intro-header">
             <h1 class="titre"><span class="label label-default">Unité d'intervention</span></h1>
@@ -87,7 +108,6 @@
                 <h1 class="titre"><span class="label label-default">Domaine</span></h1>
                 <div class="form-group row divRadios" id="divDomaines">
                     <?php
-                    $listeDomaines = json_decode(getDomaines());
                     if($listeDomaines != null)
                     {
                         foreach($listeDomaines as $domaine)
@@ -184,6 +204,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="tablesort/jquery.tablesorter.min.js"></script>
+        <script src="js/chart.js"></script>
         <script src="js/index.js"></script>
         <script src="js/checkbox.js"></script>
         <!--<script src="js/checkbox.js"></script>-->

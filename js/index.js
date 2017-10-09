@@ -1,4 +1,7 @@
 $(function(){
+    $.post("API/getUi.php", {}, function(data){
+        var listeUi = JSON.parse(data);
+    
     
     $(".btn_detail").click(function(e){
         console.log("click");
@@ -33,7 +36,8 @@ $(function(){
                 e.preventDefault();
                 e.stopPropagation();
                 $("#statsUi").stop().animate({height: "580px"}, 500, function(){
-                    $("#listeStatsUi h4").fadeOut(function(){
+                    $("#listeStatsUi h4").fadeOut();
+                        console.log("CECI EST UN TEST");
                         $("#listeTableauxUi").show();
                         $(".listeTableUi").show();
                         $(".listeTableUi").css({ borderTopColor: '#2c3e50', borderLeftColor: '#2c3e50', borderRightColor: '#2c3e50', borderBottomColor: '#2c3e50' });
@@ -42,7 +46,10 @@ $(function(){
                         $(".tableStatTitle").fadeIn(function(){
                             $(".tableStatDomaine").fadeIn(function(){
                                 $(".graphStat").fadeIn(function(){
-                                    var chart = new Chartist.Line('.graphStat', {
+                                    
+                                    listeUi.forEach(function(ui){
+                                        var lienGraph = "#graph-" + ui;
+                                        var chart = new Chartist.Line(lienGraph, {
                                         labels: ['J-10', 'J-9','J-8','J-7','J-6','J-5','J-4','J-3','J-2'],
                                         series: [
                                           [50, 90, 70, 80, 50, 30, 50, 40,30,20]
@@ -56,27 +63,27 @@ $(function(){
                                         showPoint:false,
                                         showArea: true,
                                       });
+                                        
+                                    chart.on('draw', function(data) {
+                                         if(data.type === 'line' || data.type === 'area') {
+                                           data.element.animate({
+                                             d: {
+                                               begin: 2000 * data.index,
+                                               dur: 3000,
+                                               from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
+                                               to: data.path.clone().stringify(),
+                                               easing: Chartist.Svg.Easing.easeOutQuint
+                                             }
+                                           });
+                                         }
+                                       });
+                                    });
                                      
-                                      
-                                    //   chart.on('draw', function(data) {
-                                    //     if(data.type === 'line' || data.type === 'area') {
-                                    //       data.element.animate({
-                                    //         d: {
-                                    //           begin: 2000 * data.index,
-                                    //           dur: 3000,
-                                    //           from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-                                    //           to: data.path.clone().stringify(),
-                                    //           easing: Chartist.Svg.Easing.easeOutQuint
-                                    //         }
-                                    //       });
-                                    //     }
-                                    //   });
                                       $(".btn_detail").prop("disabled",false);
                                 });
 
                             });
                         });
-                    });
                 });
             }
         }
@@ -84,7 +91,6 @@ $(function(){
         
     });
     
-
 
     $("#activerSousJustifs").click(function(){
         if($("#checkActiverSousJustifs").prop("checked") == true)
@@ -451,5 +457,5 @@ $(function(){
 
 
         $('[data-toggle="tooltip"]').tooltip(); 
-    
+    });
 });

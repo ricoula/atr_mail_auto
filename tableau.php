@@ -366,6 +366,7 @@
                 $("#poi-" + idPoi).children(".colonneNbRelances").text(poi.nb_relances);
                 $("#poi-" + idPoi).children(".colonneDateDernierEnvoi").text(poi.date_derniere_relance);
                 $("#poi-" + idPoi).children(".colonneDateExpiration").text(poi.date_expiration);
+                $("#poi-" + idPoi).children("td").children(".checkPoi").prop("checked", false);
                 if(!$("#poi-" + idPoi).hasClass("success"))
                     {
                         
@@ -374,6 +375,7 @@
                         $("#badge-att-atr").html($("tbody .warning").length);
                         $("#badge-att-orange").html($("tbody .info").length);
                         $("#badge-en-cours").html($("tbody .success").length);
+                        $("#badge-push-mail").html($(".checkPoi:checked").length);
                     }
             });
             $.post("API/getStatsUi.php",function(data){
