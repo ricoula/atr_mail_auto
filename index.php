@@ -73,7 +73,10 @@
                             
                             <li class="tableStatDomaine"><span class="tbl_domaine">Coordi</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Coordi"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Coordi"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
                             <div id="graph-<?php echo $statsUiDomaine->libelle; ?>" class="graphStat"></div>
+                        
                         </div>
+                        <div id="left-scroll"><span class="glyphicon glyphicon-chevron-left"><span></div>
+                        <div id="right-scroll"><span class="glyphicon glyphicon-chevron-right"><span></div>
                         <?php
                     }
                     ?>

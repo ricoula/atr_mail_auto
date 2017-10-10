@@ -107,6 +107,10 @@ margin-top:3px;
     display:flex;
     justify-content:space-around;
 }
+#listeStatsUi h4
+{
+   margin-bottom:0px;
+}
 .green
 {
     color:green;
@@ -151,7 +155,55 @@ margin-top:3px;
 {
     text-align:center;
 }
-.graphStat,.tableStatDomaine,.tableStatTitle,.listeTableUi
+#left-scroll
+{
+    left:0px;
+    width:50px;
+    height:500px;
+    background-color:rgba(255, 255, 255, 0);
+    z-index:1000;
+    position:absolute;
+    
+    }
+    #right-scroll
+{
+    right:0px;
+    width:50px;
+    height:500px;
+    background-color:rgba(78, 45, 45, 0);
+    z-index:1000;
+    position:absolute;
+    
+    }
+    #left-scroll span
+{
+    left:15px;
+    top:250px;
+    font-size:50px;
+    color:rgba(247, 247, 247, 0.09)
+    }
+       #left-scroll span:hover
+{
+    top:250px;
+    left:15px;
+    font-size:50px;
+    color:rgba(247, 247, 247, 0.38);
+    cursor:pointer;
+    }
+    #right-scroll span
+{
+    top:250px;
+    font-size:50px;
+    color:rgba(247, 247, 247, 0.09)
+    }
+       #right-scroll span:hover
+{
+    top:250px;
+    font-size:50px;
+    color:rgba(247, 247, 247, 0.38);
+    cursor:pointer;
+    }
+.graphStat,.tableStatDomaine,.tableStatTitle,.listeTableUi,#left-scroll,#right-scroll
 {
  display: none;
 }
@@ -159,15 +211,8 @@ margin-top:3px;
 {
     display:flex;
      overflow:hidden;
-    white-space:nowrap;
-    position:absolute;
-    
-}
-#allTableStat
-{
-
+    white-space:nowrap;  
    
-    
 }
 .tbl_domaine:hover
 {
@@ -186,4 +231,10 @@ margin-top:3px;
     color:white;
     border-radius:5px;
     margin-right:5px;
+}
+html
+{
+
+    overflow-x:hidden;
+
 }
