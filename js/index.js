@@ -1,8 +1,25 @@
 $(function(){
+    $("#right-scroll").click(function(){
+        var px = $("#allTableStat").css("margin-left")
+        console.log(px);
+        if($("#allTableStat").css("margin-left") == '0px'){
+            
+            $("#allTableStat").animate({marginLeft: "-=550px"},600);
+        }
+       
+    });
+    $("#left-scroll").click(function(){
+        var px = $("#allTableStat").css("margin-left")
+        console.log(px);
+        if($("#allTableStat").css("margin-left") == '-550px'){
+            $("#allTableStat").animate({marginLeft: "+=550px"},600);
+        }
+       
+    });
     $.post("API/getUi.php", {}, function(data){
         var listeUi = JSON.parse(data);
         console.log("startf");
-       
+   
     // $.post("API/getStats.php",function(data){
     //     var stats = JSON.parse(data);
     // })    
@@ -23,6 +40,8 @@ $(function(){
                 $(".tableStatDomaine").css({display:"none"});
                 $(".tableStatTitle").css({display:"none"});
                 $(".listeTableUi").css({display:"none"});
+                $("#right-scroll").css({display:"none"});
+                $("#left-scroll").css({display:"none"});
                $("#statsUi").css({height:"45px"});
                console.log("ferme");
         }
@@ -45,6 +64,8 @@ $(function(){
                     $("#listeStatsUi h4").fadeOut();
                         console.log("CECI EST UN TEST");
                         $("#listeTableauxUi").show();
+                        $("#right-scroll").show();
+                        $("#left-scroll").show();
                         $(".listeTableUi").delay(500).show();
                         $(".listeTableUi").css({ borderTopColor: '#2c3e50', borderLeftColor: '#2c3e50', borderRightColor: '#2c3e50', borderBottomColor: '#2c3e50' });
                         $(".listeTableUi").stop().animate({ borderTopColor: '#f7f9f8', borderLeftColor: '#f7f9f8', borderRightColor: '#f7f9f8', borderBottomColor: '#f7f9f8' }, 2000);
