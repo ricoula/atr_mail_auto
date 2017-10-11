@@ -124,11 +124,11 @@
         $uiName = $ui;
         if($ui == 'JR4')
         {
-            $uiName = 'Alpes';
+            $uiName = 'ALP';
         }
         if($ui == 'QFY')
         {
-            $uiName = 'Lyon';
+            $uiName = 'LYO';
         }
         if($ui == 'GYL')
         {
@@ -144,15 +144,15 @@
         }
         if($ui == 'HD4')
         {
-            $uiName = 'Alsace Lorraine';
+            $uiName = 'ALS';
         }
         if($ui == 'TF7')
         {
-            $uiName = 'Midi Pyrennees';
+            $uiName = 'MPY';
         }
         if($ui == 'NGF')
         {
-            $uiName = 'Auvergne';
+            $uiName = 'AUV';
         }
         return json_encode($uiName);
     }

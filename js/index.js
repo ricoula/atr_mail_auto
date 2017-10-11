@@ -62,20 +62,15 @@ $(function(){
                 $("#statsUi").stop().animate({height: "580px"}, 500, function(){
                     
                     $("#listeStatsUi h4").fadeOut();
-                        console.log("CECI EST UN TEST");
                         $("#listeTableauxUi").show();
                         $("#right-scroll").show();
                         $("#left-scroll").show();
                         $(".listeTableUi").delay(500).show();
                         $(".listeTableUi").css({ borderTopColor: '#2c3e50', borderLeftColor: '#2c3e50', borderRightColor: '#2c3e50', borderBottomColor: '#2c3e50' });
                         $(".listeTableUi").stop().animate({ borderTopColor: '#f7f9f8', borderLeftColor: '#f7f9f8', borderRightColor: '#f7f9f8', borderBottomColor: '#f7f9f8' }, 2000);
-                        console.log("te");
                         $(".tableStatTitle").fadeIn();
-                            console.log("nbtablestat");
                             $(".tableStatDomaine").delay(500).fadeIn();
-                                console.log("nbtabledom");
                                 $(".graphStat").delay(500).fadeIn();
-                                    
                                     
                                     listeUi.forEach(function(ui){
                                         console.log("graph")
@@ -85,7 +80,6 @@ $(function(){
                                             var ser_stat = [];
                                             var lab_stat = [];
                             
-                                            
                                             for(var i = 0; i < stats.length;i++){
                                                ser_stat.push(stats[i].globale);
                                                date_stat = stats[i].date;
@@ -96,8 +90,6 @@ $(function(){
                                                lab_stat.push(jour);
                                             
                                             }
-                                            console.log(lab_stat);
-                                       
                                             var chart = new Chartist.Line(lienGraph, {
                                                 labels: lab_stat,
                                                 series: [
