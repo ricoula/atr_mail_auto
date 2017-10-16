@@ -1,4 +1,118 @@
 $(function(){
+    $(".libelleDomaine").click(function(){
+        var titre = $(this).text();
+        $(this).closest("div").children(".titreGraphe").text(titre);
+        
+        var ui = $(this).attr("id").split("-")[0];
+        var ceDomaine = $(this).attr("id").split("-")[1].toLowerCase();
+        var lienGraph = "#graph-" + ui;
+        $.post("API/getStats.php", {ui:ui}, function(data){
+             var stats = JSON.parse(data);
+            var ser_stat = [];
+            var lab_stat = [];
+            
+            for(var i = 0; i < stats.length;i++){
+                switch(ceDomaine)
+                {
+                    case "client":  ser_stat.push(stats[i].client);
+                        break;
+                    case "dissi":  ser_stat.push(stats[i].dissi);
+                        break;
+                    case "immo":  ser_stat.push(stats[i].immo);
+                        break;
+                    case "focu":  ser_stat.push(stats[i].focu);
+                        break;
+                    case "coordi":  ser_stat.push(stats[i].coordi);
+                        break;
+                }
+               date_stat = stats[i].date;
+               console.log(date_stat);
+               var jour = new Date(date_stat);
+               jour = jour.getDate()+"/"+ (jour.getMonth() + 1);
+               console.log(jour);
+               lab_stat.push(jour);
+
+            }
+            var chart = new Chartist.Line(lienGraph, {
+                labels: lab_stat,
+                series: [
+                    ser_stat
+                ]
+              }, {
+                low: 0,
+                high:100,
+                width:228,
+                height:150,
+                fullWidth:true,
+                showPoint:false,
+                showArea: true,
+              });
+              chart.on('draw', function(data) {
+                if(data.type === 'line' || data.type === 'area') {
+                  data.element.animate({
+                    d: {
+                      begin: 2000 * data.index,
+                      dur: 3000,
+                      from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
+                      to: data.path.clone().stringify(),
+                      easing: Chartist.Svg.Easing.easeOutQuint
+                    }
+                  });
+                }
+              });
+        });
+    });
+    
+    $(".tableStatTitle h4").click(function(){
+        $(this).closest("div").children(".titreGraphe").text("Global");
+        
+        var ui = $(this).attr("id").split("-")[1];
+        var lienGraph = "#graph-" + ui;
+        $.post("API/getStats.php", {ui:ui}, function(data){
+             var stats = JSON.parse(data);
+            var ser_stat = [];
+            var lab_stat = [];
+
+            for(var i = 0; i < stats.length;i++){
+               ser_stat.push(stats[i].globale);
+               date_stat = stats[i].date;
+               console.log(date_stat);
+               var jour = new Date(date_stat);
+               jour = jour.getDate()+"/"+ (jour.getMonth() + 1);
+               console.log(jour);
+               lab_stat.push(jour);
+
+            }
+            var chart = new Chartist.Line(lienGraph, {
+                labels: lab_stat,
+                series: [
+                    ser_stat
+                ]
+              }, {
+                low: 0,
+                high:100,
+                width:228,
+                height:150,
+                fullWidth:true,
+                showPoint:false,
+                showArea: true,
+              });
+              chart.on('draw', function(data) {
+                if(data.type === 'line' || data.type === 'area') {
+                  data.element.animate({
+                    d: {
+                      begin: 2000 * data.index,
+                      dur: 3000,
+                      from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
+                      to: data.path.clone().stringify(),
+                      easing: Chartist.Svg.Easing.easeOutQuint
+                    }
+                  });
+                }
+              });
+        });
+    });
+    
     $("#right-scroll").click(function(){
         var px = $("#allTableStat").css("margin-left")
         console.log(px);

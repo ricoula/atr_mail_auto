@@ -59,7 +59,8 @@
 		// $coordi = null;
 		$stats = null;
 		$i = 0;
-		$req = $bdd->query("SELECT * FROM save_data WHERE ui = '".$ui."' ORDER BY ui,date");
+		//$req = $bdd->query("SELECT * FROM save_data WHERE ui = '".$ui."' ORDER BY ui,date");
+		$req = $bdd->query("SELECT * FROM save_data WHERE date >= now() + interval '-10 day' and ui = '".$ui."' ORDER BY ui,date");
 		// SELECT * FROM save_data WHERE date >= now() + interval '-10 day' and ui = '".$ui."' ORDER BY ui,date
 		while($data = $req->fetch())
 		{
