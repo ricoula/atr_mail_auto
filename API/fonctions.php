@@ -74,6 +74,16 @@
 			$stats[$i]["coordi"] = $data["coordi"];
 			$i++;
 		}
+		
+		/*$stats[$i]["date"] = new date("Y-m-d");
+		$stats[$i]["ui"] = $ui;
+		$stats[$i]["globale"] = $data["globale"];
+		$stats[$i]["client"] = $data["client"];
+		$stats[$i]["immo"] = $data["immo"];
+		$stats[$i]["focu"] = $data["focu"];
+		$stats[$i]["dissi"] = $data["dissi"];
+		$stats[$i]["coordi"] = $data["coordi"];*/
+		
 		return json_encode($stats);
 	}
 	
