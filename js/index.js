@@ -192,7 +192,7 @@ $(function(){
 
     $("#tablePoi").tablesorter();
 
-    $(".checkboxFiltre").prop("checked", true);
+  //  $(".checkboxFiltre").prop("checked", true);
 
     $(".checkboxFiltre").change(function(){
         
@@ -404,7 +404,7 @@ $(function(){
     getCheckedDomaineJoined = getCheckedDomaine.join(",");
     getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
     getCheckedSJJoined = getCheckedSJ.join(",");
-
+    console.log("tesst");
     $.post("API/getAllParams.php", {liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined, limit: null}, function(data){
         $("#tableau").load("tableau.php", {liste_poi: data}, function(){
             $("#imageLoad").hide();
