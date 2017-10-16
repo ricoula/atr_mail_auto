@@ -151,7 +151,7 @@
                                ?>
                                ">
                                 <td class="colonneObjetPoi" style="display: none"><?php echo json_encode($poi) ?></td>
-                                <td><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
+                                <td class="colonneCheck"><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
                                 <td><?php echo $poi->atr_ui ?></td>
                                 <td class="colonneNomPoi"><?php echo $poi->ft_numero_oeie ?></td>
                                 <td class="colonneDre"><?php echo $poi->ft_oeie_dre ?></td>
@@ -164,7 +164,7 @@
                                 <td class="colonneCaff"><?php echo $poi->name_related ?></td>
                                 <td class="colonneEmail" style="display: none"><?php echo $poi->work_email ?></td>
                                 <td><?php echo $poi->mobile_phone ?></td>
-                                <td><?php echo $poi->ft_commentaire_creation_oeie ?></td>
+                                <td class="colonneCommentaire"><?php echo $poi->ft_commentaire_creation_oeie ?></td>
                                 <?php 
                                             if($listePoiRelance != null)
                                             {
@@ -271,6 +271,7 @@
         </div>
 
         <script src="chosen/chosen.jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.0/jquery.mark.es6.js"></script>
         <script>
             $(function(){
                 jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
@@ -557,6 +558,26 @@
                         });
                 }
             });
+                $("#searchCommentBar").on("keyup", function(){
+                    $(".colonneCommentaire").unmark();
+                    $(".colonneCommentaire").mark($("#searchCommentBar").val());
+                    $(".colonneCommentaire").each(function(){
+                        if($(this).text().toUpperCase().indexOf($("#searchCommentBar").val().toUpperCase()) == -1)
+                            {
+                                $(this).closest("tr").children(".colonneCheck").children(".checkPoi").prop("checked", false);
+                                $(this).closest("tr").hide();
+                            }
+                        else{
+                            $(this).closest("tr").children(".colonneCheck").children(".checkPoi").prop("checked", true);
+                            $(this).closest("tr").show();
+                        }
+                    });
+                    $("#badge-retard").html($("tbody .danger").length);
+                    $("#badge-att-atr").html($("tbody .warning").length);
+                    $("#badge-att-orange").html($("tbody .info").length);
+                    $("#badge-en-cours").html($("tbody .success").length);
+                    $("#badge-push-mail").html($(".checkPoi:checked").length);
+                });
 
             
             $("#imageChargement").hide();
