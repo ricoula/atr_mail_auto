@@ -1,28 +1,90 @@
 <?php
-
 	try{
-		$bdd = new PDO('pgsql:host=192.168.30.218;dbname=mail_auto', 'CYRRIC', 'cyril');
+		$bdd = new PDO('pgsql:host=localhost;dbname=mail_auto', 'postgres', 'postgres');
 	}
 	catch (Exception $e){
 		die('Erreur : '.$e->getMessage());
 	}
-	try{
+	
+	function getStatsUi()
+	{
+		try{
+		$bdd = new PDO('pgsql:host=localhost;dbname=mail_auto', 'postgres', 'postgres');
+		}
+		catch (Exception $e){
+			die('Erreur : '.$e->getMessage());
+		}
+		try{
 		$bddErp = new PDO('pgsql:host=192.168.30.240;dbname=ambigroup_dev', 'admambigroup', '13jkgaUM8Um');
+		}
+		catch (Exception $e){
+			die('Erreur : '.$e->getMessage());
+		}
+		$global = "select atr.atr_sous_domaine_id,atr.id,atr.atr_ui,atr.ft_numero_oeie,atr.ft_oeie_dre,atr.name as domaine,account_analytic_account.name as sous_domaine,atr.ft_pg, CASE WHEN LENGTH(ft_sous_justification_oeie) = 2 THEN ft_sous_justification_oeie ELSE 'Pas de SJ' END AS ft_sous_justification_oeie, atr.ft_libelle_commune,atr.ft_libelle_de_voie,atr.name_related,atr.work_email,atr.mobile_phone,atr.ft_commentaire_creation_oeie from(
+        select ag_poi.atr_sous_domaine_id,ag_poi.id,ag_poi.atr_ui,ag_poi.ft_oeie_dre,ag_poi.ft_numero_oeie,account_analytic_account.name,ag_poi.ft_pg,ag_poi.ft_sous_justification_oeie,ag_poi.ft_libelle_commune,ag_poi.ft_libelle_de_voie,hr_employee.name_related,hr_employee.work_email,hr_employee.mobile_phone,ag_poi.ft_commentaire_creation_oeie from ag_poi
+        left join account_analytic_account on ag_poi.atr_domaine_id = account_analytic_account.id
+        left join hr_employee on ag_poi.atr_caff_traitant_id = hr_employee.id
+        where ft_etat = '1' and name_related is not null and work_email is not null and ag_poi.ft_numero_oeie not like '%MBB%')atr
+        left join account_analytic_account on atr.atr_sous_domaine_id = account_analytic_account.id
+        order by ft_oeie_dre";	
+		
+		$listePoiBleues = array();
+		$req = $bdd->query("select poi from relance where date_expiration >= NOW()");
+		while($data = $req->fetch())
+		{
+			array_push($listePoiBleues, $data["poi"]);
+		}
+		
+		$listePoiBleues = implode(", ", $listePoiBleues);
+		
+		$listeUi = array();
+		if($listePoiBleues != null && $listePoiBleues != "")
+		{
+			$req = $bddErp->query("select atr_ui,count(dre_ko) as dre_ko,count(dre_ok) as dre_ok from(select atr_ui,ft_oeie_dre,case when (ft_oeie_dre IS NULL OR ft_oeie_dre <= NOW()) and id not in (".$listePoiBleues.") then 1 end as dre_ko,case when ft_oeie_dre > NOW() or id in (".$listePoiBleues.") then 1 end as dre_ok from (".$global.")dre)dre2 group by atr_ui");
+			while($data = $req->fetch())
+			{
+				$ui = (object) array();
+				$ui->libelle = $data["atr_ui"];
+				$ui->statistique = round((1-($data["dre_ko"]/($data["dre_ko"] + $data["dre_ok"])))*100, 1);
+				array_push($listeUi, $ui);
+			}
+		}
+		else{
+			$req = $bddErp->query("select atr_ui,count(dre_ko) as dre_ko,count(dre_ok) as dre_ok from(select atr_ui,ft_oeie_dre,case when (ft_oeie_dre IS NULL OR ft_oeie_dre <= NOW()) then 1 end as dre_ko,case when ft_oeie_dre > NOW() then 1 end as dre_ok from (".$global.")dre)dre2 group by atr_ui");
+			while($data = $req->fetch())
+			{
+				$ui = (object) array();
+				$ui->libelle = $data["atr_ui"];
+				$ui->statistique = round((1-($data["dre_ko"]/($data["dre_ko"] + $data["dre_ok"])))*100, 1);
+				array_push($listeUi, $ui);
+			}
+		}
+		
+		return json_encode($listeUi);
 	}
-	catch (Exception $e){
-		die('Erreur : '.$e->getMessage());
-	}
-
+	
 	function getStatsDomaine()
 	{
+		try{
+		$bdd = new PDO('pgsql:host=localhost;dbname=mail_auto', 'postgres', 'postgres');
+		}
+		catch (Exception $e){
+			die('Erreur : '.$e->getMessage());
+		}
+		try{
+		$bddErp = new PDO('pgsql:host=192.168.30.240;dbname=ambigroup_dev', 'admambigroup', '13jkgaUM8Um');
+		}
+		catch (Exception $e){
+			die('Erreur : '.$e->getMessage());
+		}
 		$global = "select atr.atr_sous_domaine_id,atr.id,atr.atr_ui,atr.ft_numero_oeie,atr.ft_oeie_dre,atr.name as domaine,account_analytic_account.name as sous_domaine,atr.ft_pg, CASE WHEN LENGTH(ft_sous_justification_oeie) = 2 THEN ft_sous_justification_oeie ELSE 'Pas de SJ' END AS ft_sous_justification_oeie, atr.ft_libelle_commune,atr.ft_libelle_de_voie,atr.name_related,atr.work_email,atr.mobile_phone,atr.ft_commentaire_creation_oeie from(
-			select ag_poi.atr_sous_domaine_id,ag_poi.id,ag_poi.atr_ui,ag_poi.ft_oeie_dre,ag_poi.ft_numero_oeie,account_analytic_account.name,ag_poi.ft_pg,ag_poi.ft_sous_justification_oeie,ag_poi.ft_libelle_commune,ag_poi.ft_libelle_de_voie,hr_employee.name_related,hr_employee.work_email,hr_employee.mobile_phone,ag_poi.ft_commentaire_creation_oeie from ag_poi
-			left join account_analytic_account on ag_poi.atr_domaine_id = account_analytic_account.id
-			left join hr_employee on ag_poi.atr_caff_traitant_id = hr_employee.id
-			where ft_etat = '1' and name_related is not null and work_email is not null and ag_poi.ft_numero_oeie not like '%MBB%')atr
-			left join account_analytic_account on atr.atr_sous_domaine_id = account_analytic_account.id
-			order by ft_oeie_dre";
-			
+        select ag_poi.atr_sous_domaine_id,ag_poi.id,ag_poi.atr_ui,ag_poi.ft_oeie_dre,ag_poi.ft_numero_oeie,account_analytic_account.name,ag_poi.ft_pg,ag_poi.ft_sous_justification_oeie,ag_poi.ft_libelle_commune,ag_poi.ft_libelle_de_voie,hr_employee.name_related,hr_employee.work_email,hr_employee.mobile_phone,ag_poi.ft_commentaire_creation_oeie from ag_poi
+        left join account_analytic_account on ag_poi.atr_domaine_id = account_analytic_account.id
+        left join hr_employee on ag_poi.atr_caff_traitant_id = hr_employee.id
+        where ft_etat = '1' and name_related is not null and work_email is not null and ag_poi.ft_numero_oeie not like '%MBB%')atr
+        left join account_analytic_account on atr.atr_sous_domaine_id = account_analytic_account.id
+        order by ft_oeie_dre";		
+		
 		$listeStatsUi = json_decode(getStatsUi());
 		
 		$listePoiBleues = array();
@@ -90,6 +152,7 @@
 		
 		return json_encode($listeUi);
 	}
+	
 	$listeStatsUi = json_decode(getStatsDomaine());
 	foreach($listeStatsUi as $statsUi)
 	{
