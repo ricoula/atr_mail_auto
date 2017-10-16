@@ -1,4 +1,15 @@
 $(function(){
+    function actualiserStats()
+    {
+        $.post("API/getStatsDomaine.php", {}, function(data){
+            var listeStatsDomaines = JSON.parse(data);
+            listeStatsDomaines.forEach(function(statsDom){
+                $("#statsBanderolle-" + statsDom.libelle).text(statsDom.statistiques);
+                $("#statsUiTable-" + statsDom.libelle).text(statsDom.statistiques);
+            });
+        });
+    }
+    
     $(".libelleDomaine").click(function(){
         var titre = $(this).text();
         $(this).closest("div").children(".titreGraphe").text(titre);
