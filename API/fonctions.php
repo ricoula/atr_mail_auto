@@ -749,6 +749,7 @@
 		unset($bdd);
 		include("global.php");		
 		
+		$listeStatsUi = json_decode(getStatsUi());
 		
 		$listePoiBleues = array();
 		$req = $maBdd->query("select poi from relance where date_expiration >= NOW()");
@@ -782,6 +783,15 @@
 				$ui = (object) array();
 				$ui->libelle = $data["atr_ui"];
 				$ui->listeDomaines = array();
+				$ui->statistiques = null;
+				
+				foreach($listeStatsUi as $statUi)
+				{
+					if($statUi->libelle == $ui->libelle)
+					{
+						$ui->statistiques = $statUi->statistique;
+					}
+				}
 				
 				$domaine = (object) array();
 				$domaine->libelle = $data["domaine"];
