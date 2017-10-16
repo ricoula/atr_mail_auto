@@ -407,7 +407,7 @@
 						{
 							foreach($caff->listePois as $poi)
 							{
-								array_push($listePoi, $poi->id);
+							array_push($listePoi, $poi->id);
 							}
 						}
 					}
@@ -756,7 +756,7 @@
 		{
 			array_push($listePoiBleues, $data["poi"]);
 		}
-		
+	
 		$listePoiBleues = implode(", ", $listePoiBleues);
 		
 		$listeUi = array();
