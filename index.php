@@ -12,6 +12,13 @@
                 text-align: center;
                 display: none;
             }
+            .titreGraphe{
+                text-align: center;
+                color: aliceblue;
+            }
+            .tableStatTitle h4{
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
@@ -38,7 +45,7 @@
                     foreach($listeUI as $ui)
                     {
                         ?>
-                    <div><h4 class="<?php echo "stats-".$ui->libelle." "; if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($ui->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><label><?php echo  $ui->statistique ?>%</label></h4></div>
+                    <div><h4 class="<?php echo "stats-".$ui->libelle." "; if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($ui->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($ui->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><label id="statsBanderolle-<?php echo $ui->libelle ?>"><?php echo  $ui->statistique ?>%</label></h4></div>
                         <?php
                     }
                     ?>
@@ -62,18 +69,18 @@
                         }
                         ?>
                         <div class="listeTableUi">
-                            <span class="tableStatTitle"><h4 class="<?php if($statsUiDomaine->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($statsUiDomaine->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($statsUiDomaine->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><?php echo $statsUiDomaine->statistique ?>%</h4></span>
-                            <li class="tableStatDomaine"><span class="tbl_domaine dom-<?php echo $statsUiDomaine->libelle; ?>">Client</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Client"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Client"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            <span class="tableStatTitle"><h4 id="titreTbale-<?php echo $statsUiDomaine->libelle ?>" class="<?php if($statsUiDomaine->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"><?php echo json_decode(getUiNameByUiTag($statsUiDomaine->libelle)) ?><span class="glyphicon glyphicon-triangle-right stat_icon <?php if($statsUiDomaine->statistique < 80){ echo "red"; }else{ echo "green"; } ?>"></span><span id="statsUiTable-<?php echo $statsUiDomaine->libelle ?>"><?php echo $statsUiDomaine->statistique ?></span>%</h4></span>
+                            <li class="tableStatDomaine"><span id="<?php echo $statsUiDomaine->libelle.'-Client' ?>" class="libelleDomaine tbl_domaine dom-<?php echo $statsUiDomaine->libelle; ?>">Client</span><span id="statsTable-<?php echo $statsUiDomaine->libelle.'-Client' ?>" class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Client"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Client"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
                             
-                            <li class="tableStatDomaine"><span class="tbl_domaine dom-<?php echo $statsUiDomaine->libelle; ?>">Fo & Cu</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "FO & CU"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "FO & CU"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            <li class="tableStatDomaine"><span id="<?php echo $statsUiDomaine->libelle.'-FOCU' ?>" class="libelleDomaine tbl_domaine dom-<?php echo $statsUiDomaine->libelle; ?>">Fo & Cu</span><span id="statsTable-<?php echo $statsUiDomaine->libelle.'-FOCU' ?>" class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "FO & CU"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "FO & CU"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
                             
-                            <li class="tableStatDomaine"><span class="tbl_domaine dom-<?php echo $statsUiDomaine->libelle; ?>">Immo</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Immo"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Immo"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            <li class="tableStatDomaine"><span id="<?php echo $statsUiDomaine->libelle.'-Immo' ?>" class="libelleDomaine tbl_domaine dom-<?php echo $statsUiDomaine->libelle; ?>">Immo</span><span id="statsTable-<?php echo $statsUiDomaine->libelle.'-Immo' ?>" class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Immo"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Immo"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
                             
-                            <li class="tableStatDomaine"><span class="tbl_domaine dom-<?php echo $statsUiDomaine->libelle; ?>">Dissi</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Dissi"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Dissi"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            <li class="tableStatDomaine"><span id="<?php echo $statsUiDomaine->libelle.'-Dissi' ?>" class="libelleDomaine tbl_domaine dom-<?php echo $statsUiDomaine->libelle; ?>">Dissi</span><span id="statsTable-<?php echo $statsUiDomaine->libelle.'-Dissi' ?>" class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Dissi"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Dissi"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
                             
-                            <li class="tableStatDomaine"><span class="tbl_domaine dom-<?php echo $statsUiDomaine->libelle; ?>">Coordi</span><span class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Coordi"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Coordi"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            <li class="tableStatDomaine"><span id="<?php echo $statsUiDomaine->libelle.'-Coordi' ?>" class="libelleDomaine tbl_domaine dom-<?php echo $statsUiDomaine->libelle; ?>">Coordi</span><span id="statsTable-<?php echo $statsUiDomaine->libelle.'-Coordi' ?>" class="<?php foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Coordi"){ if($dom->statistiques < 80){ echo "red"; }else{ echo "green"; } } } ?> pull-right"><?php $contient = false; foreach($statsUiDomaine->listeDomaines as $dom){ if($dom->libelle == "Coordi"){ echo $dom->statistiques."%"; $contient = true; } } if(!$contient){ echo "---"; } ?></span></li>
+                            <h5 id="titreGraphe-<?php echo $statsUiDomaine->libelle ?>" class="titreGraphe" >Global</h5>
                             <div id="graph-<?php echo $statsUiDomaine->libelle; ?>" class="graphStat"></div>
-                        
                         </div>
                         <div id="left-scroll"><span class="glyphicon glyphicon-chevron-left"><span></div>
                         <div id="right-scroll"><span class="glyphicon glyphicon-chevron-right"><span></div>
