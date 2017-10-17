@@ -454,10 +454,30 @@ $(function(){
    getCheckedUiJoined = getCheckedUi.join(",");
    getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
    getCheckedSJJoined = getCheckedSJ.join(",");  
-    $("#divSousJustifs div").each(function(){
+    $("#divSousJustifs div").each(function(i, elt){
         if($(this).is(getCheckedUiJoined) && $(this).is(getCheckedDomaineJoined) && $(this).is(getCheckedSousDomaineJoined))
         {
-                $(this).show(); 
+            var appartient = false;
+            //$.post("API/getSousDomainesAndDomainesAndUiBySousJustif.php", {sous_justif: });
+            var cetElt = $(this);
+            elt.classList.forEach(function(uneClasse){
+                var ceTableau = uneClasse.split("-");
+                if(ceTableau.length == 3 && uneClasse != "col-lg-1")
+                    {
+                        if(getCheckedUi.indexOf(".ui-" + ceTableau[0]) != -1 && getCheckedDomaine.indexOf(".domaine-" + ceTableau[1]) != -1 && getCheckedSousDomaine.indexOf(".sousDomaine-" + ceTableau[2]) != -1)
+                            {
+                                appartient = true;
+                                $(elt).show();
+                            }
+                        else{
+                            console.log(getCheckedUi + " / " + getCheckedDomaine + " / " + getCheckedSousDomaine);
+                        }
+                    }
+            });
+            if(!appartient)
+                {
+                    $(this).hide();
+                }
         }
         else
         {
@@ -574,6 +594,10 @@ $(function(){
                 if(!divSousJustif.hasClass("ui-" + elt.ui))
                 {
                     divSousJustif.addClass("ui-" + elt.ui);
+                }
+                if(!divSousJustif.hasClass(elt.ui + "-" + elt.domaine + "-" + elt.sous_domaine))
+                {
+                    divSousJustif.addClass(elt.ui + "-" + elt.domaine + "-" + elt.sous_domaine);
                 }
 
 
