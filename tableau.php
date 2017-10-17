@@ -357,8 +357,155 @@
             $("#toutSelectionner").click();
         }
                 
+        function actualiserStats()
+    {
+        $.post("API/getStatsDomaine.php", {}, function(data){
+            var listeStatsDomaines = JSON.parse(data);
+            listeStatsDomaines.forEach(function(statsDom){
                 
+                //UI Banderolle Accueil
+                $("#statsBanderolle-" + statsDom.libelle).text(statsDom.statistiques + "%");
+                if(statsDom.statistiques < 80)
+                    {
+                        $("#statsBanderolle-" + statsDom.libelle).closest("h4").removeClass("green").removeClass("red").addClass("red");
+                    }
+                else{
+                    $("#statsBanderolle-" + statsDom.libelle).closest("h4").removeClass("green").removeClass("red").addClass("green");
+                }
+                
+                //Titre Tableau
+                $("#statsUiTable-" + statsDom.libelle).text(statsDom.statistiques);
+                if(statsDom.statistiques < 80)
+                    {
+                        $("#statsUiTable-" + statsDom.libelle).closest("h4").removeClass("green").removeClass("red").addClass("red");
+                        $("#statsUiTable-" + statsDom.libelle).closest("h4").children(".stat_icon").removeClass("green").removeClass("red").addClass("red");
+                    }
+                else{
+                    $("#statsUiTable-" + statsDom.libelle).closest("h4").removeClass("green").removeClass("red").addClass("green");
+                    $("#statsUiTable-" + statsDom.libelle).closest("h4").children(".stat_icon").removeClass("green").removeClass("red").addClass("green");
+                }
+                
+                //Domaine Client Tableau
+                var contient = false;
+                statsDom.listeDomaines.forEach(function(domaine){
+                    if(domaine.libelle == "Client")
+                        {
+                            contient = true;
+                            $("#statsTable-" + statsDom.libelle + "-Client").text(domaine.statistiques + "%");
+                            if(domaine.statistiques < 80)
+                                {
+                                    $("#statsTable-" + statsDom.libelle + "-Client").removeClass("red").removeClass("green").addClass("red");
+                                }
+                            else{
+                                $("#statsTable-" + statsDom.libelle + "-Client").removeClass("red").removeClass("green").addClass("green");
+                            }
+                        }
+                });
+                if(!contient)
+                    {
+                        $("#statsTable-" + statsDom.libelle + "-Client").text("---");
+                        $("#statsTable-" + statsDom.libelle + "-Client").removeClass("red").removeClass("green");
+                    }
+                
+                //Domaine Dissi Tableau
+                var contient = false;
+                statsDom.listeDomaines.forEach(function(domaine){
+                    if(domaine.libelle == "Dissi")
+                        {
+                            contient = true;
+                            $("#statsTable-" + statsDom.libelle + "-Dissi").text(domaine.statistiques + "%");
+                            if(domaine.statistiques < 80)
+                                {
+                                    $("#statsTable-" + statsDom.libelle + "-Dissi").removeClass("red").removeClass("green").addClass("red");
+                                }
+                            else{
+                                $("#statsTable-" + statsDom.libelle + "-Dissi").removeClass("red").removeClass("green").addClass("green");
+                            }
+                        }
+                });
+                if(!contient)
+                    {
+                        $("#statsTable-" + statsDom.libelle + "-Dissi").text("---");
+                        $("#statsTable-" + statsDom.libelle + "-Dissi").removeClass("red").removeClass("green");
+                    }
+                
+                
+                //Domaine Coordi Tableau
+                var contient = false;
+                statsDom.listeDomaines.forEach(function(domaine){
+                    if(domaine.libelle == "Coordi")
+                        {
+                            contient = true;
+                            $("#statsTable-" + statsDom.libelle + "-Coordi").text(domaine.statistiques + "%");
+                            if(domaine.statistiques < 80)
+                                {
+                                    $("#statsTable-" + statsDom.libelle + "-Coordi").removeClass("red").removeClass("green").addClass("red");
+                                }
+                            else{
+                                $("#statsTable-" + statsDom.libelle + "-Coordi").removeClass("red").removeClass("green").addClass("green");
+                            }
+                        }
+                });
+                if(!contient)
+                    {
+                        $("#statsTable-" + statsDom.libelle + "-Coordi").text("---");
+                        $("#statsTable-" + statsDom.libelle + "-Coordi").removeClass("red").removeClass("green");
+                    }
+                
+                //Domaine Immo Tableau
+                var contient = false;
+                statsDom.listeDomaines.forEach(function(domaine){
+                    if(domaine.libelle == "Immo")
+                        {
+                            contient = true;
+                            $("#statsTable-" + statsDom.libelle + "-Immo").text(domaine.statistiques + "%");
+                            if(domaine.statistiques < 80)
+                                {
+                                    $("#statsTable-" + statsDom.libelle + "-Immo").removeClass("red").removeClass("green").addClass("red");
+                                }
+                            else{
+                                $("#statsTable-" + statsDom.libelle + "-Immo").removeClass("red").removeClass("green").addClass("green");
+                            }
+                        }
+                });
+                if(!contient)
+                    {
+                        $("#statsTable-" + statsDom.libelle + "-Immo").text("---");
+                        $("#statsTable-" + statsDom.libelle + "-Immo").removeClass("red").removeClass("green");
+                    }
+                
+            //Domaine FOCU Tableau
+                var contient = false;
+                statsDom.listeDomaines.forEach(function(domaine){
+                    if(domaine.libelle == "FO & CU")
+                        {
+                            contient = true;
+                            $("#statsTable-" + statsDom.libelle + "-FOCU").text(domaine.statistiques + "%");
+                            if(domaine.statistiques < 80)
+                                {
+                                    $("#statsTable-" + statsDom.libelle + "-FOCU").removeClass("red").removeClass("green").addClass("red");
+                                }
+                            else{
+                                $("#statsTable-" + statsDom.libelle + "-FOCU").removeClass("red").removeClass("green").addClass("green");
+                            }
+                        }
+                });
+                if(!contient)
+                    {
+                        $("#statsTable-" + statsDom.libelle + "-FOCU").text("---");
+                        $("#statsTable-" + statsDom.libelle + "-FOCU").removeClass("red").removeClass("green");
+                    }
+                
+                
+    
+            });
+        });
+        
+        console.log("EFFECTUE");
+    }        
     $(".validerPoi").click(function(){
+
+        
             $(this).prop("disabled", true);
             var idPoi = $(this).attr("id").split("-")[1];
             $.post("API/validerPoi.php", {poi_id: idPoi}, function(data){
@@ -404,6 +551,7 @@
                     
                 })
             });
+            actualiserStats();
         });
             
             
