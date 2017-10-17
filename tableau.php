@@ -87,6 +87,8 @@
         <table id="tablePoi" class="tablesorter table table-striped table-bordered table-hover table-condensed table-responsive" style="display: none">
                 <thead>
                     <tr>
+                       
+                        <th style="display: none"></th>
                         <td id="checkboxToutSelectionner"><input type="checkbox" name="toutSelectionner" id="toutSelectionner" /></td>
                         <th>UI</th>
                         <th>POI</th>
