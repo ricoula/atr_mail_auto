@@ -47,6 +47,7 @@
 		}
 		return json_encode($uis);
 	}
+	
 	function getStats($ui)
 	{
 		include("connexionBddRelance.php");
