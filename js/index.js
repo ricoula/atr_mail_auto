@@ -230,6 +230,8 @@ $(function(){
                lab_stat.push(jour);
 
             }
+            
+            
             var chart = new Chartist.Line(lienGraph, {
                 labels: lab_stat,
                 series: [
