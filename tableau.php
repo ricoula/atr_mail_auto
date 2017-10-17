@@ -288,6 +288,13 @@
                 return this;
                 };
                 
+                $("#tablePoi tbody tr td").click(function(){
+                    if($(this).children("button").length == 0 && $(this).children("input").length == 0)
+                        {
+                            $(this).closest("tr").children(".colonneCheck").children("input").click();
+                        }
+                });
+                
                 $(".glyphicon-star").closest("tr").addClass("alerte");
                 
                 $("#recherchePoi").chosen({search_contains: true, width: "inherit"});
