@@ -75,7 +75,42 @@
 			$i++;
 		}
 		
-		$derniereUi = json_decode(getStatsUiByLibelle($ui));
+		
+		$listeStatsUi = json_decode(getStatsDomaine());
+		$thisUi = null;
+		foreach($listeStatsUi as $statsUi)
+		{
+			if($statsUi->libelle == $ui)
+			{
+				$stats[$i]["date"] = date("Y-m-d");
+				$stats[$i]["ui"] = $ui;
+				$stats[$i]["globale"] = $statsUi->statistiques;
+				$stats[$i]["client"] = 0;
+				$stats[$i]["immo"] = 0;
+				$stats[$i]["focu"] = 0;
+				$stats[$i]["dissi"] = 0;
+				$stats[$i]["coordi"] = 0;
+				foreach($statsUi->listeDomaines as $domaine)
+				{
+					switch($domaine->libelle)
+					{
+						case "Client": $stats[$i]["client"] = $domaine->statistiques;
+						break;
+						case "Coordi": $stats[$i]["coordi"] = $domaine->statistiques;
+						break;
+						case "Dissi": $stats[$i]["dissi"] = $domaine->statistiques;
+						break;
+						case "FO & CU": $stats[$i]["focu"] = $domaine->statistiques;
+						break;
+						case "Immo": $stats[$i]["immo"] = $domaine->statistiques;
+						break;
+					}
+				}
+			}
+			
+		}
+		
+		/*$derniereUi = json_decode(getStatsUiByLibelle($ui));
 		
 		$stats[$i]["date"] = date("Y-m-d");
 		$stats[$i]["ui"] = $ui;
@@ -101,74 +136,9 @@
 				break;
 				
 			}
-		}
+		}*/
 		
 		return json_encode($stats);
-	}
-	
-	function getStatsUiByLibelle($ui)
-	{
-		include("connexionBdd.php");
-		$bddErp = $bdd;
-		$bdd = null;
-		unset($bdd);
-		include("connexionBddRelance.php");
-		$maBdd = $bdd;
-		include("global.php");
-		
-		$listePoiBleues = array();
-		$req = $maBdd->prepare("select poi from relance where date_expiration >= NOW()");
-		while($data = $req->fetch())
-		{
-			array_push($listePoiBleues, $data["poi"]);
-		}
-		
-		$listePoiBleues = implode(", ", $listePoiBleues);
-		
-		if($listePoiBleues != null && $listePoiBleues != "")
-		{
-			$req = $bddErp->prepare("select atr_ui,count(dre_ko) as dre_ko,count(dre_ok) as dre_ok from(select atr_ui,ft_oeie_dre,case when (ft_oeie_dre IS NULL OR ft_oeie_dre <= NOW()) and id not in (".$listePoiBleues.") then 1 end as dre_ko,case when ft_oeie_dre > NOW() or id in (".$listePoiBleues.") then 1 end as dre_ok from (".$global.")dre WHERE atr_ui = ?)dre2 group by atr_ui");
-			$req->execute(array($ui));
-			if($data = $req->fetch())
-			{
-				$ui = (object) array();
-				$ui->libelle = $data["atr_ui"];
-				$ui->statistique = round((1-($data["dre_ko"]/($data["dre_ko"] + $data["dre_ok"])))*100, 1);
-				$ui->listeDomaines = array();
-			}
-		}
-		else{
-			$req = $bddErp->prepare("select atr_ui,count(dre_ko) as dre_ko,count(dre_ok) as dre_ok from(select atr_ui,ft_oeie_dre,case when (ft_oeie_dre IS NULL OR ft_oeie_dre <= NOW()) then 1 end as dre_ko,case when ft_oeie_dre > NOW() then 1 end as dre_ok from (".$global.")dre WHERE atr_ui = ?)dre2 group by atr_ui");
-			$req->execute(array($ui));
-			if($data = $req->fetch())
-			{
-				$ui = (object) array();
-				$ui->libelle = $data["atr_ui"];
-				$ui->statistique = round((1-($data["dre_ko"]/($data["dre_ko"] + $data["dre_ok"])))*100, 1);
-				$ui->listeDomaines = array();
-			}
-		}
-		
-		/////////
-		if($listePoiBleues != null && $listePoiBleues != "")
-		{
-			$req = $bddErp->prepare("select atr_ui,domaine,case when sum(dre_ko) is null then 0 else sum(dre_ko) end as dre_ko,case when sum(dre_ok) is null then 0 else sum(dre_ok) end as dre_ok from(select atr_ui,domaine,ft_oeie_dre,case when (ft_oeie_dre is null or ft_oeie_dre <= NOW()) and id not in (".$listePoiBleues.") then 1 end as dre_ko,case when ft_oeie_dre > NOW() or id in (".$listePoiBleues.") then 1 end as dre_ok from (".$global.")dre WHERE atr_ui = ?)dre2 where domaine is not null group by atr_ui,domaine order by atr_ui,domaine");
-		}
-		else{
-			$req = $bddErp->prepare("select atr_ui,domaine,case when sum(dre_ko) is null then 0 else sum(dre_ko) end as dre_ko,case when sum(dre_ok) is null then 0 else sum(dre_ok) end as dre_ok from(select atr_ui,domaine,ft_oeie_dre,case when (ft_oeie_dre is null or ft_oeie_dre <= NOW()) then 1 end as dre_ko,case when ft_oeie_dre > NOW() then 1 end as dre_ok from (".$global.")dre WHERE atr_ui = ?)dre2 where domaine is not null group by atr_ui,domaine order by atr_ui,domaine");
-		}
-		$req->execute(array($ui->libelle));
-		while($data = $req->fetch())
-		{
-				
-				$domaine = (object) array();
-				$domaine->libelle = $data["domaine"];
-				$domaine->statistiques = round((1-($data["dre_ko"]/($data["dre_ko"] + $data["dre_ok"])))*100, 1);
-				array_push($ui->listeDomaines, $domaine);
-				
-		}
-		
-		return json_encode($ui);
 	}
 	
 	function getDomainesByUi($listeUI) //$listeUi au format implode avec des virgules entre (chaque ui doit être entouré de '')
