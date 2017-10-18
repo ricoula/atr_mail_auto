@@ -1,7 +1,7 @@
 $(function(){
     
    
-    
+
     $(".libelleDomaine").click(function(){
         var titre = $(this).text();
         $(this).closest("div").children(".titreGraphe").text(titre);
@@ -527,6 +527,7 @@ $(function(){
         $("#tableau").load("tableau.php", {liste_poi: data}, function(){
             $("#imageLoad").hide();
             $("#tableau").show();
+          //  $("#badge-alerte").text($(".alerte").length/2);
         });
     });
         
@@ -609,6 +610,7 @@ $(function(){
                     $("#tableau").load("tableau.php", {liste_poi: data, alerte: true}, function(){
                         $("#imageLoad").hide();
                         $("#tableau").show();
+                       // $("#badge-alerte").text($(".alerte").length/2);
                     });
                 });
             }

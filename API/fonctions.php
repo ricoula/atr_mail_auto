@@ -533,7 +533,7 @@
 							}
 							$contenuHtml = $contenuHtml."</tbody></table></div><br/>Merci d’avance<br/><br/>Le CDS</body></html><br/><br/>";
 							$email = $caff->email;
-							$envoiMail = mail("cyril.ricou@ambitiontelecom.com", $email, $contenuHtml, $headers);
+							$envoiMail = mail("cyril.ricou@ambitiontelecom.com,cds-relance@ambitiontelecom.com", $email, $contenuHtml, $headers);
 						}
 					}
 				}
