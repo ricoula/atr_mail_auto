@@ -164,8 +164,8 @@
                     <span class="label label-default">Sous justification</span>
                     <div id="divActiverToutSj" style="display: none">
                         <span class="button-checkbox">
-                        <button type="button" class="btn btn-sm" data-color="success" name="<?php echo $sousDomaineRplc ?>" id="activerSousJustifs">Désactiver tout</button>
-                        <input id="checkActiverSousJustifs" type="checkbox" class="hidden" checked />
+                        <button type="button" class="btn btn-sm btn-default" data-color="success" name="<?php echo $sousDomaineRplc ?>" id="activerSousJustifs">Désactiver tout</button>
+                        <input id="checkActiverSousJustifs" type="checkbox" class="hidden" />
                          </span>
                     </div>
                 </h1>

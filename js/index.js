@@ -29,10 +29,8 @@ $(function(){
                         break;
                 }
                date_stat = stats[i].date;
-               console.log(date_stat);
                var jour = new Date(date_stat);
                jour = jour.getDate()+"/"+ (jour.getMonth() + 1);
-               console.log(jour);
                lab_stat.push(jour);
 
             }
@@ -79,10 +77,8 @@ $(function(){
             for(var i = 0; i < stats.length;i++){
                ser_stat.push(stats[i].globale);
                date_stat = stats[i].date;
-               console.log(date_stat);
                var jour = new Date(date_stat);
                jour = jour.getDate()+"/"+ (jour.getMonth() + 1);
-               console.log(jour);
                lab_stat.push(jour);
 
             }
@@ -120,7 +116,6 @@ $(function(){
     
     $("#right-scroll").click(function(){
         var px = $("#allTableStat").css("margin-left")
-        console.log(px);
         if($("#allTableStat").css("margin-left") == '0px'){
             
             $("#allTableStat").animate({marginLeft: "-=550px"},600);
@@ -129,7 +124,6 @@ $(function(){
     });
     $("#left-scroll").click(function(){
         var px = $("#allTableStat").css("margin-left")
-        console.log(px);
         if($("#allTableStat").css("margin-left") == '-550px'){
             $("#allTableStat").animate({marginLeft: "+=550px"},600);
         }
@@ -137,22 +131,17 @@ $(function(){
     });
     $.post("API/getUi.php", {}, function(data){
         var listeUi = JSON.parse(data);
-        console.log("startf");
    
     // $.post("API/getStats.php",function(data){
     //     var stats = JSON.parse(data);
     // })    
     
     $(".btn_detail").click(function(e){
-        console.log("click");
         
         
         if($(".btn_detail").hasClass("btn_detail_active")){
-            console.log("if");
                 $(this).removeClass("btn_detail_active");
-                console.log("remove active");
                 $(this).addClass("btn_detail_disable");
-                console.log("add disable");
                 $(this).text("Plus de détail ");
                 //$(".listeTableUi").css({borderTopColor:"#2c3e00",borderRightColor:"#2c3e00",borderLeftColor:"#2c3e00",borderBottomColor:"#2c3e00"});
                 $("#listeStatsUi h4").fadeIn();
@@ -164,18 +153,13 @@ $(function(){
                 $("#right-scroll").css({display:"none"});
                 $("#left-scroll").css({display:"none"});
                $("#statsUi").css({height:"45px"});
-               console.log("ferme");
         }
         else
         {
-            console.log("else");
             $(this).prop("disabled",true);
             $(this).removeClass("btn_detail_disable");
-            console.log("remove disable");
             $(this).addClass("btn_detail_active");
-            console.log("add active active");
             $(this).text("Fermer le détail ");
-            console.log("ouvrir");
             if($("#statsUi").css("height")!='580px'){
                 
                 e.preventDefault();
@@ -194,7 +178,6 @@ $(function(){
                                 $(".graphStat").delay(500).fadeIn();
                                     
                                     listeUi.forEach(function(ui){
-                                        console.log("graph")
                                         var lienGraph = "#graph-" + ui;
                                         $.post("API/getStats.php", {ui:ui}, function(data){
                                              var stats = JSON.parse(data);
@@ -204,10 +187,8 @@ $(function(){
                                             for(var i = 0; i < stats.length;i++){
                                                ser_stat.push(stats[i].globale);
                                                date_stat = stats[i].date;
-                                               console.log(date_stat);
                                                var jour = new Date(date_stat);
                                                jour = jour.getDate()+"/"+ (jour.getMonth() + 1);
-                                               console.log(jour);
                                                lab_stat.push(jour);
                                             
                                             }
@@ -469,9 +450,6 @@ $(function(){
                                 appartient = true;
                                 $(elt).show();
                             }
-                        else{
-                            console.log(getCheckedUi + " / " + getCheckedDomaine + " / " + getCheckedSousDomaine);
-                        }
                     }
             });
             if(!appartient)
@@ -545,7 +523,6 @@ $(function(){
     getCheckedDomaineJoined = getCheckedDomaine.join(",");
     getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
     getCheckedSJJoined = getCheckedSJ.join(",");
-    console.log("tesst");
     $.post("API/getAllParams.php", {liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined, limit: null}, function(data){
         $("#tableau").load("tableau.php", {liste_poi: data}, function(){
             $("#imageLoad").hide();
@@ -568,9 +545,6 @@ $(function(){
             {
                 $(this).click();
             }
-        else{
-            console.log("pas cocher");
-        }
     });
 
     $.post("API/getArbo.php", {}, function(data){
@@ -628,8 +602,7 @@ $(function(){
                       getCheckedUi.push("'" + $(this).attr("id").split("-")[1] + "'");
                   }
                 });
-                getCheckedUi = getCheckedUi.join(", ");
-                 console.log(getCheckedUi);                     
+                getCheckedUi = getCheckedUi.join(", ");                    
                 $(this).removeClass().addClass("btn btn-primary");
                 
                 $.post("API/getAlertesUi.php", {liste_ui: getCheckedUi}, function(data){
