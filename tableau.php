@@ -701,6 +701,7 @@
                                 {
                                     btnAlertPoi.html("<span class='glyphicon glyphicon-star alerte'></span>");
                                     btnAlertPoi.closest("tr").addClass("alerte");
+                             //       $("#badge-alerte").text($(".alerte").length/2);
                                 }
                         });
                     }
@@ -711,6 +712,7 @@
                                 {
                                     btnAlertPoi.html("<span class='glyphicon glyphicon-star-empty'></span>");
                                     btnAlertPoi.closest("tr").removeClass("alerte");
+                            //        $("#badge-alerte").text($(".alerte").length/2);
                                 }
                         });
                 }
