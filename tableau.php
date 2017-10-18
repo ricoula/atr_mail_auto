@@ -510,7 +510,6 @@
             });
         });
         
-        console.log("EFFECTUE");
     }        
     $(".validerPoi").click(function(){
 
@@ -554,8 +553,6 @@
                             $(".stats-"+ui.libelle+" span").addClass("red");
                         }
         
-
-                        console.log(ui.libelle);
                     }
                     
                 })
@@ -664,16 +661,6 @@
               
               
            
-            //         for (var i = 0; i < listeCaffPoi.length; i++) {
-            //             console.log(listeCaffPoi[i].nom)
-            //           }
-                
-            // console.log(listeCaffPoi.length);
-            // for(var caff in listeCaffPoi)
-            // {
-            //     console.log(caff.nom);
-            // }
-            //});
             $("#pushMailReal").click(function(){
                 $("#pushMailReal").prop("disabled", true);
                 $("#chargementValiderPush").show();
