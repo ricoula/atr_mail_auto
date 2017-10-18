@@ -118,14 +118,14 @@ $(function(){
         var px = $("#allTableStat").css("margin-left")
         if($("#allTableStat").css("margin-left") == '0px'){
             
-            $("#allTableStat").animate({marginLeft: "-=550px"},600);
+            $("#allTableStat").animate({marginLeft: "-=850px"},600);
         }
        
     });
     $("#left-scroll").click(function(){
         var px = $("#allTableStat").css("margin-left")
-        if($("#allTableStat").css("margin-left") == '-550px'){
-            $("#allTableStat").animate({marginLeft: "+=550px"},600);
+        if($("#allTableStat").css("margin-left") == '-850px'){
+            $("#allTableStat").animate({marginLeft: "+=850px"},600);
         }
        
     });
