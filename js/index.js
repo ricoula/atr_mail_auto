@@ -115,17 +115,23 @@ $(function(){
     });
     
     $("#right-scroll").click(function(){
-        var px = $("#allTableStat").css("margin-left")
+        var px = $("#allTableStat").css("margin-left");
+        var larg_e = screen.width;
+        var larg_t = ($(".listeTableUi").length * 299) + 50;
+        var depl = larg_t - larg_e;
+        console.log(px + " " + larg_e + " " + larg_t);
         if($("#allTableStat").css("margin-left") == '0px'){
             
-            $("#allTableStat").animate({marginLeft: "-=850px"},600);
+            
+            $("#allTableStat").animate({marginLeft: "-="+depl+"px"},600);
         }
        
     });
     $("#left-scroll").click(function(){
-        var px = $("#allTableStat").css("margin-left")
-        if($("#allTableStat").css("margin-left") == '-850px'){
-            $("#allTableStat").animate({marginLeft: "+=850px"},600);
+        var px = $("#allTableStat").css("margin-left");
+        
+        if($("#allTableStat").css("margin-left") != '0px'){
+            $("#allTableStat").animate({marginLeft: "-="+px},600);
         }
        
     });
