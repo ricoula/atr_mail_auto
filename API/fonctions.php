@@ -429,6 +429,7 @@
 		{
 			$poi_list[$i]['id'] = $data['id'];
 			$poi_list[$i]['atr_ui'] = $data['atr_ui'];
+			$poi_list[$i]['partner'] = $data['partner'];
 			$poi_list[$i]['ft_numero_oeie'] = $data['ft_numero_oeie'];
 			
 			if($data['ft_oeie_dre'] != null)
