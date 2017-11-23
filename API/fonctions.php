@@ -9,6 +9,7 @@
 		$req->execute(array($limit));
 			while($data = $req->fetch()){
 				$poi_list[$i]['id'] = $data['id'];
+				$poi_list[$i]['partner'] = $data['partner'];
 				$poi_list[$i]['atr_ui'] = $data['atr_ui'];
 				$poi_list[$i]['ft_numero_oeie'] = $data['ft_numero_oeie'];
 				if($data['ft_oeie_dre'] != null)
@@ -533,7 +534,7 @@
 							}
 							$contenuHtml = $contenuHtml."</tbody></table></div><br/>Merci d’avance<br/><br/>Le CDS</body></html><br/><br/>";
 							$email = $caff->email;
-							$envoiMail = mail("cyril.ricou@ambitiontelecom.com,cds-relance@ambitiontelecom.com", $email, $contenuHtml, $headers);
+							$envoiMail = mail("cds-relance@ambitiontelecom.com", $email, $contenuHtml, $headers);
 						}
 					}
 				}

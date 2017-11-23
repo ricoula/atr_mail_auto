@@ -119,7 +119,6 @@ $(function(){
         var larg_e = screen.width;
         var larg_t = ($(".listeTableUi").length * 299) + 50;
         var depl = larg_t - larg_e;
-        console.log(px + " " + larg_e + " " + larg_t);
         if($("#allTableStat").css("margin-left") == '0px'){
             
             
@@ -148,7 +147,7 @@ $(function(){
         if($(".btn_detail").hasClass("btn_detail_active")){
                 $(this).removeClass("btn_detail_active");
                 $(this).addClass("btn_detail_disable");
-                $(this).text("Plus de détail ");
+                $(this).text("Plus de détails ");
                 //$(".listeTableUi").css({borderTopColor:"#2c3e00",borderRightColor:"#2c3e00",borderLeftColor:"#2c3e00",borderBottomColor:"#2c3e00"});
                 $("#listeStatsUi h4").fadeIn();
                 $(".graphStat").html("");
@@ -165,7 +164,7 @@ $(function(){
             $(this).prop("disabled",true);
             $(this).removeClass("btn_detail_disable");
             $(this).addClass("btn_detail_active");
-            $(this).text("Fermer le détail ");
+            $(this).text("Fermer le détails ");
             if($("#statsUi").css("height")!='580px'){
                 
                 e.preventDefault();

@@ -91,6 +91,7 @@
                         <th style="display: none"></th>
                         <td id="checkboxToutSelectionner"><input type="checkbox" name="toutSelectionner" id="toutSelectionner" /></td>
                         <th>UI</th>
+                        <th>Major</th>
                         <th>POI</th>
                         <th>DRE</th>
                         <th>Domaine</th>
@@ -155,6 +156,7 @@
                                 <td class="colonneObjetPoi" style="display: none"><?php echo json_encode($poi) ?></td>
                                 <td class="colonneCheck"><input type="checkbox" name="<?php echo $poi->ft_numero_oeie ?>" id="<?php echo $poi->ft_numero_oeie ?>" class="checkPoi" /></td>
                                 <td><?php echo $poi->atr_ui ?></td>
+                                <td><?php echo $poi->partner ?></td>
                                 <td class="colonneNomPoi"><?php echo $poi->ft_numero_oeie ?></td>
                                 <td class="colonneDre"><?php echo $poi->ft_oeie_dre ?></td>
                                 <td><?php echo $poi->domaine ?></td>
