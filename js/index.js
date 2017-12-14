@@ -1,7 +1,7 @@
 $(function(){
     
    
-    
+
     $(".libelleDomaine").click(function(){
         var titre = $(this).text();
         $(this).closest("div").children(".titreGraphe").text(titre);
@@ -37,7 +37,8 @@ $(function(){
             var chart = new Chartist.Line(lienGraph, {
                 labels: lab_stat,
                 series: [
-                    ser_stat
+                    ser_stat,
+                    [80,80,80,80,80,80,80,80,80,80]
                 ]
               }, {
                 low: 0,
@@ -87,7 +88,8 @@ $(function(){
             var chart = new Chartist.Line(lienGraph, {
                 labels: lab_stat,
                 series: [
-                    ser_stat
+                    ser_stat,
+                    [80,80,80,80,80,80,80,80,80,80]
                 ]
               }, {
                 low: 0,
@@ -115,17 +117,22 @@ $(function(){
     });
     
     $("#right-scroll").click(function(){
-        var px = $("#allTableStat").css("margin-left")
+        var px = $("#allTableStat").css("margin-left");
+        var larg_e = screen.width;
+        var larg_t = ($(".listeTableUi").length * 299) + 50;
+        var depl = larg_t - larg_e;
         if($("#allTableStat").css("margin-left") == '0px'){
             
-            $("#allTableStat").animate({marginLeft: "-=550px"},600);
+            
+            $("#allTableStat").animate({marginLeft: "-="+depl+"px"},600);
         }
        
     });
     $("#left-scroll").click(function(){
-        var px = $("#allTableStat").css("margin-left")
-        if($("#allTableStat").css("margin-left") == '-550px'){
-            $("#allTableStat").animate({marginLeft: "+=550px"},600);
+        var px = $("#allTableStat").css("margin-left");
+        
+        if($("#allTableStat").css("margin-left") != '0px'){
+            $("#allTableStat").animate({marginLeft: "-="+px},600);
         }
        
     });
@@ -142,7 +149,7 @@ $(function(){
         if($(".btn_detail").hasClass("btn_detail_active")){
                 $(this).removeClass("btn_detail_active");
                 $(this).addClass("btn_detail_disable");
-                $(this).text("Plus de détail ");
+                $(this).text("Plus de détails ");
                 //$(".listeTableUi").css({borderTopColor:"#2c3e00",borderRightColor:"#2c3e00",borderLeftColor:"#2c3e00",borderBottomColor:"#2c3e00"});
                 $("#listeStatsUi h4").fadeIn();
                 $(".graphStat").html("");
@@ -159,7 +166,7 @@ $(function(){
             $(this).prop("disabled",true);
             $(this).removeClass("btn_detail_disable");
             $(this).addClass("btn_detail_active");
-            $(this).text("Fermer le détail ");
+            $(this).text("Fermer le détails ");
             if($("#statsUi").css("height")!='580px'){
                 
                 e.preventDefault();
@@ -195,7 +202,8 @@ $(function(){
                                             var chart = new Chartist.Line(lienGraph, {
                                                 labels: lab_stat,
                                                 series: [
-                                                    ser_stat
+                                                    ser_stat,
+                                                    [80,80,80,80,80,80,80,80,80,80]
                                                 ]
                                               }, {
                                                 low: 0,
@@ -527,6 +535,7 @@ $(function(){
         $("#tableau").load("tableau.php", {liste_poi: data}, function(){
             $("#imageLoad").hide();
             $("#tableau").show();
+          //  $("#badge-alerte").text($(".alerte").length/2);
         });
     });
         
@@ -609,6 +618,7 @@ $(function(){
                     $("#tableau").load("tableau.php", {liste_poi: data, alerte: true}, function(){
                         $("#imageLoad").hide();
                         $("#tableau").show();
+                       // $("#badge-alerte").text($(".alerte").length/2);
                     });
                 });
             }

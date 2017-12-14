@@ -49,7 +49,7 @@
                         <?php
                     }
                     ?>
-                    <button class="btn_detail btn_detail_disable pull-right">Plus de détail <span class="glyphicon glyphicon-menu-down"></span></button>
+                    <button class="btn_detail btn_detail_disable pull-right">Plus de détails <span class="glyphicon glyphicon-menu-down"></span></button>
                 </div>
                 
                 <div id="allTableStat">
