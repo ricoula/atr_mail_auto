@@ -37,7 +37,8 @@ $(function(){
             var chart = new Chartist.Line(lienGraph, {
                 labels: lab_stat,
                 series: [
-                    ser_stat
+                    ser_stat,
+                    [80,80,80,80,80,80,80,80,80,80]
                 ]
               }, {
                 low: 0,
@@ -87,7 +88,8 @@ $(function(){
             var chart = new Chartist.Line(lienGraph, {
                 labels: lab_stat,
                 series: [
-                    ser_stat
+                    ser_stat,
+                    [80,80,80,80,80,80,80,80,80,80]
                 ]
               }, {
                 low: 0,
@@ -200,7 +202,8 @@ $(function(){
                                             var chart = new Chartist.Line(lienGraph, {
                                                 labels: lab_stat,
                                                 series: [
-                                                    ser_stat
+                                                    ser_stat,
+                                                    [80,80,80,80,80,80,80,80,80,80]
                                                 ]
                                               }, {
                                                 low: 0,
