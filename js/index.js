@@ -179,7 +179,7 @@ $(function(){
                         $("#left-scroll").show();
                         $(".listeTableUi").delay(500).show();
                         $(".listeTableUi").css({ borderTopColor: '#2c3e50', borderLeftColor: '#2c3e50', borderRightColor: '#2c3e50', borderBottomColor: '#2c3e50' });
-                        $(".listeTableUi").stop().animate({ borderTopColor: '#f7f9f8', borderLeftColor: '#f7f9f8', borderRightColor: '#f7f9f8', borderBottomColor: '#f7f9f8' }, 2000);
+                        $(".listeTableUi").stop().animate({ borderTopColor: '#444444', borderLeftColor: '#444444', borderRightColor: '#444444', borderBottomColor: '#444444' }, 2000);
                         $(".tableStatTitle").fadeIn();
                             $(".tableStatDomaine").delay(500).fadeIn();
                                 $(".graphStat").delay(500).fadeIn();

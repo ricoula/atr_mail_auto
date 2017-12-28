@@ -94,7 +94,8 @@ margin-top:3px;
 #statsUi
 {
     height:45px;
-    background-color:#2c3e50;
+    background-color: #ecf0f1;
+    box-shadow:0px -10px 10px 1px #0000000a inset;
 }
 #listeStatsUi{
     display: flex;
@@ -144,12 +145,17 @@ margin-top:3px;
 .tableStatDomaine
 {
 
-    justify-content:space-between;
-    list-style:none;
-    
-    margin:25px;
-    color:#ecf0f1;
-    border-bottom:dashed 2px #3d556d;
+justify-content:space-between;
+
+list-style:none;
+
+margin:25px;
+
+color: #000000;
+
+font-weight: bold;
+
+border-bottom:dashed 2px #3d556d;
 }
 .tableStatTitle
 {
@@ -180,27 +186,27 @@ margin-top:3px;
     left:15px;
     top:250px;
     font-size:50px;
-    color:rgba(247, 247, 247, 0.09)
+    color: rgba(0, 0, 0, 0.25);
     }
        #left-scroll span:hover
 {
     top:250px;
     left:15px;
     font-size:50px;
-    color:rgba(247, 247, 247, 0.38);
+    color:rgba(0, 0, 0, 0.38);
     cursor:pointer;
     }
     #right-scroll span
 {
     top:250px;
     font-size:50px;
-    color:rgba(247, 247, 247, 0.09)
+    color: rgba(0, 0, 0, 0.25);
     }
        #right-scroll span:hover
 {
     top:250px;
     font-size:50px;
-    color:rgba(247, 247, 247, 0.38);
+    color:rgba(0, 0, 0, 0.38);
     cursor:pointer;
     }
 .graphStat,.tableStatDomaine,.tableStatTitle,.listeTableUi,#left-scroll,#right-scroll
@@ -224,19 +230,19 @@ margin-top:3px;
 {
     min-width:170px;
     background-color:transparent;
-    border:1px solid white;
+    border:1px solid black;
     height:35px;
     font-weight:600;
     margin-top:5px;
     text-align:center;
-    color:white;
+    color:black;
     border-radius:5px;
     margin-right:5px;
 }
 .btn_detail:hover
 {
       min-width:170px;
-    background-color:rgba(255, 255, 255, 0.92);
+    background-color:rgba(226, 226, 226, 0.92);
     border:1px solid #7b4b4b;
     font-weight:600;
     height:35px;
