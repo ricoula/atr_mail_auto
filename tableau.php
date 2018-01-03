@@ -338,35 +338,43 @@
 
                 $("#selectCaffFiltre").on("change", function(){
                     var listeCaffsSelectionnes = $(this).val();
-                    $(".colonneCaff").each(function(){
-                        if(listeCaffsSelectionnes.indexOf($(this).text()) == -1)
-                        {
-                            $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", false);
-                            $(this).closest("tr").removeClass("show-filtre").addClass("hide-filtre").hide();
-                        }
-                        else{
-                            $(this).closest("tr").removeClass("hide-filtre").addClass("show-filtre");
-
-                            if($("#danger").prop("checked") && $(this).closest("tr").hasClass("danger"))
+                    if(listeCaffsSelectionnes.length > 0)
+                    {
+                        $(".colonneCaff").each(function(){
+                            if(listeCaffsSelectionnes.indexOf($(this).text()) == -1)
                             {
-                                $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
-                                $(this).closest("tr").show();
+                                $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", false);
+                                $(this).closest("tr").removeClass("show-filtre").addClass("hide-filtre").hide();
                             }
-                            else if($("#warning").prop("checked") && $(this).closest("tr").hasClass("warning")){
-                                $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
-                                $(this).closest("tr").show();
+                            else{
+                                $(this).closest("tr").removeClass("hide-filtre").addClass("show-filtre");
+
+                                if($("#danger").prop("checked") && $(this).closest("tr").hasClass("danger"))
+                                {
+                                    $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
+                                    $(this).closest("tr").show();
+                                }
+                                else if($("#warning").prop("checked") && $(this).closest("tr").hasClass("warning")){
+                                    $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
+                                    $(this).closest("tr").show();
+                                }
+                                else if($("#info").prop("checked") && $(this).closest("tr").hasClass("info")){
+                                    $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
+                                    $(this).closest("tr").show();
+                                }
+                                else if($("#success").prop("checked") && $(this).closest("tr").hasClass("success")){
+                                    $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
+                                    $(this).closest("tr").show();
+                                }
+                                
                             }
-                            else if($("#info").prop("checked") && $(this).closest("tr").hasClass("info")){
-                                $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
-                                $(this).closest("tr").show();
-                            }
-                            else if($("#success").prop("checked") && $(this).closest("tr").hasClass("success")){
-                                $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
-                                $(this).closest("tr").show();
-                            }
-                            
-                        }
-                    });
+                        });
+                    }
+                    else{
+                        $(".show-filtre").removeClass("show-filtre");
+                        $(".hide-filtre").children(".colonneCheck").children("input").prop("checked", true);
+                        $(".hide-filtre").removeClass("hide-filtre").show();
+                    }
 
                     $("#badge-retard").html($("tbody .danger:not(.hide-filtre)").length);
                     $("#badge-att-atr").html($("tbody .warning:not(.hide-filtre)").length);
