@@ -4,11 +4,16 @@
         include("API/fonctions.php");
         $listePoi = json_decode($_POST["liste_poi"]);
         $listeNomPoi = array();
+        $listeCaffs = array();
         if(sizeof($listePoi) > 0)
         {
             foreach($listePoi as $poi)
             {
                 array_push($listeNomPoi, $poi->ft_numero_oeie);
+                if(!in_array($poi->name_related, $listeCaffs))
+                {
+                    array_push($listeCaffs, $poi->name_related);
+                }
             }
             asort($listeNomPoi);
         }
@@ -56,6 +61,7 @@
                 <span>
                       <input type="search" class="form-control" placeholder="Recherche commentaire" id="searchCommentBar">
                 </span>
+                
                 </div>
 
                 <div class="mailsearch">
@@ -100,7 +106,16 @@
                         <th>Sous-Justif</th>
                         <th>Commune</th>
                         <th>Voie</th>
-                        <th>CAFF</th>
+                        <th>CAFF <div class="filtreSelectChosen"><select multiple id="selectCaffFiltre">
+                        <?php 
+                            foreach($listeCaffs as $cff)
+                            {
+                                ?>
+                                <option value="<?php echo $cff ?>"><?php echo $cff ?></option>
+                                <?php
+                            } 
+                        ?>
+                        </select></div></th>
                         <!-- <th>Email</th> -->
                         <th id="th-mobile">Mobile</th>
                         <th>Commentaire</th>
@@ -274,10 +289,94 @@
           </div>
         </div>
 
+        <!-- <div class="modal" id="filtresCaff">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title">Filtres Caff</h4>
+            </div>
+            <div class="modal-body">
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <select id="selectCaffFiltre"><option id="selectNull" disabled selected value="selectNull">Rechercher un Caff</option></select>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-info" data-dismiss="modal">Fermer</button>
+            </div>
+            </div>
+        </div>
+        </div> -->
+
         <script src="chosen/chosen.jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.0/jquery.mark.es6.js"></script>
         <script>
             $(function(){
+                //$("#aTest").tooltip();
+                // $("#aTest").click(function(e){
+                //     e.stopPropagation();
+                //     $("#filtresCaff").modal("show");
+                // });
+                $(".filtreSelectChosen").click(function(e){
+                    e.stopPropagation();
+                });
+
+                $("#selectCaffFiltre").click(function(e){
+                    e.stopPropagation();
+                });
+
+                /*$.post("API/getInfosCaff.php", function(data){
+                    var listeCaffs = JSON.parse(data);
+                    var html = "";
+                    listeCaffs.forEach(function(caff){
+                        html += "<option id='caff-" + caff.id + "' value='" + JSON.stringify(caff) + "'>" + caff.name_related + "</option>"
+                    });
+                    $("#selectCaffFiltre").html($("#selectCaffFiltre").html() + html);
+                    $("#selectCaffFiltre").trigger("chosen:updated");
+                });*/
+
+                $("#selectCaffFiltre").on("change", function(){
+                    var listeCaffsSelectionnes = $(this).val();
+                    $(".colonneCaff").each(function(){
+                        if(listeCaffsSelectionnes.indexOf($(this).text()) == -1)
+                        {
+                            $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", false);
+                            $(this).closest("tr").removeClass("show-filtre").addClass("hide-filtre").hide();
+                        }
+                        else{
+                            $(this).closest("tr").removeClass("hide-filtre").addClass("show-filtre");
+
+                            if($("#danger").prop("checked") && $(this).closest("tr").hasClass("danger"))
+                            {
+                                $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
+                                $(this).closest("tr").show();
+                            }
+                            else if($("#warning").prop("checked") && $(this).closest("tr").hasClass("warning")){
+                                $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
+                                $(this).closest("tr").show();
+                            }
+                            else if($("#info").prop("checked") && $(this).closest("tr").hasClass("info")){
+                                $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
+                                $(this).closest("tr").show();
+                            }
+                            else if($("#success").prop("checked") && $(this).closest("tr").hasClass("success")){
+                                $(this).closest("tr").children(".colonneCheck").children("input").prop("checked", true);
+                                $(this).closest("tr").show();
+                            }
+                            
+                        }
+                    });
+
+                    $("#badge-retard").html($("tbody .danger:not(.hide-filtre)").length);
+                    $("#badge-att-atr").html($("tbody .warning:not(.hide-filtre)").length);
+                    $("#badge-att-orange").html($("tbody .info:not(.hide-filtre)").length);
+                    $("#badge-en-cours").html($("tbody .success:not(.hide-filtre)").length);
+                    $("#badge-push-mail").html($(".checkPoi:checked").length);
+                });
+
+                $("#selectCaffFiltre").chosen({width: "inherit", width: "100%",placeholder_text_multiple:"Choisir caff", search_contains: true});
+
                 jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
                     this.each(function() {
                         $(this).css("position","relative"); 
@@ -529,10 +628,10 @@
                     {
                         
                         $("#poi-" + idPoi).removeClass("info").removeClass("warning").removeClass("danger").addClass("info");
-                        $("#badge-retard").html($("tbody .danger").length);
-                        $("#badge-att-atr").html($("tbody .warning").length);
-                        $("#badge-att-orange").html($("tbody .info").length);
-                        $("#badge-en-cours").html($("tbody .success").length);
+                        $("#badge-retard").html($("tbody .danger:not(.hide-filtre)").length);
+                        $("#badge-att-atr").html($("tbody .warning:not(.hide-filtre)").length);
+                        $("#badge-att-orange").html($("tbody .info:not(.hide-filtre)").length);
+                        $("#badge-en-cours").html($("tbody .success:not(.hide-filtre)").length);
                         $("#badge-push-mail").html($(".checkPoi:checked").length);
                     }
             });
@@ -618,15 +717,20 @@
                     {
                         $("#" + valeur).prop("checked", false);
                         elt.removeClass().addClass("btn btn-default");
-                        $("tbody ." + valeur).hide();
-                        $("tbody ." + valeur).children("td").children(".checkPoi").prop("checked", false);
+                        $("tbody ." + valeur).hide().children("td").children(".checkPoi").prop("checked", false);
+                        
                         $("#badge-push-mail").html($(".checkPoi:checked").length);
                     }
                 else{
                     $("#" + valeur).prop("checked", true);
                     elt.removeClass().addClass("btn btn-" + valeur);
-                    $("tbody ." + valeur).show();
-                    $("tbody ." + valeur).children("td").children(".checkPoi").prop("checked", true);
+                    if($(".show-filtre").length > 0)
+                    {
+                        $("tbody ." + valeur + ".show-filtre").show().children("td").children(".checkPoi").prop("checked", true);
+                    }
+                    else{
+                        $("tbody ." + valeur).show().children("td").children(".checkPoi").prop("checked", true);
+                    }
                     $("#badge-push-mail").html($(".checkPoi:checked").length);
                 }
             });
@@ -720,10 +824,10 @@
                             $(this).closest("tr").show();
                         }
                     });
-                    $("#badge-retard").html($("tbody .danger").length);
-                    $("#badge-att-atr").html($("tbody .warning").length);
-                    $("#badge-att-orange").html($("tbody .info").length);
-                    $("#badge-en-cours").html($("tbody .success").length);
+                    $("#badge-retard").html($("tbody .danger:not(.hide-filtre)").length);
+                    $("#badge-att-atr").html($("tbody .warning:not(.hide-filtre)").length);
+                    $("#badge-att-orange").html($("tbody .info:not(.hide-filtre)").length);
+                    $("#badge-en-cours").html($("tbody .success:not(.hide-filtre)").length);
                     $("#badge-push-mail").html($(".checkPoi:checked").length);
                 });
 
@@ -731,10 +835,10 @@
             $("#imageChargement").hide();
             $("table").show();
             $(".filtre_sec").show();
-            $("#badge-retard").html($("tbody .danger").length);
-            $("#badge-att-atr").html($("tbody .warning").length);
-            $("#badge-att-orange").html($("tbody .info").length);
-            $("#badge-en-cours").html($("tbody .success").length);
+            $("#badge-retard").html($("tbody .danger:not(.hide-filtre)").length);
+            $("#badge-att-atr").html($("tbody .warning:not(.hide-filtre)").length);
+            $("#badge-att-orange").html($("tbody .info:not(.hide-filtre)").length);
+            $("#badge-en-cours").html($("tbody .success:not(.hide-filtre)").length);
             $("#badge-push-mail").html($(".checkPoi:checked").length);
         });            
         </script>
