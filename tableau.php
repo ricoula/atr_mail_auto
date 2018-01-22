@@ -36,9 +36,13 @@
         }
         
         ?>
+
         <div id="imageChargement" style="text-align: center">
             <img src="img/loading.gif" />
         </div>
+
+        <div id="listeNomPoiJSON" style="display: none"><?php echo json_encode($listeNomPoi) ?></div>
+        <div id="listePoiJSON" style="display: none"><?php echo $_POST["liste_poi"] ?></div>
 
         <div class="filtre_sec" style="display: none">
                 <div id="btnFiltre">
@@ -125,7 +129,7 @@
                         <th>Alerte</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tbodyTableau">
                     <?php
                     if($listePoi != null)
                     {
@@ -267,6 +271,18 @@
                 </tbody>
         </table>
 
+        <?php
+        if(!isset($_POST["alerte"]) || $_POST["alerte"] == false)
+        {
+            ?>
+            <div style="text-align: center">
+                <img src="img/loading.gif" id='loadingAfficherPlus' style="display: none" />
+                <button id="afficherPlus" class="btn btn-default btn-lg" >Afficher plus</button>
+            </div>
+            <?php
+        }
+        ?>
+
         <div id="objetJson" style="display: none"></div>
 
         <div class="modal" id="mailModal">
@@ -313,6 +329,516 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.0/jquery.mark.es6.js"></script>
         <script>
             $(function(){
+                var offset = 0;
+                $("#afficherPlus").click(function(){
+                offset += 100;
+
+                $("#afficherPlus").hide();
+                $("#loadingAfficherPlus").show();
+                    
+                var getCheckedUi = [];
+                var getCheckedDomaine = [];
+                var getCheckedSousDomaine = [];
+                var getCheckedSJ = [];
+
+                $(".checkboxUi").each(function(){
+                    if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                    {
+                        getCheckedUi.push("." + $(this).attr("id"));
+                    }
+                });
+                $(".checkboxDomaine").each(function(){
+                    if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                    {
+                        getCheckedDomaine.push("." + $(this).attr("id"));
+                    }
+                });
+                $(".checkboxSousDomaine").each(function(){
+                    if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                    {
+                        getCheckedSousDomaine.push("." + $(this).attr("id"));
+                    }
+                });
+                $(".checkboxSJ").each(function(){
+                    if($(this).prop("checked") == true)
+                    {
+                        getCheckedSJ.push("." + $(this).attr("id"));
+                    }
+                });
+                var getCheckedDomaineJoined = getCheckedDomaine.join(",");
+                var getCheckedUiJoined = getCheckedUi.join(",");
+                var getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+                var getCheckedSJJoined = getCheckedSJ.join(",");
+
+                $("#divDomaines div").each(function(){
+                    if($(this).is(getCheckedUiJoined))
+                    {
+                        $(this).show();
+                    }
+                    else
+                    {
+                        $(this).hide();
+                    }
+                });
+                getCheckedUi = [];
+                getCheckedDomaine = [];
+                getCheckedSousDomaine = [];
+                getCheckedSJ = [];
+            $(".checkboxUi").each(function(){
+                if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                {
+                    getCheckedUi.push("." + $(this).attr("id"));
+                }
+            });
+            $(".checkboxDomaine").each(function(){
+                if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                {
+                    getCheckedDomaine.push("." + $(this).attr("id"));
+                }
+            });
+            $(".checkboxSousDomaine").each(function(){
+                if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                {
+                    getCheckedSousDomaine.push("." + $(this).attr("id"));
+                }
+            });
+            $(".checkboxSJ").each(function(){
+                if($(this).prop("checked") == true)
+                {
+                    getCheckedSJ.push("." + $(this).attr("id"));
+                }
+            });
+            getCheckedDomaineJoined = getCheckedDomaine.join(",");
+            getCheckedUiJoined = getCheckedUi.join(",");
+            getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+            getCheckedSJJoined = getCheckedSJ.join(",");  
+                $("#divSousDomaines div").each(function(){
+                    if($(this).is(getCheckedUiJoined) && $(this).is(getCheckedDomaineJoined))
+                    {
+                        $(this).show()
+                    }
+                    else
+                    {
+                        $(this).hide();
+                    }
+                });
+                getCheckedUi = [];
+                getCheckedDomaine = [];
+                getCheckedSousDomaine = [];
+                getCheckedSJ = [];
+            $(".checkboxUi").each(function(){
+                if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                {
+                    getCheckedUi.push("." + $(this).attr("id"));
+                }
+            });
+            $(".checkboxDomaine").each(function(){
+                if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                {
+                    getCheckedDomaine.push("." + $(this).attr("id"));
+                }
+            });
+            $(".checkboxSousDomaine").each(function(){
+                if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                {
+                    getCheckedSousDomaine.push("." + $(this).attr("id"));
+                }
+            });
+            $(".checkboxSJ").each(function(){
+                if($(this).prop("checked") == true)
+                {
+                    getCheckedSJ.push("." + $(this).attr("id"));
+                }
+            });
+            getCheckedDomaineJoined = getCheckedDomaine.join(",");
+            getCheckedUiJoined = getCheckedUi.join(",");
+            getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+            getCheckedSJJoined = getCheckedSJ.join(",");  
+                $("#divSousJustifs div").each(function(i, elt){
+                    if($(this).is(getCheckedUiJoined) && $(this).is(getCheckedDomaineJoined) && $(this).is(getCheckedSousDomaineJoined))
+                    {
+                        var appartient = false;
+                        //$.post("API/getSousDomainesAndDomainesAndUiBySousJustif.php", {sous_justif: });
+                        var cetElt = $(this);
+                        elt.classList.forEach(function(uneClasse){
+                            var ceTableau = uneClasse.split("-");
+                            if(ceTableau.length == 3 && uneClasse != "col-lg-1")
+                                {
+                                    if(getCheckedUi.indexOf(".ui-" + ceTableau[0]) != -1 && getCheckedDomaine.indexOf(".domaine-" + ceTableau[1]) != -1 && getCheckedSousDomaine.indexOf(".sousDomaine-" + ceTableau[2]) != -1)
+                                        {
+                                            appartient = true;
+                                            $(elt).show();
+                                        }
+                                }
+                        });
+                        if(!appartient)
+                            {
+                                $(this).hide();
+                            }
+                    }
+                    else
+                    {
+                        $(this).hide();
+                    }
+                }); 
+            
+                getCheckedUi = [];
+                getCheckedDomaine = [];
+                getCheckedSousDomaine = [];
+                getCheckedSJ = [];
+                $(".checkboxUi").each(function(){
+                if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                {
+                    getCheckedUi.push("." + $(this).attr("id"));
+                }
+            });
+            $(".checkboxDomaine").each(function(){
+                if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                {
+                    getCheckedDomaine.push("." + $(this).attr("id"));
+                }
+            });
+            $(".checkboxSousDomaine").each(function(){
+                if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                {
+                    getCheckedSousDomaine.push("." + $(this).attr("id"));
+                }
+            });
+            $(".checkboxSJ").each(function(){
+                if($(this).prop("checked") == true && $(this).closest("div").is(":visible"))
+                {
+                    getCheckedSJ.push("." + $(this).attr("id"));
+                }
+            });
+                getCheckedDomaineJoined = getCheckedDomaine.join(",");
+                getCheckedUiJoined = getCheckedUi.join(",");
+                getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+                getCheckedSJJoined = getCheckedSJ.join(",");  
+
+                
+                getCheckedUi = [];
+                getCheckedDomaine = [];
+                getCheckedSousDomaine = [];
+                getCheckedSJ = [];
+                    
+                $("#divUi .checkboxFiltre:checked").each(function(){
+                    getCheckedUi.push("'" + $(this).parent().children("button").attr("id") + "'");
+                });
+                $("#divDomaines .checkboxFiltre:checked").each(function(){
+                    getCheckedDomaine.push("'" + $(this).parent().children("button").text().slice(1) + "'");
+                });
+                $("#divSousDomaines .checkboxFiltre:checked").each(function(){
+                    getCheckedSousDomaine.push("'" + $(this).parent().children("button").text().slice(1) + "'");
+                });
+                if($("#divSousJustifs").is(":visible"))
+                    {
+                        $("#divSousJustifs .checkboxFiltre:checked").each(function(){
+                            getCheckedSJ.push("'" + $(this).parent().children("button").text().slice(1) + "'");
+                        });
+                        getCheckedSJ.push("'Pas de SJ'");
+                    }
+                    
+                getCheckedUiJoined = getCheckedUi.join(",");
+                getCheckedDomaineJoined = getCheckedDomaine.join(",");
+                getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
+                getCheckedSJJoined = getCheckedSJ.join(",");
+                $.post("API/getAllParams.php", {liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined, limit: 100, offset: offset}, function(data){
+                    /*var listePoi = JSON.parse($("#listePoiJSON").text());
+                    var listeNouvellesPoi = JSON.parse(data);
+                    listeNouvellesPoi.forEach(function(nvPoi){
+                        listePoi.push(nvPoi);
+                    });
+                    listePoi = JSON.stringify(listePoi);
+                    console.log(data);
+                    $("#tableau").load("tableau.php", {liste_poi: listePoi});*/
+                    
+                    var listePoi = JSON.parse(data);
+                    var tbodyTableau = $("#tbodyTableau");
+
+                    if(listePoi != null)
+                    {
+                        var toutesPoi = new Array();
+                        listePoi.forEach(function(poi){
+                            toutesPoi.push("'" + poi.id + "'");
+                        });
+                        toutesPoi = toutesPoi.join(",");
+                        var listePoiRelance = null;
+                        if(toutesPoi != null && toutesPoi != "")
+                        {
+                            $.ajax({url: "API/getListePoiRelances.php", data: {liste_poi: toutesPoi}, method: "POST", async: false, success: function(data){
+                                var listePoiRelance = JSON.parse(data);
+                            }});
+                        }
+
+                        var html = "";
+                        listePoi.forEach(function(poi){
+                            html += '<tr id="poi-' + poi.id + '" class="newTr eltTr ui-' + poi.atr_ui + ' domaine-' + poi.domaine + ' sousDomaine-' + poi.sous_domaine + ' sousJustif-' + poi.ft_sous_justification_oeie + '">';
+                            html += '<td class="colonneObjetPoi" style="display: none">' + JSON.stringify(poi) + '</td>';
+                            html += '<td class="colonneCheck"><input type="checkbox" name="' + poi.ft_numero_oeie + '" id="' + poi.ft_numero_oeie + '" class="checkPoi" checked /></td>';
+                            html += '<td>' + poi.atr_ui + '</td>';
+                            html += '<td>' + poi.partner + '</td>';
+                            html += '<td class="colonneNomPoi">' + poi.ft_numero_oeie + '</td>';
+                            html += '<td class="colonneDre">' + poi.ft_oeie_dre + '</td>';
+                            html += '<td>' + poi.domaine + '</td>';
+                            html += '<td>' + poi.sous_domaine + '</td>';
+                            html += '<td>' + poi.ft_pg + '</td>';
+                            html += '<td>' + poi.ft_sous_justification_oeie + '</td>';
+                            html += '<td>' + poi.ft_libelle_commune + '</td>';
+                            html += '<td>' + poi.ft_libelle_de_voie + '</td>';
+                            html += '<td class="colonneCaff">' + poi.name_related + '</td>';
+                            html += '<td class="colonneEmail" style="display: none">' + poi.work_email + '</td>';
+                            html += '<td>' + poi.mobile_phone + '</td>';
+                            html += '<td class="colonneCommentaire">' + poi.ft_commentaire_creation_oeie + '</td>';
+                            
+                            if(listePoiRelance != null)
+                            {
+                                var contient = false;
+                                listePoiRelance.forEach(function(poiRelance){
+                                    if(!contient)
+                                    {
+                                        if(poi.id == poiRelance.poi)
+                                        {
+                                            contient = true;
+
+                                            html += '<td class="colonneNbRelances">' + poiRelance.nb_relances + '</td>';
+                                            html += '<td class="colonneDateDernierEnvoi">' + poiRelance.date_derniere_relance + '</td>';
+                                            
+                                            html += '<td class="colonneDateExpiration">';
+                                            var dateAjd = Date().now();
+                                            var dateExpiration = poiRelance.date_expiration.split("/");
+                                            if(dateExpiration.length == 3)
+                                            {
+                                                dateExpiration = dateExpiration[2] + "-" + dateExpiration[1] + "-" + dateExpiration[0];
+                                                dateExpiration = new Date(dateExpiration).getTime();
+                                            }
+                                            else{
+                                                dateExpiration = 0;
+                                            }
+                                            if(dateExpiration < dateAjd)
+                                            {
+                                                html += '<button id="validerPoi-' + poi.id + '" class="btn btn-xs btn-success validerPoi">Valider <span class="glyphicon glyphicon-ok-sign"></span></button>';
+                                            }
+                                            else{
+                                                html += poiRelance.date_expiration;
+                                            }
+                                            html += "</td>";
+                                            if(poiRelance.alerte)
+                                            {
+                                                html += '<td><button class="btn btn-link btnAlertPoi"><span class="glyphicon glyphicon-star"></span></button></td>';
+                                            }
+                                            else{
+                                                html += '<td><button class="btn btn-link btnAlertPoi"><span class="glyphicon glyphicon-star-empty"></span></button></td>';
+                                            }
+                                        }
+                                    }
+                                });
+                                if(!contient)
+                                {
+                                    html += '<td class="colonneNbRelances">0</td>';
+                                    html += '<td class="colonneDateDernierEnvoi"></td>';
+                                    html += '<td class="colonneDateExpiration"><button id="validerPoi-' + poi.id + '" class="btn btn-xs btn-success validerPoi">Valider <span class="glyphicon glyphicon-ok-sign"></span></button></td>';
+                                    html += '<td><button class="btn btn-link btnAlertPoi"><span class="glyphicon glyphicon-star-empty"></span></button></td>';
+                                }
+                            }
+                                else{
+                                    html += '<td class="colonneNbRelances">0</td>';
+                                    html += '<td class="colonneDateDernierEnvoi"></td>';
+                                    html += '<td class="colonneDateExpiration"><button id="validerPoi-' + poi.id + '" class="btn btn-xs btn-success validerPoi">Valider <span class="glyphicon glyphicon-ok-sign"></span></button></td>';
+                                    html += '<td><button class="btn btn-link btnAlertPoi"><span class="glyphicon glyphicon-star-empty"></span></button></td>';
+                                }
+                                html += '</tr>';
+                                
+                                var trouve = false;
+                                $("#selectCaffFiltre option").each(function(){
+                                    if($(this).text() == poi.name_related)
+                                    {
+                                        trouve = true;
+                                    }
+                                });
+                                if(!trouve)
+                                {
+                                    var option = "<option value='" + poi.name_related + "'>" + poi.name_related + "</option>";
+                                    $("#selectCaffFiltre").html($("#selectCaffFiltre").html() + option);
+                                }
+
+                                var tab = new Array();
+                                var listeNomPoi = JSON.parse($("#listeNomPoiJSON").text());
+                                $.map(listeNomPoi, function(nomPoi){
+                                    tab.push(nomPoi);
+                                });
+                                /*listeNomPoi.forEach(function(nomPoi){
+                                    console.log("TEST");
+                                });*/
+                                //listeNomPoi.push(poi.ft_numero_oeie);
+                                tab.sort();
+                                listeNomPoi = tab;
+                                $("#listeNomPoiJSON").text(JSON.stringify(listeNomPoi));
+                                var contentSelect = '<option id="selectNull" disabled selected value="selectNull">Rechercher une POI</option>';
+                                listeNomPoi.forEach(function(nomPoi){
+                                    contentSelect += "<option value='" + nomPoi + "'>" + nomPoi + "</option>";
+                                });
+                                $("#recherchePoi").html(contentSelect);
+
+                                $(".newTr .checkPoi").change(function(){
+                                    if($(".checkPoi").length == $(".checkPoi:checked").length)
+                                        {
+                                            $("#toutSelectionner").prop("checked", true);
+                                            $("#badge-push-mail").html($(".checkPoi:checked").length);
+                                        }
+                                    else{
+                                        $("#toutSelectionner").prop("checked", false);
+                                        $("#badge-push-mail").html($(".checkPoi:checked").length);
+                                    }
+                                });
+
+                        });
+                        tbodyTableau.append(html);
+
+                        $(".newTr td").click(function(){
+                            if($(this).children("button").length == 0 && $(this).children("input").length == 0)
+                            {
+                                $(this).closest("tr").children(".colonneCheck").children("input").click();
+                            }
+                        });
+
+                        $(".glyphicon-star").closest(".newTr").addClass("alerte");
+
+                        
+
+                        $(".newTr .validerPoi").click(function(){
+                            $(this).prop("disabled", true);
+                            var idPoi = $(this).attr("id").split("-")[1];
+                            $.post("API/validerPoi.php", {poi_id: idPoi}, function(data){
+                                $(this).prop("disabled", true);
+                                var poi = JSON.parse(data);
+                                $("#poi-" + idPoi).children(".colonneNbRelances").text(poi.nb_relances);
+                                $("#poi-" + idPoi).children(".colonneDateDernierEnvoi").text(poi.date_derniere_relance);
+                                $("#poi-" + idPoi).children(".colonneDateExpiration").text(poi.date_expiration);
+                                $("#poi-" + idPoi).children("td").children(".checkPoi").prop("checked", false);
+                                if(!$("#poi-" + idPoi).hasClass("success"))
+                                    {
+                                        
+                                        $("#poi-" + idPoi).removeClass("info").removeClass("warning").removeClass("danger").addClass("info");
+                                        $("#badge-retard").html($("tbody .danger:not(.hide-filtre)").length);
+                                        $("#badge-att-atr").html($("tbody .warning:not(.hide-filtre)").length);
+                                        $("#badge-att-orange").html($("tbody .info:not(.hide-filtre)").length);
+                                        $("#badge-en-cours").html($("tbody .success:not(.hide-filtre)").length);
+                                        $("#badge-push-mail").html($(".checkPoi:checked").length);
+                                    }
+                            });
+                            $.post("API/getStatsUi.php",function(data){
+                                var statsUi = JSON.parse(data);
+                                statsUi.forEach(function(ui){
+                                    if($(".stats-"+ui.libelle+" label").text() != ui.statistique +"%"){
+                                
+                                        $(".stats-"+ui.libelle+" label").text(ui.statistique + "%");
+                                        if(ui.statistique >= 80){
+                                            $(".stats-"+ui.libelle).removeClass("red");
+                                            $(".stats-"+ui.libelle).addClass("green");
+                                            $(".stats-"+ui.libelle+" span").removeClass("red");
+                                            $(".stats-"+ui.libelle+" span").addClass("green");
+                                        }
+                                        if(ui.statistique < 80){
+                                            $(".stats-"+ui.libelle).removeClass("green");
+                                            $(".stats-"+ui.libelle).addClass("red");
+                                            $(".stats-"+ui.libelle+" span").removeClass("green");
+                                            $(".stats-"+ui.libelle+" span").addClass("red");
+                                        }
+
+                                    }
+                                    
+                                })
+                            });
+                            actualiserStats();
+                            });
+
+                            $(".newTr").each(function(){
+                                var dateAjd = new Date();
+                                dateAjd = dateAjd.getTime();
+                                var dateDreTab = $(this).children(".colonneDre").text().replace(" ", "").split("/");
+                                var dateDre = 0;
+                                if(dateDreTab.length == 3)
+                                    {
+                                        dateDre = new Date(dateDreTab[2], (parseInt(dateDreTab[1])-1), dateDreTab[0]);
+                                        dateDre = dateDre.getTime();
+                                        //dateDre = dateDre.getTime() - (1000*60*60*24*7); //Pour enlever 7 jours
+                                    }
+                                var dateExpirationTab = $(this).children(".colonneDateExpiration").text().replace(" ", "").split("/");
+                                var dateExpiration = 0;
+                                if(dateExpirationTab.length == 3)
+                                    {
+                                        dateExpiration = new Date(dateExpirationTab[2], (parseInt(dateExpirationTab[1])-1), dateExpirationTab[0]);
+                                        dateExpiration = dateExpiration.getTime();
+                                    }
+                                var nbRelances = parseInt($(this).children(".colonneNbRelances").text());
+                                var dateDerniereRelanceTab = $(this).children(".colonneDateDernierEnvoi").text().replace(" ", "").split("/");
+                                var dateDerniereRelance = 0;
+                                if(dateDerniereRelanceTab.length == 3)
+                                    {
+                                        dateDerniereRelance = new Date(dateDerniereRelanceTab[2], (parseInt(dateDerniereRelanceTab[1])-1), dateDerniereRelanceTab[0]);
+                                        dateDerniereRelance = dateDerniereRelance.getTime();
+                                    }
+                                if(dateDre > dateAjd)
+                                    {
+                                        $(this).addClass("success");
+                                    }
+                                else{
+                                    if(dateExpiration > dateAjd)
+                                        {
+                                            $(this).addClass("info");
+                                        }
+                                    else{
+                                        if(nbRelances > 0)
+                                            {
+                                                $(this).addClass("warning");
+                                            }
+                                        else{
+                                            $(this).addClass("danger");
+                                        }
+                                    }
+                                }
+                                });
+
+                                $(".newTr .btnAlertPoi").click(function(){
+                                    var btnAlertPoi = $(this);
+                                    var poi = $(this).closest("tr").attr("id").split("-")[1];
+                                    if(!btnAlertPoi.closest("tr").hasClass("alerte"))
+                                        {
+                                            $.post("API/ajouterAlerte.php", {poi: poi}, function(data){
+                                                var reponse = JSON.parse(data);
+                                                if(reponse)
+                                                    {
+                                                        btnAlertPoi.html("<span class='glyphicon glyphicon-star alerte'></span>");
+                                                        btnAlertPoi.closest("tr").addClass("alerte");
+                                                //       $("#badge-alerte").text($(".alerte").length/2);
+                                                    }
+                                            });
+                                        }
+                                    else{
+                                        $.post("API/removeAlerte.php", {poi: poi}, function(data){
+                                                var reponse = JSON.parse(data);
+                                                if(reponse)
+                                                    {
+                                                        btnAlertPoi.html("<span class='glyphicon glyphicon-star-empty'></span>");
+                                                        btnAlertPoi.closest("tr").removeClass("alerte");
+                                                //        $("#badge-alerte").text($(".alerte").length/2);
+                                                    }
+                                            });
+                                    }
+                                });
+
+                    }
+                    
+                    $(".newTr").removeClass("newTr");
+                    $("#afficherPlus").show();
+                    $("#loadingAfficherPlus").hide();
+                });
+                });
+
+
+
+
+
                 //$("#aTest").tooltip();
                 // $("#aTest").click(function(e){
                 //     e.stopPropagation();
@@ -384,6 +910,7 @@
                 });
 
                 $("#selectCaffFiltre").chosen({width: "inherit", width: "100%",placeholder_text_multiple:"Choisir caff", search_contains: true});
+                $("#selectCaffFiltre").trigger("chosen:updated");
 
                 jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
                     this.each(function() {
@@ -407,6 +934,7 @@
                 $(".glyphicon-star").closest("tr").addClass("alerte");
                 
                 $("#recherchePoi").chosen({search_contains: true, width: "inherit"});
+                $("#recherchePoi").trigger("chosen:updated");
                 
                 $("#recherchePoi").change(function(){
                     
@@ -445,16 +973,16 @@
                 $(".checkPoi").prop("checked", true);
                 
                 $(".checkPoi").change(function(){
-        if($(".checkPoi").length == $(".checkPoi:checked").length)
-            {
-                $("#toutSelectionner").prop("checked", true);
-                $("#badge-push-mail").html($(".checkPoi:checked").length);
-            }
-        else{
-            $("#toutSelectionner").prop("checked", false);
-            $("#badge-push-mail").html($(".checkPoi:checked").length);
-        }
-    });
+                    if($(".checkPoi").length == $(".checkPoi:checked").length)
+                        {
+                            $("#toutSelectionner").prop("checked", true);
+                            $("#badge-push-mail").html($(".checkPoi:checked").length);
+                        }
+                    else{
+                        $("#toutSelectionner").prop("checked", false);
+                        $("#badge-push-mail").html($(".checkPoi:checked").length);
+                    }
+                });
     
     $("#toutSelectionner").change(function(){
         if($(this).prop("checked"))

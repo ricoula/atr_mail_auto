@@ -18,6 +18,6 @@
 		$_POST["limit"] = null;
 	}
 	
-	echo getAllParams($_POST["liste_ui"], $_POST["liste_domaines"], $_POST["liste_sous_domaines"], $_POST["liste_sous_justifs"], $_POST["limit"]);
+	echo getAllParams($_POST["liste_ui"], $_POST["liste_domaines"], $_POST["liste_sous_domaines"], $_POST["liste_sous_justifs"], $_POST["limit"], $_POST["offset"]);
 	//echo getAllParams("frq", "grzz", null, null);
 ?>

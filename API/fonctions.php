@@ -383,7 +383,7 @@
 		return json_encode($arbo);
 	}
 	
-	function getAllParams($listeUi, $listeDomaines, $listeSousDomaines, $listeSousJustifs, $limit)
+	function getAllParams($listeUi, $listeDomaines, $listeSousDomaines, $listeSousJustifs, $limit, $offset)
 	{
 		include("connexionBdd.php");
 		include("global.php");
@@ -419,8 +419,8 @@
 		}
 		if($limit != null)
 		{
-			$req = $bdd->prepare("SELECT * FROM (".$global.") test ".$where." LIMIT ? OFFSET 0");
-			$req->execute(array($limit));
+			$req = $bdd->prepare("SELECT * FROM (".$global.") test ".$where." LIMIT ? OFFSET ?");
+			$req->execute(array($limit, $offset));
 		}
 		else{
 			$req = $bdd->query("SELECT * FROM (".$global.") test ".$where);
