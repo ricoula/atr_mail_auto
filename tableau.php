@@ -128,7 +128,7 @@
                             } 
                         ?>
                         </select></div></th>
-                        <!-- <th>Email</th> -->
+                        <th style="display: none">Email</th>
                         <th id="th-mobile">Mobile</th>
                         <th>Commentaire</th>
                         <th>Nb relances</th>
