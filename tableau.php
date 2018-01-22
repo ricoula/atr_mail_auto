@@ -829,6 +829,42 @@
 
                     }
                     
+
+                    if(!$("#badge-retard").closest(".button-checkbox").children("input").prop("checked"))
+                    {
+                        $(".newTr.danger").each(function(){
+                            $(this).children(".colonneCheck").children(".checkPoi").prop("checked", false);
+                            $(this).hide();
+                        });
+                    }
+                    if(!$("#badge-att-atr").closest(".button-checkbox").children("input").prop("checked"))
+                    {
+                        $(".newTr.warning").each(function(){
+                            $(this).children(".colonneCheck").children(".checkPoi").prop("checked", false);
+                            $(this).hide();
+                        });
+                    }
+                    if(!$("#badge-att-orange").closest(".button-checkbox").children("input").prop("checked"))
+                    {
+                        $(".newTr.info").each(function(){
+                            $(this).children(".colonneCheck").children(".checkPoi").prop("checked", false);
+                            $(this).hide();
+                        });
+                    }
+                    if(!$("#badge-en-cours").closest(".button-checkbox").children("input").prop("checked"))
+                    {
+                        $(".newTr.success").each(function(){
+                            $(this).children(".colonneCheck").children(".checkPoi").prop("checked", false);
+                            $(this).hide();
+                        });
+                    }
+
+                    $("#badge-retard").html($("tbody .danger:not(.hide-filtre)").length);
+                    $("#badge-att-atr").html($("tbody .warning:not(.hide-filtre)").length);
+                    $("#badge-att-orange").html($("tbody .info:not(.hide-filtre)").length);
+                    $("#badge-en-cours").html($("tbody .success:not(.hide-filtre)").length);
+                    $("#badge-push-mail").html($(".checkPoi:checked").length);
+
                     $(".newTr").removeClass("newTr");
                     $("#afficherPlus").show();
                     $("#loadingAfficherPlus").hide();
