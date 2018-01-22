@@ -1,4 +1,12 @@
     <?php
+    if(isset($_POST["nb_total_poi"]) && $_POST["nb_total_poi"] != null)
+    {
+        $nbTotalPoi = $_POST["nb_total_poi"];
+    }
+    else{
+        $nbTotalPoi = 0;
+    }
+
     if(isset($_POST["liste_poi"]) && $_POST["liste_poi"] != 'null')
     {
         include("API/fonctions.php");
@@ -277,7 +285,7 @@
             ?>
             <div style="text-align: center">
                 <img src="img/loading.gif" id='loadingAfficherPlus' style="display: none" />
-                <button id="afficherPlus" class="btn btn-default btn-lg" >Afficher plus</button>
+                <button id="afficherPlus" class="btn btn-default btn-lg" >Afficher plus (<span id="nbAfficherPlus"><?php echo (intval($nbTotalPoi) - 100) ?></span> restants)</button>
             </div>
             <?php
         }
@@ -543,14 +551,6 @@
                 getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
                 getCheckedSJJoined = getCheckedSJ.join(",");
                 $.post("API/getAllParams.php", {liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined, limit: 100, offset: offset}, function(data){
-                    /*var listePoi = JSON.parse($("#listePoiJSON").text());
-                    var listeNouvellesPoi = JSON.parse(data);
-                    listeNouvellesPoi.forEach(function(nvPoi){
-                        listePoi.push(nvPoi);
-                    });
-                    listePoi = JSON.stringify(listePoi);
-                    console.log(data);
-                    $("#tableau").load("tableau.php", {liste_poi: listePoi});*/
                     
                     var listePoi = JSON.parse(data);
                     var tbodyTableau = $("#tbodyTableau");
@@ -826,7 +826,6 @@
                                             });
                                     }
                                 });
-
                     }
                     
 
@@ -866,8 +865,17 @@
                     $("#badge-push-mail").html($(".checkPoi:checked").length);
 
                     $(".newTr").removeClass("newTr");
-                    $("#afficherPlus").show();
-                    $("#loadingAfficherPlus").hide();
+                    var nbRestant = Number($("#nbAfficherPlus").text()) - offset;
+                    if(nbRestant <= 0)
+                    {
+                        nbRestant = 0;
+                        $("#loadingAfficherPlus").hide();
+                    }
+                    else{
+                        $("#afficherPlus").show();
+                        $("#loadingAfficherPlus").hide();
+                    }
+                    $("#nbAfficherPlus").text(nbRestant);     
                 });
                 });
 

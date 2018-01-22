@@ -531,13 +531,19 @@ $(function(){
     getCheckedDomaineJoined = getCheckedDomaine.join(",");
     getCheckedSousDomaineJoined = getCheckedSousDomaine.join(",");
     getCheckedSJJoined = getCheckedSJ.join(",");
-    $.post("API/getAllParams.php", {liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined, limit: 100, offset: 0}, function(data){
-        $("#tableau").load("tableau.php", {liste_poi: data}, function(){
-            $("#imageLoad").hide();
-            $("#tableau").show();
-          //  $("#badge-alerte").text($(".alerte").length/2);
+    console.log(getCheckedUiJoined);
+    $.post("API/getNbPoiParams.php", {liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined}, function(data2){
+        console.log(data2);
+        var nbTotalPoi = JSON.parse(data2);
+        $.post("API/getAllParams.php", {liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined, limit: 100, offset: 0}, function(data){
+            $("#tableau").load("tableau.php", {liste_poi: data, nb_total_poi: nbTotalPoi}, function(){
+                $("#imageLoad").hide();
+                $("#tableau").show();
+              //  $("#badge-alerte").text($(".alerte").length/2);
+            });
         });
     });
+    
         
     if($("#divSousJustifs .divFiltre:visible").length > 0)
             {
