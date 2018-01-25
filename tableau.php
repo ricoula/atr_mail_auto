@@ -1,4 +1,5 @@
     <?php
+
     if(isset($_POST["nb_total_poi"]) && $_POST["nb_total_poi"] != null)
     {
         $nbTotalPoi = $_POST["nb_total_poi"];
@@ -55,19 +56,19 @@
         <div class="filtre_sec" style="display: none">
                 <div id="btnFiltre">
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-danger" data-color="danger">Retard <span class="badge badge-secondary" id="badge-retard">0</span></button>
+                    <button type="button" class="btn btn-danger" data-color="danger">Retard <span class="badge badge-secondary"><span id="badge-retard" >0</span> / <?php echo $_POST["nb_rouge"] ?></span></button>
                     <input id="danger" type="checkbox" class="hidden" checked />
                 </span>
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-warning" data-color="warning">Attente ATR <span class="badge badge-secondary" id="badge-att-atr">0</span></button>
+                    <button type="button" class="btn btn-warning" data-color="warning">Attente ATR <span class="badge badge-secondary" ><span id="badge-att-atr" >0</span> / <?php echo $_POST["nb_orange"] ?></span></button>
                     <input id="warning" type="checkbox" class="hidden" checked />
                 </span>
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-info" data-color="info">Attente Orange <span class="badge badge-secondary" id="badge-att-orange">0</span></button>
+                    <button type="button" class="btn btn-info" data-color="info">Attente Orange <span class="badge badge-secondary" ><span id="badge-att-orange" >0</span> / <?php echo $_POST["nb_bleu"] ?></span></button>
                     <input id="info" type="checkbox" class="hidden" checked />
                 </span>
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-success" data-color="success">En cours <span class="badge badge-secondary" id="badge-en-cours">0</span></button>
+                    <button type="button" class="btn btn-success" data-color="success">En cours <span class="badge badge-secondary"><span id="badge-en-cours">0</span> / <?php echo $_POST["nb_vert"] ?></span></button>
                     <input id="success" type="checkbox" class="hidden" checked />
                 </span>
                 <span>

@@ -536,7 +536,7 @@ $(function(){
         console.log(data2);
         var nbTotalPoi = JSON.parse(data2);
         $.post("API/getAllParams.php", {liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined, limit: 100, offset: 0}, function(data){
-            $("#tableau").load("tableau.php", {liste_poi: data, nb_total_poi: nbTotalPoi}, function(){
+            $("#tableau").load("tableau.php", {liste_poi: data, nb_total_poi: nbTotalPoi.nbPoi, nb_rouge: nbTotalPoi.nbRouge, nb_vert: nbTotalPoi.nbVert, nb_bleu: nbTotalPoi.nbBleu, nb_orange: nbTotalPoi.nbOrange}, function(){
                 $("#imageLoad").hide();
                 $("#tableau").show();
               //  $("#badge-alerte").text($(".alerte").length/2);

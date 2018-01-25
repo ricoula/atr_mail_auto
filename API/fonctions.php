@@ -386,8 +386,14 @@
 	function getNbPoiParams($listeUi, $listeDomaines, $listeSousDomaines, $listeSousJustifs)
 	{
 		include("connexionBdd.php");
+		$bddErp = $bdd;
+		include("connexionBddRelance.php");
 		include("global.php");
 		$nbPoi = 0;
+		$nbBleu = 0;
+		$nbVert = 0;
+		$nbRouge = 0;
+		$nbOrange = 0;
 		if($listeUi == null)
 		{
 			$listeDomaines = null;
@@ -420,12 +426,51 @@
 		{
 			$where = $where.' AND ft_sous_justification_oeie IN('.$listeSousJustifs.')';
 		}
-		$req = $bdd->query("SELECT COUNT(*) nb FROM (".$global.") test ".$where);
-		if($data = $req->fetch())
+		
+		$ajd = new DateTime(date("Y-m-d"));
+		$req = $bddErp->query("SELECT id, ft_oeie_dre FROM (".$global.") test ".$where);
+		while($data = $req->fetch())
 		{
-			$nbPoi = $data["nb"];
+			$nbPoi++;
+			
+			$req2 = $bdd->prepare("SELECT date_derniere_relance, nb_relances FROM relance WHERE poi = ?");
+			$req2->execute(array($data["id"]));
+			if($data2 = $req2->fetch())
+			{
+				$dateExpiration = new DateTime(date($data2["date_derniere_relance"]));
+				if($ajd->diff($dateExpiration)->days > 0)
+				{
+					if($data2["nb_relances"] > 0)
+					{
+						$nbOrange++;
+					}
+					else{
+						$nbRouge++;
+					}
+				}
+				else{
+					$nbBleu++;
+				}
+			}
+			else{
+				$dre = new DateTime(date($data["ft_oeie_dre"]));
+				if($ajd->diff($dre)->days > 0)
+				{
+					$nbRouge++;
+				}
+				else{
+					$nbVert++;
+				}
+			}
 		}
-		return json_encode($nbPoi);
+		$obj = (object) array();
+		$obj->nbPoi = $nbPoi;
+		$obj->nbVert = $nbVert;
+		$obj->nbBleu = $nbBleu;
+		$obj->nbOrange = $nbOrange;
+		$obj->nbRouge = $nbRouge;
+		
+		return json_encode($obj);
 	}
 	
 	function getAllParams($listeUi, $listeDomaines, $listeSousDomaines, $listeSousJustifs, $limit, $offset)
