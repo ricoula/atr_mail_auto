@@ -389,6 +389,58 @@
 		$bddErp = $bdd;
 		include("connexionBddRelance.php");
 		include("global.php");
+		
+		$nbPoi = 0;
+		
+		if($listeUi == null)
+		{
+			$listeDomaines = null;
+		}
+		
+		if($listeDomaines == null)
+		{
+			$listeSousDomaines = null;
+		}
+		
+		if($listeSousDomaines == null)
+		{
+			$listeSousJustifs = null;
+		}
+		
+		$where = "";
+		if($listeUi != null)
+		{
+			$where = 'WHERE atr_ui IN('.$listeUi.')';
+		}
+		if($listeDomaines != null)
+		{
+			$where = $where.' AND domaine IN('.$listeDomaines.')';
+		}
+		if($listeSousDomaines != null)
+		{
+			$where = $where.' AND sous_domaine IN('.$listeSousDomaines.')';
+		}
+		if($listeSousJustifs != null)
+		{
+			$where = $where.' AND ft_sous_justification_oeie IN('.$listeSousJustifs.')';
+		}
+		
+		$ajd = new DateTime(date("Y-m-d"));
+		$req = $bddErp->query("SELECT COUNT(*)nb FROM (".$global.") test ".$where);
+		if($data = $req->fetch())
+		{
+			$nbPoi = $data["nb"];
+		}
+		
+		return json_encode($nbPoi);
+	}
+	
+	function getNbPoiDetailsParams($listeUi, $listeDomaines, $listeSousDomaines, $listeSousJustifs)
+	{
+		include("connexionBdd.php");
+		$bddErp = $bdd;
+		include("connexionBddRelance.php");
+		include("global.php");
 		$nbPoi = 0;
 		$nbBleu = 0;
 		$nbVert = 0;

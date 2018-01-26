@@ -179,7 +179,7 @@ $(function(){
                         $("#left-scroll").show();
                         $(".listeTableUi").delay(500).show();
                         $(".listeTableUi").css({ borderTopColor: '#2c3e50', borderLeftColor: '#2c3e50', borderRightColor: '#2c3e50', borderBottomColor: '#2c3e50' });
-                        $(".listeTableUi").stop().animate({ borderTopColor: '#f7f9f8', borderLeftColor: '#f7f9f8', borderRightColor: '#f7f9f8', borderBottomColor: '#f7f9f8' }, 2000);
+                        //$(".listeTableUi").stop().animate({ borderTopColor: '#f7f9f8', borderLeftColor: '#f7f9f8', borderRightColor: '#f7f9f8', borderBottomColor: '#f7f9f8' }, 2000);
                         $(".tableStatTitle").fadeIn();
                             $(".tableStatDomaine").delay(500).fadeIn();
                                 $(".graphStat").delay(500).fadeIn();
@@ -536,7 +536,7 @@ $(function(){
         console.log(data2);
         var nbTotalPoi = JSON.parse(data2);
         $.post("API/getAllParams.php", {liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined, limit: 100, offset: 0}, function(data){
-            $("#tableau").load("tableau.php", {liste_poi: data, nb_total_poi: nbTotalPoi.nbPoi, nb_rouge: nbTotalPoi.nbRouge, nb_vert: nbTotalPoi.nbVert, nb_bleu: nbTotalPoi.nbBleu, nb_orange: nbTotalPoi.nbOrange}, function(){
+            $("#tableau").load("tableau.php", {liste_poi: data, nb_total_poi: nbTotalPoi, liste_ui: getCheckedUiJoined, liste_domaines: getCheckedDomaineJoined, liste_sous_domaines: getCheckedSousDomaineJoined, liste_sous_justifs: getCheckedSJJoined}, function(){
                 $("#imageLoad").hide();
                 $("#tableau").show();
               //  $("#badge-alerte").text($(".alerte").length/2);

@@ -49,6 +49,10 @@
         <div id="imageChargement" style="text-align: center">
             <img src="img/loading.gif" />
         </div>
+        <div id="liste_ui" style="display: none"><?php echo $_POST["liste_ui"] ?></div>
+        <div id="liste_domaines" style="display: none"><?php echo $_POST["liste_domaines"] ?></div>
+        <div id="liste_sous_domaines" style="display: none"><?php echo $_POST["liste_sous_domaines"] ?></div>
+        <div id="liste_sous_justifs" style="display: none"><?php echo $_POST["liste_sous_justifs"] ?></div>
 
         <div id="listeNomPoiJSON" style="display: none"><?php echo json_encode($listeNomPoi) ?></div>
         <div id="listePoiJSON" style="display: none"><?php echo $_POST["liste_poi"] ?></div>
@@ -56,19 +60,19 @@
         <div class="filtre_sec" style="display: none">
                 <div id="btnFiltre">
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-danger" data-color="danger">Retard <span class="badge badge-secondary"><span id="badge-retard" >0</span> / <?php echo $_POST["nb_rouge"] ?></span></button>
+                    <button type="button" class="btn btn-danger" data-color="danger">Retard <span class="badge badge-secondary"><span id="badge-retard" >0</span></span></button>
                     <input id="danger" type="checkbox" class="hidden" checked />
                 </span>
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-warning" data-color="warning">Attente ATR <span class="badge badge-secondary" ><span id="badge-att-atr" >0</span> / <?php echo $_POST["nb_orange"] ?></span></button>
+                    <button type="button" class="btn btn-warning" data-color="warning">Attente ATR <span class="badge badge-secondary" ><span id="badge-att-atr" >0</span></span></button>
                     <input id="warning" type="checkbox" class="hidden" checked />
                 </span>
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-info" data-color="info">Attente Orange <span class="badge badge-secondary" ><span id="badge-att-orange" >0</span> / <?php echo $_POST["nb_bleu"] ?></span></button>
+                    <button type="button" class="btn btn-info" data-color="info">Attente Orange <span class="badge badge-secondary" ><span id="badge-att-orange" >0</span></span></button>
                     <input id="info" type="checkbox" class="hidden" checked />
                 </span>
                 <span class="button-checkbox">
-                    <button type="button" class="btn btn-success" data-color="success">En cours <span class="badge badge-secondary"><span id="badge-en-cours">0</span> / <?php echo $_POST["nb_vert"] ?></span></button>
+                    <button type="button" class="btn btn-success" data-color="success">En cours <span class="badge badge-secondary"><span id="badge-en-cours">0</span></span></button>
                     <input id="success" type="checkbox" class="hidden" checked />
                 </span>
                 <span>
@@ -1421,6 +1425,16 @@
             $("#badge-att-orange").html($("tbody .info:not(.hide-filtre)").length);
             $("#badge-en-cours").html($("tbody .success:not(.hide-filtre)").length);
             $("#badge-push-mail").html($(".checkPoi:checked").length);
+
+
+            $.post("API/getNbPoiDetailsParams.php", {liste_ui: $("#liste_ui").text(), liste_domaines: $("#liste_domaines").text(), liste_sous_domaines: $("#liste_sous_domaines").text(), liste_sous_justifs: $("#liste_sous_justifs").text()}, function(data){
+                var obj = JSON.parse(data);
+
+                $("#badge-retard").closest("span").html($("#badge-retard").closest("span").html() + " / " + obj.nbRouge);
+                $("#badge-att-atr").closest("span").html($("#badge-att-atr").closest("span").html() + " / " + obj.nbOrange);
+                $("#badge-att-orange").closest("span").html($("#badge-att-orange").closest("span").html() + " / " + obj.nbBleu);
+                $("#badge-en-cours").closest("span").html($("#badge-en-cours").closest("span").html() + " / " + obj.nbVert);
+            });
         });            
         </script>
         <?php
