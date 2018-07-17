@@ -1,6 +1,6 @@
 <?php
     try{
-        $bdd = new PDO('pgsql:host=localhost;dbname=mail_auto', 'postgres', 'postgres');
+        $bdd = new PDO('pgsql:host=192.168.30.242;dbname=mail_auto', 'CYRRIC', 'cyril');
     }
     catch (Exception $e){
         die('Erreur : '.$e->getMessage());
@@ -9,13 +9,13 @@
     function getStatsUi()
     {
         try{
-        $bdd = new PDO('pgsql:host=localhost;dbname=mail_auto', 'postgres', 'postgres');
+        $bdd = new PDO('pgsql:host=192.168.30.242;dbname=mail_auto', 'CYRRIC', 'cyril');
         }
         catch (Exception $e){
             die('Erreur : '.$e->getMessage());
         }
         try{
-        $bddErp = new PDO('pgsql:host=192.168.30.240;dbname=ambigroup_dev', 'admambigroup', '13jkgaUM8Um');
+        $bddErp = new PDO('pgsql:host=192.168.30.240;dbname=ambigroup_prod8', 'admambigroup', '13jkgaUM8Um');
         }
         catch (Exception $e){
             die('Erreur : '.$e->getMessage());
@@ -66,13 +66,13 @@
     function getStatsDomaine()
     {
         try{
-        $bdd = new PDO('pgsql:host=localhost;dbname=mail_auto', 'postgres', 'postgres');
+        $bdd = new PDO('pgsql:host=192.168.30.242;dbname=mail_auto', 'CYRRIC', 'cyril');
         }
         catch (Exception $e){
             die('Erreur : '.$e->getMessage());
         }
         try{
-        $bddErp = new PDO('pgsql:host=192.168.30.240;dbname=ambigroup_dev', 'admambigroup', '13jkgaUM8Um');
+        $bddErp = new PDO('pgsql:host=192.168.30.240;dbname=ambigroup_prod8', 'admambigroup', '13jkgaUM8Um');
         }
         catch (Exception $e){
             die('Erreur : '.$e->getMessage());
@@ -187,6 +187,6 @@
         }
         //echo $statsUi->libelle.' - '.$statsUi->statistiques.' - '.$client.' - '.$focu.' - '.$immo.' - '.$dissi.' - '.$coordi.'<br/>';
         $req = $bdd->prepare("INSERT INTO save_data(date, ui, globale, client, focu, immo, dissi, coordi) VALUES(NOW(), ?, ?, ?, ?, ?, ?, ?)");
-        $req->execute(array($statsUi->libelle, $statsUi->statistiques, $client, $focu, $immo, $dissi, $coordi));
+        echo $req->execute(array($statsUi->libelle, $statsUi->statistiques, $client, $focu, $immo, $dissi, $coordi));
     }
 ?>
