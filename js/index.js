@@ -14,7 +14,7 @@ $(function(){
             var ser_stat = [];
             var lab_stat = [];
             
-            for(var i = 0; i < stats.length;i++){
+            for(var i = 0; i < 10;i++){
                 switch(ceDomaine)
                 {
                     case "client":  ser_stat.push(stats[i].client);
@@ -75,7 +75,7 @@ $(function(){
             var ser_stat = [];
             var lab_stat = [];
 
-            for(var i = 0; i < stats.length;i++){
+            for(var i = 0; i < 10;i++){
                ser_stat.push(stats[i].globale);
                date_stat = stats[i].date;
                var jour = new Date(date_stat);
@@ -191,7 +191,7 @@ $(function(){
                                             var ser_stat = [];
                                             var lab_stat = [];
                             
-                                            for(var i = 0; i < stats.length;i++){
+                                            for(var i = 0; i < 10;i++){
                                                ser_stat.push(stats[i].globale);
                                                date_stat = stats[i].date;
                                                var jour = new Date(date_stat);

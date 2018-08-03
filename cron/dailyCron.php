@@ -187,6 +187,6 @@
         }
         //echo $statsUi->libelle.' - '.$statsUi->statistiques.' - '.$client.' - '.$focu.' - '.$immo.' - '.$dissi.' - '.$coordi.'<br/>';
         $req = $bdd->prepare("INSERT INTO save_data(date, ui, globale, client, focu, immo, dissi, coordi) VALUES(NOW(), ?, ?, ?, ?, ?, ?, ?)");
-        echo $req->execute(array($statsUi->libelle, $statsUi->statistiques, $client, $focu, $immo, $dissi, $coordi));
+        $req->execute(array($statsUi->libelle, $statsUi->statistiques, $client, $focu, $immo, $dissi, $coordi));
     }
 ?>
